@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>window.__agendoLoad=function(k,d){try{var v=localStorage.getItem("agendo_data_"+k);return v?JSON.parse(v):(d||[])}catch(e){return d||[]}}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>agendo — Descubra o plano ideal para o seu negócio</title>
+<!-- Meta Pixel Base Code (disparado dinamicamente se configurado) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0a0a0a;
+  --card:#141414;
+  --bd:rgba(255,255,255,.09);
+  --bd2:rgba(255,255,255,.18);
+  --tx:#f5f5f5;
+  --dim:#9a9a9a;
+  --ac:#ff5f8a;
+  --ac2:#ef1f4d;
+  --acd:rgba(255,95,138,.14);
+  --red:#ff5c6c;
+  --gold:#ffb020;
+  --green:#34c281;
+  --hd:'Poppins',system-ui,sans-serif;
+  --bo:'Montserrat',system-ui,-apple-system,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html,body{height:100%}
+*,*::before,*::after{box-sizing:inherit;margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--tx);
+  font-family:var(--bo);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+  display:flex;
+  flex-direction:column;
+  max-width:520px;
+  margin:0 auto;
+  position:relative;
+}
+body::before{
+  content:"";
+  position:fixed;
+  top:-140px;
+  left:50%;
+  transform:translateX(-50%);
+  width:600px;
+  height:400px;
+  background:radial-gradient(ellipse,rgba(239,31,77,.22),transparent 70%);
+  pointer-events:none;
+}
+h1,h2,h3{font-family:var(--hd);letter-spacing:-.02em}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px;border-radius:10px}
+
+/* Topbar */
+.top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:16px 20px 8px;
+  position:relative;
+  z-index:20;
+}
+.back{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:none;
+  border:1px solid var(--bd2);
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  flex:none;
+  transition:all .15s;
+}
+.back:hover{background:rgba(255,255,255,0.06)}
+.back[hidden]{display:none}
+.back svg{width:16px;height:16px}
+.logo{
+  font:700 17px var(--hd);
+  margin-right:auto;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.logo .mark{
+  width:26px;
+  height:26px;
+  border-radius:8px;
+  background:linear-gradient(135deg,var(--ac),var(--ac2));
+  display:grid;
+  place-items:center;
+  color:#0a0a0a;
+}
+.logo .mark svg{width:14px;height:14px}
+.logo i{font-style:normal;color:var(--ac)}
+.badge-offer{
+  font-size:10px;
+  font-weight:700;
+  background:rgba(255,95,138,0.18);
+  border:1px solid rgba(255,95,138,0.35);
+  color:var(--ac);
+  padding:3px 8px;
+  border-radius:999px;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+}
+
+/* Progress bar */
+.prog{
+  height:4px;
+  background:var(--bd);
+  margin:4px 20px 0;
+  border-radius:4px;
+  overflow:hidden;
+  position:relative;
+}
+.prog b{
+  display:block;
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--ac),var(--ac2));
+  border-radius:4px;
+  transition:width .5s cubic-bezier(.2,.8,.2,1);
+}
+
+/* Stage container */
+.stage{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  padding:24px 20px 20px;
+  position:relative;
+  opacity:0;
+  transform:translateX(24px);
+  transition:opacity .35s,transform .35s;
+}
+.stage.in{opacity:1;transform:none}
+.ph{
+  display:inline-block;
+  font:600 11.5px var(--hd);
+  color:var(--ac);
+  background:var(--acd);
+  padding:5px 12px;
+  border-radius:999px;
+  margin-bottom:14px;
+}
+h2{
+  font-size:clamp(23px,6.8vw,28px);
+  line-height:1.2;
+  font-weight:700;
+  margin-bottom:10px;
+}
+.sub{
+  font-size:14px;
+  color:var(--dim);
+  line-height:1.65;
+  margin-bottom:20px;
+}
+
+/* Options */
+.opts{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding-bottom:24px;
+}
+.opt{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  width:100%;
+  text-align:left;
+  background:var(--card);
+  border:1px solid var(--bd);
+  border-radius:16px;
+  padding:15px 16px;
+  font:500 14.5px var(--bo);
+  cursor:pointer;
+  transition:border-color .2s,background .2s,transform .12s;
+}
+.opt:active{transform:scale(.985)}
+.opt i{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  border:2px solid var(--bd2);
+  flex:none;
+  transition:all .2s;
+}
+.opt.m i{border-radius:7px}
+.opt.sel{border-color:var(--ac);background:var(--acd)}
+.opt.sel i{
+  border-color:var(--ac);
+  background:var(--ac) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a0a0a' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E") center/12px no-repeat;
+}
+
+/* Sticky Action Bar */
+.bar{
+  position:sticky;
+  bottom:0;
+  padding:14px 0 16px;
+  background:linear-gradient(180deg,transparent,var(--bg) 28%);
+  margin-top:auto;
+  z-index:10;
+}
+.btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:52px;
+  border:0;
+  border-radius:999px;
+  background:linear-gradient(135deg,var(--ac),var(--ac2));
+  color:#fff;
+  font:600 15px var(--hd);
+  cursor:pointer;
+  transition:transform .15s,box-shadow .2s,opacity .2s;
+  text-decoration:none;
+}
+.btn:hover{box-shadow:0 8px 30px rgba(239,31,77,.45)}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.35;pointer-events:none}
+.note{
+  font-size:11.5px;
+  color:var(--dim);
+  text-align:center;
+  margin-top:8px;
+  line-height:1.5;
+}
+
+/* Intro hero */
+.hero-i{text-align:center;padding-top:10px}
+.hero-i h1{
+  font-size:clamp(26px,7.5vw,34px);
+  line-height:1.15;
+  font-weight:700;
+  margin:14px 0 12px;
+}
+.hero-i h1 b{color:var(--ac)}
+.hero-i .sub{margin:0 auto 24px;max-width:340px}
+.logo-big{
+  width:64px;
+  height:64px;
+  margin:0 auto;
+  border-radius:20px;
+  background:linear-gradient(135deg,var(--ac),var(--ac2));
+  display:grid;
+  place-items:center;
+  color:#0a0a0a;
+  box-shadow:0 0 50px rgba(239,31,77,.5);
+}
+.logo-big svg{width:32px;height:32px}
+
+/* Financial Loss box */
+.big{
+  font:700 clamp(40px,13vw,54px)/1.05 var(--hd);
+  background:linear-gradient(135deg,var(--ac),var(--gold));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  margin:6px 0 4px;
+  letter-spacing:-.03em;
+}
+.lossbox{
+  background:rgba(255,92,108,.07);
+  border:1px solid rgba(255,92,108,.25);
+  border-radius:20px;
+  padding:20px;
+  text-align:center;
+  margin-bottom:18px;
+}
+.lossbox small{display:block;color:#d9a5aa;font-size:12.5px}
+.quote{
+  font:500 15px/1.55 var(--hd);
+  color:#eaeaea;
+  margin-bottom:12px;
+  padding-left:14px;
+  border-left:3px solid var(--red);
+}
+.arrow{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--ac),var(--ac2));
+  display:grid;
+  place-items:center;
+  margin:0 auto 18px;
+  box-shadow:0 0 40px rgba(239,31,77,.5);
+  animation:up 1.6s ease-in-out infinite;
+}
+.arrow svg{width:24px;height:24px}
+@keyframes up{50%{transform:translateY(-6px)}}
+.ba{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.ba div{border-radius:18px;padding:16px;font-size:13.5px;line-height:1.6}
+.ba small{display:block;font:600 11px var(--hd);margin-bottom:4px}
+.ba .no{background:rgba(255,92,108,.07);border:1px solid rgba(255,92,108,.22);color:#cfa9ad}
+.ba .no small{color:var(--red)}
+.ba .yes{background:var(--acd);border:1px solid rgba(255,95,138,.4)}
+.ba .yes small{color:var(--ac)}
+
+/* Loading */
+.ld{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:26px}
+.ld li{display:flex;align-items:center;gap:14px;font-size:14.5px;color:var(--dim);transition:color .3s}
+.ld li i{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  border:2px solid var(--bd2);
+  border-top-color:var(--ac);
+  flex:none;
+  animation:sp .8s linear infinite;
+}
+.ld li.done{color:var(--tx)}
+.ld li.done i{
+  animation:none;
+  border-color:var(--ac);
+  background:var(--ac) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a0a0a' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E") center/12px no-repeat;
+}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* Inputs */
+label{display:block;font:600 12.5px var(--hd);margin:0 0 6px;color:#d0d0d0}
+input{
+  width:100%;
+  height:52px;
+  background:var(--card);
+  border:1px solid var(--bd2);
+  border-radius:14px;
+  padding:0 16px;
+  font-size:15px;
+  margin-bottom:14px;
+  transition:border-color .15s;
+}
+input:focus{outline:none;border-color:var(--ac)}
+input.bad{border-color:var(--red)}
+.err{font-size:12px;color:var(--red);margin:-8px 0 12px}.err:empty{display:none}
+
+/* Section Header */
+.sh{
+  font:700 17px var(--hd);
+  margin:24px 0 12px;
+  letter-spacing:-.01em;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.sh svg{width:16px;height:16px;color:var(--ac)}
+
+/* UI / UX SHOWCASE COMPONENTS (LANDING PAGE STYLE) */
+.showcase-card{
+  background:linear-gradient(180deg,#161616,#101010);
+  border:1px solid var(--bd2);
+  border-radius:20px;
+  padding:16px;
+  margin-bottom:16px;
+  position:relative;
+  overflow:hidden;
+}
+.showcase-tag{
+  position:absolute;
+  top:12px;
+  right:12px;
+  font-size:9.5px;
+  font-weight:700;
+  background:rgba(255,255,255,0.08);
+  color:var(--dim);
+  padding:2px 8px;
+  border-radius:999px;
+  text-transform:uppercase;
+}
+.showcase-card h4{
+  font:600 14px var(--hd);
+  margin-bottom:4px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.showcase-card p{font-size:12.5px;color:var(--dim);line-height:1.55;margin-bottom:12px}
+
+/* Mini Mockups */
+.mock-cover{
+  height:76px;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--ac),var(--ac2) 55%,#8f0d24);
+  position:relative;
+  margin-bottom:12px;
+}
+.mock-cover span{
+  position:absolute;
+  left:12px;
+  bottom:-16px;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#1c1a20;
+  border:2.5px solid #0d0d0d;
+  box-shadow:0 0 0 2px var(--ac);
+  display:grid;
+  place-items:center;
+  font-weight:800;
+  font-size:14px;
+  color:#fff;
+}
+.mock-tabs{display:flex;gap:6px;margin-top:20px;flex-wrap:wrap}
+.mock-tab{
+  font-size:11px;
+  background:var(--card);
+  border:1px solid var(--bd);
+  border-radius:999px;
+  padding:5px 10px;
+  color:#ddd;
+}
+.mock-tab.on{background:var(--tx);color:#0a0a0a;font-weight:700}
+
+.mock-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--bd);
+  border-radius:12px;
+  padding:10px 12px;
+  font-size:12px;
+  margin-bottom:6px;
+}
+.mock-row b{font:600 12.5px var(--hd);display:block}
+.mock-row small{color:var(--dim);font-size:10.5px}
+.mock-row em{font:700 11.5px var(--hd);font-style:normal;color:var(--ac)}
+.mock-vip{
+  background:var(--gold);
+  color:#1a1200;
+  font:700 8.5px var(--hd);
+  border-radius:999px;
+  padding:2px 6px;
+  margin-left:4px;
+}
+
+.mock-steps{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.mock-steps span{
+  flex:1;
+  text-align:center;
+  font-size:10.5px;
+  background:#1c1c1c;
+  border:1px solid var(--bd);
+  border-radius:8px;
+  padding:8px 4px;
+  color:var(--dim);
+}
+.mock-steps span.on{background:var(--acd);border-color:rgba(255,95,138,.4);color:#fff;font-weight:600}
+
+/* Plan Transparency Matrix */
+.matrix-box{
+  background:var(--card);
+  border:1px solid var(--bd2);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:20px;
+}
+.matrix-row{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  font-size:13px;
+}
+.matrix-row:last-child{border-bottom:0}
+.matrix-row .m-ic{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  flex:none;
+  font-size:12px;
+  margin-top:1px;
+}
+.matrix-row.yes .m-ic{background:rgba(52,194,129,0.2);color:#34c281}
+.matrix-row.no .m-ic{background:rgba(255,255,255,0.08);color:var(--dim)}
+.matrix-row b{font:600 13px var(--hd);color:#fff;display:block}
+.matrix-row p{font-size:11.5px;color:var(--dim);line-height:1.5;margin-top:2px}
+
+/* Special Offer Timeline */
+.tl{position:relative;display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.tl .s{
+  background:var(--card);
+  border:1px solid var(--bd);
+  border-radius:16px;
+  padding:14px 16px 14px 44px;
+  position:relative;
+}
+.tl .s::before{
+  content:"";
+  position:absolute;
+  left:16px;
+  top:18px;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  border:2px solid var(--bd2);
+}
+.tl .s.on{border-color:var(--ac);background:var(--acd)}
+.tl .s.on::before{background:var(--ac);border-color:var(--ac)}
+.tl b{display:flex;align-items:center;justify-content:space-between;font:600 14px var(--hd);margin-bottom:3px}
+.tl p{font-size:12.5px;color:var(--dim);line-height:1.55}
+
+/* Affiliates & Extra Income Simulator */
+.ref{
+  background:linear-gradient(180deg,#1c150b,#121014);
+  border:1px solid rgba(255,176,32,.4);
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:20px;
+}
+.ref .ph{background:rgba(255,176,32,.14);color:var(--gold)}
+.ref h3{font:700 18px var(--hd);margin-bottom:6px}
+.ref>p{font-size:13px;color:#d8cdb6;line-height:1.6}
+.sim{
+  margin-top:14px;
+  background:rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;
+  padding:14px;
+}
+.sim input[type="range"]{
+  height:auto;
+  padding:0;
+  border:0;
+  background:none;
+  accent-color:var(--gold);
+  margin:6px 0 10px;
+  cursor:pointer;
+}
+.out{font-size:13.5px}
+.out b{font:700 18px var(--hd);color:var(--gold)}
+.lad{display:flex;gap:6px;margin-top:12px}
+.lad span{
+  flex:1;
+  text-align:center;
+  font:700 9.5px var(--hd);
+  color:#0a0a0a;
+  border-radius:6px;
+  padding:5px;
+}
+
+/* Pix Checkout Box */
+.pay{
+  background:linear-gradient(180deg,#2b0e19,#130e14);
+  border:1.5px solid var(--ac);
+  border-radius:22px;
+  padding:22px 18px;
+  box-shadow:0 20px 60px -20px rgba(239,31,77,.75);
+  margin-bottom:18px;
+}
+.pay h3{font:700 18px var(--hd);text-align:center;margin-bottom:10px}
+.pv{text-align:center;margin-bottom:14px}
+.pv small{display:block;font-size:12px;color:#e4c3ca}
+.pv b{
+  display:block;
+  font:800 48px/1.05 var(--hd);
+  letter-spacing:-.03em;
+  color:#fff;
+  margin:4px 0;
+}
+.qr{
+  display:block;
+  width:190px;
+  max-width:65%;
+  margin:12px auto;
+  border-radius:14px;
+  background:#fff;
+  padding:8px;
+}
+.cc{
+  width:100%;
+  background:var(--card);
+  border:1px solid var(--bd2);
+  border-radius:12px;
+  padding:10px;
+  font:11.5px/1.4 monospace;
+  color:#ddd;
+  resize:none;
+}
+.ok{
+  text-align:center;
+  padding:16px 10px;
+  background:rgba(52,194,129,0.1);
+  border:1px solid rgba(52,194,129,0.35);
+  border-radius:18px;
+}
+.ok b{font:700 20px var(--hd);display:block;margin-bottom:6px;color:#34c281}
+.ok p{color:#d8d8d8;margin-bottom:16px;font-size:13.5px}
+
+.timer{
+  background:rgba(255,176,32,.09);
+  border:1px solid rgba(255,176,32,.35);
+  border-radius:14px;
+  padding:10px 14px;
+  text-align:center;
+  font-size:12.5px;
+  margin-bottom:16px;
+  color:#f3d9a4;
+}
+.timer b{font:700 18px var(--hd);display:block;color:var(--gold);margin-top:2px}
+
+@supports(height:100dvh){
+  body{height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <button class="back" id="back" aria-label="Voltar" hidden>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+  </button>
+  <div class="logo">
+    <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></span>
+    agendo<i>.</i>
+  </div>
+</div>
+
+<div class="prog" aria-hidden="true"><b id="pb"></b></div>
+
+<main class="stage" id="st"></main>
+
+<script>
+/* =========================================================
+   CONFIGURAÇÃO DINÂMICA DO FUNIL & META ADS
+========================================================= */
+var CFG = {
+  PIX_API_URL: '',      // Endpoint customizado se houver
+  PIX_STATUS_URL: '',   // Verificação automática de status Pix
+  APP_URL: '/agenda.html', // Destino ao confirmar pagamento
+  COMISSAO_MENSAL: 10,   // R$ estimado por indicação no programa
+  META_PIXEL_ID: ''     // Inserido automaticamente se salvo no Admin
+};
+
+// Carregar configurações salvas pelo Super Admin no navegador
+try {
+  var savedAdminCfg = localStorage.getItem('agendo_admin_campaign_config');
+  if(savedAdminCfg){
+    var parsed = JSON.parse(savedAdminCfg);
+    if(parsed.metaPixelId) CFG.META_PIXEL_ID = parsed.metaPixelId;
+    if(parsed.webhookUrl) CFG.WEBHOOK_URL = parsed.webhookUrl;
+  }
+} catch(e){}
+
+var busy = false, A = { need: [] }, i = 0, tm = null;
+var st = document.getElementById('st'), pb = document.getElementById('pb'), back = document.getElementById('back');
+
+// Captura de UTMs para trakeamento de anúncios
+var UTM = { utm_source:'facebook', utm_medium:'cpc', utm_campaign:'anuncio_990' };
+location.search.replace(/[?&](utm_[a-z]+|fbclid)=([^&]*)/g, function(_, k, v){ UTM[k] = decodeURIComponent(v); });
+
+// Disparo de eventos do Meta Pixel
+function track(name, data, isCustom){
+  try {
+    if(window.fbq) fbq(isCustom ? 'trackCustom' : 'track', name, data || {});
+  } catch(e){}
+}
+
+// Inicializar Pixel se houver ID
+if(CFG.META_PIXEL_ID && !window.fbq){
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', CFG.META_PIXEL_ID);
+  fbq('track', 'PageView');
+}
+
+var PT = {
+  'Cliente que espera resposta':'O cliente agenda sozinho em segundos, sem esperar você.',
+  'Horário vago no dia':'Sua vitrine online fica aberta 24h para o cliente reservar.',
+  'Horários que se atropelam':'Cada reserva entra organizada na sua agenda, sem duplicidade.',
+  'Não saber quanto faturo':'O financeiro mostra faturamento por período com métricas claras.'
+};
+
+var PW = {
+  'O cansaço de responder o tempo todo':'Você merece encerrar o dia de trabalho sem mais mensagens acumuladas.',
+  'O medo de perder clientes':'Cada cliente que espera resposta é um cliente que agenda com outro profissional.',
+  'A falta de tempo para mim':'Seu tempo vale muito mais do que ficar negociando horário no WhatsApp.',
+  'O dinheiro que não entra':'Horário vazio na agenda é faturamento que nunca mais volta.'
+};
+
+var S = [
+  { t:'intro' },
+  { t:'q', id:'nicho', ph:'Seu dia a dia', q:'Qual é o seu tipo de negócio?', o:['Salão de beleza','Barbearia','Estética & Harmonização','Manicure & Lash','Estúdio ou autônomo','Outro'] },
+  { t:'q', id:'como', ph:'Seu dia a dia', q:'Como você controla seus horários hoje?', o:['WhatsApp','Caderno ou agenda de papel','Outro aplicativo difícil','Só na cabeça'] },
+  { t:'q', id:'vol', ph:'Seu dia a dia', q:'Quantos clientes você atende por dia?', o:['1 a 3','4 a 7','8 ou mais'] },
+  { t:'q', id:'dor', ph:'Seus desafios', q:'Qual destes mais te incomoda hoje?', o:Object.keys(PT) },
+  { t:'q', id:'fora', ph:'Seus desafios', q:'Você costuma responder clientes fora do expediente?', o:['Quase todo dia / até tarde','Algumas vezes por semana','Raramente'] },
+  { t:'q', id:'peso', ph:'O que isso pesa', q:'O que mais pesa nessa rotina?', o:Object.keys(PW) },
+  { t:'q', id:'valor', ph:'Vamos fazer a conta', q:'Quanto vale, em média, um atendimento seu?', o:['R$ 30','R$ 60','R$ 100','R$ 150 ou mais'], v:[30,60,100,150] },
+  { t:'q', id:'vagos', ph:'Vamos fazer a conta', q:'Quantos horários vagos você tem por semana?', o:['1 a 2','3 a 5','6 ou mais'], v:[1,3,6] },
+  { t:'calc' },
+  { t:'flip' },
+  { t:'multi', id:'need', ph:'O que você quer', q:'O que você mais quer resolver agora? Escolha até 3.', o:['Uma agenda que enche sozinha','Vitrine online com meus serviços e fotos','Financeiro claro do mês','Cupons e agendamento 24h','Ganhar renda indicando o agendo'] },
+  { t:'load' },
+  { t:'lead' },
+  { t:'offer' }
+];
+
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function brl(n){ n = Math.round(n*100)/100; return 'R$ ' + n.toLocaleString('pt-BR',{ minimumFractionDigits: n%1 ? 2 : 0, maximumFractionDigits: 2 }); }
+function loss(){ return (A.vagos_v || 1) * (A.valor_v || 30) * 4; }
+
+var bar = function(b, n){ return '<div class="bar">' + b + (n ? '<p class="note">' + n + '</p>' : '') + '</div>'; };
+
+var R = {
+  intro: function(){
+    return '<div class="hero-i">' +
+      '<div class="logo-big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div>' +
+      '<h1>Tenha uma agenda que <b>trabalha enquanto você atende.</b></h1>' +
+      '<p class="sub">Responda a este diagnóstico de 1 minuto e veja como ter uma agenda que trabalha enquanto você atende.</p>' +
+      '</div>' +
+      bar('<button class="btn" data-a="go">Iniciar Diagnóstico Rápido ➔</button>', 'Acesso de R$ 9,90 para conhecer a plataforma disponível ao final.');
+  },
+
+  q: function(s){
+    return '<div class="ph">' + s.ph + '</div><h2>' + s.q + '</h2><div class="opts">' +
+      s.o.map(function(o, k){
+        return '<button class="opt' + (A[s.id] === o ? ' sel' : '') + '" data-a="opt" data-k="' + k + '"><i></i><span>' + esc(o) + '</span></button>';
+      }).join('') + '</div>';
+  },
+
+  multi: function(s){
+    return '<div class="ph">' + s.ph + '</div><h2>' + s.q + '</h2><div class="opts">' +
+      s.o.map(function(o, k){
+        return '<button class="opt m' + (A.need.indexOf(o) > -1 ? ' sel' : '') + '" data-a="mul" data-k="' + k + '"><i></i><span>' + esc(o) + '</span></button>';
+      }).join('') + '</div>' +
+      bar('<button class="btn" id="mc" data-a="go"' + (A.need.length ? '' : ' disabled') + '>Avançar para o meu plano ➔</button>');
+  },
+
+  calc: function(){
+    var f = (A.fora && A.fora.indexOf('Quase') > -1) ? '<p class="quote">E você ainda responde mensagens fora do expediente quase todo dia.</p>' : '';
+    return '<div class="ph">O que isso custa</div><h2>Olha o impacto dos seus horários vagos:</h2>' +
+      '<div class="lossbox"><small>Seus horários vagos podem representar até</small><div class="big" id="cn">R$ 0</div><small>por mês em faturamento perdido que não volta</small></div>' +
+      '<p class="quote">' + (PW[A.peso] || 'Horário vazio é receita que você deixou na mesa.') + '</p>' + f +
+      bar('<button class="btn" data-a="go">Como recuperar esse faturamento?</button>', 'Cálculo: horários vagos por semana × valor médio × 4 semanas.');
+  },
+
+  flip: function(){
+    return '<div style="text-align:center"><div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div><h2>Agora veja a virada na sua rotina:</h2></div>' +
+      '<div class="ba">' +
+      '<div class="no"><small>HOJE</small>Você controla horários por ' + esc((A.como || 'mensagens').toLowerCase()) + ' e lida com: ' + esc((A.dor || 'atrasos').toLowerCase()) + '.</div>' +
+      '<div class="yes"><small>COM O AGENDO</small>' + (PT[A.dor] || 'O cliente agenda sozinho e confirma na hora.') + ' Sua agenda já amanhece preenchida e organizada no celular.</div>' +
+      '</div>' +
+      bar('<button class="btn" data-a="go">Quero essa facilidade no meu negócio</button>');
+  },
+
+  load: function(){
+    return '<h2>Montando sua proposta personalizada…</h2><ul class="ld"><li><i></i>Analisando tipo de negócio e desafios</li><li><i></i>Configurando vitrine ideal e agenda móvel</li><li><i></i>Calculando desconto exclusivo da campanha</li></ul>';
+  },
+
+  lead: function(){
+    return '<div class="ph">Quase pronto</div><h2>Para quem vamos preparar seu acesso personalizado?</h2>' +
+      '<p class="sub">Informe seu nome e WhatsApp para ver o diagnóstico dos seus horários, liberar sua vitrine com agendamento 24h e selo de 5 estrelas no Google para encantar suas clientes.</p>' +
+      '<form id="lf" novalidate>' +
+      '<label for="nm">Seu nome ou do seu espaço</label>' +
+      '<input id="nm" autocomplete="given-name" enterkeyhint="next" placeholder="Ex: Marina Ravi / Studio Bella" value="' + esc(A.nome || '') + '">' +
+      '<p class="err" id="e1"></p>' +
+      '<label for="fn">WhatsApp com DDD</label>' +
+      '<input id="fn" type="tel" inputmode="tel" autocomplete="tel" enterkeyhint="go" maxlength="16" placeholder="(11) 99999-9999" value="' + esc(A.fone || '') + '">' +
+      '<p class="err" id="e2"></p>' +
+      '<button class="btn" type="submit" data-a="lead">Ver Benefícios e Liberar Acesso ➔</button>' +
+      '<p class="note">🔒 Seus dados são protegidos e usados para gerar sua demonstração personalizada.</p>' +
+      '</form>';
+  },
+
+  offer: function(){
+    var v = A.valor_v || 30;
+    var firstName = (A.nome || 'Profissional').trim().split(' ')[0];
+    var valorDeixaReceber = loss();
+
+    return '<h2>Tudo pronto, ' + esc(firstName) + '! Veja como começar.</h2>' +
+      '<p class="sub">O agendo foi preparado para você resolver de vez: <b style="color:#fff;">' + esc((A.dor || 'seus agendamentos').toLowerCase()) + '</b>.</p>' +
+
+      /* COMPONENTE MINIMALISTA DE PERDA: NÃO PARECE PREÇO DA PLATAFORMA */
+      '<div style="background:rgba(255,92,108,0.06); border:1px solid rgba(255,92,108,0.22); border-radius:16px; padding:14px 16px; margin-bottom:20px;">' +
+      '<div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">' +
+      '<span style="font-size:10px; font-weight:800; background:rgba(255,92,108,0.2); color:#ff5c6c; padding:2px 7px; border-radius:999px; text-transform:uppercase;">Diagnóstico dos seus horários vagos</span>' +
+      '</div>' +
+      '<div style="font-size:13px; color:#f0d0d5; line-height:1.5;">' +
+      'Pelos dados que você informou, você deixa de receber cerca de <b style="color:#fff; font-size:15px;">R$ ' + valorDeixaReceber + ' por mês</b> em atendimentos não realizados.' +
+      '</div>' +
+      '<div style="font-size:11px; color:#b08d92; margin-top:5px; line-height:1.4;">' +
+      '⚠️ Este valor não é o custo da plataforma, mas sim o faturamento que você deixa de ganhar sem um agendamento automático.' +
+      '</div>' +
+      '</div>' +
+
+      /* COMPONENTES DE BENEFÍCIOS (UI/UX DA LANDING PAGE) */
+      '<h3 class="sh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Recursos que você terá no seu dia a dia</h3>' +
+
+      // Componente 1: Vitrine pública
+      '<div class="showcase-card">' +
+      '<span class="showcase-tag">Sua Página</span>' +
+      '<h4><span style="color:var(--ac)">●</span> Vitrine Online com seu Link Próprio</h4>' +
+      '<p>O cliente clica no link da sua bio do Instagram e encontra tudo organizado em abas com capa personalizada (foto ou vídeo).</p>' +
+      '<div class="mock-cover"><span>' + esc(firstName.charAt(0)) + '</span></div>' +
+      '<div class="mock-tabs"><span class="mock-tab on">Serviços</span><span class="mock-tab">Horários</span><span class="mock-tab">Sobre você</span><span class="mock-tab">Fotos</span></div>' +
+      '</div>' +
+
+      // Componente 2: Agendamento em etapas
+      '<div class="showcase-card">' +
+      '<span class="showcase-tag">24h por dia</span>' +
+      '<h4><span style="color:var(--ac)">●</span> Agendamento Autônomo em 3 Etapas</h4>' +
+      '<p>O cliente escolhe o serviço, o dia e horário e confirma sem trocar mensagens. Funciona inclusive de madrugada.</p>' +
+      '<div class="mock-steps"><span class="on">1. Serviço</span><span class="on">2. Horário</span><span>3. Confirmado ✓</span></div>' +
+      '<div class="mock-row"><div><b>Corte / Atendimento</b><small>Reserva online</small></div><em>R$ ' + v + '</em></div>' +
+      '</div>' +
+
+      // Componente 3: Agenda no Celular
+      '<div class="showcase-card">' +
+      '<span class="showcase-tag">Organização</span>' +
+      '<h4><span style="color:var(--ac)">●</span> Agenda do Profissional no Celular</h4>' +
+      '<p>Todos os horários caem no seu painel, organizados por hora e com destaque para os clientes mais frequentes.</p>' +
+      '<div class="mock-row"><div><b>Beatriz Lima <span class="mock-vip">VIP</span></b><small>Horário confirmado</small></div><em>14:00</em></div>' +
+      '<div class="mock-row"><div><b>Juliana Castro</b><small>Agendamento online</small></div><em>15:30</em></div>' +
+      '</div>' +
+
+      /* MATRIZ CLARA DE LIBERAÇÕES VS RECURSOS SUPERIORES */
+      '<div class="matrix-box">' +
+      '<b style="font-size:13.5px; color:#fff; display:block; margin-bottom:10px;">O que você tem liberado:</b>' +
+      '<div class="matrix-row yes"><div class="m-ic">✓</div><div><b>Vitrine Online e Link para Clientes</b><p>Sua página profissional completa com serviços e horários.</p></div></div>' +
+      '<div class="matrix-row yes"><div class="m-ic">✓</div><div><b>Agendamento Online 24 Horas</b><p>Receba agendamentos a qualquer hora, inclusive finais de semana e noites.</p></div></div>' +
+      '<div class="matrix-row yes"><div class="m-ic">✓</div><div><b>Painel de Agenda e Clientes no Celular</b><p>Controle do dia a dia, edição de dados e identificação de clientes VIP.</p></div></div>' +
+      '<div class="matrix-row yes"><div class="m-ic">✓</div><div><b>Financeiro Essencial por Período</b><p>Acompanhamento de receita e atendimentos realizados.</p></div></div>' +
+      '<div class="matrix-row no" style="opacity:0.75;"><div class="m-ic">🔒</div><div><b>Recursos Exclusivos dos Planos Superiores (R$ 49,90 / R$ 89,90)</b><p>Catálogo de produtos físicos com carrinho, Ficha de anamnese digital com assinatura e CRM avançado com ranking LTV pertencem aos planos Pro e Studio.</p></div></div>' +
+      '</div>' +
+
+      /* COMPONENTE DE INDICAÇÃO: EM BREVE E GANHOS > R$ 580/MÊS */
+      renderAffiliateCard() +
+
+      /* CARD DE AÇÃO PRINCIPAL COM CTA E TEXTO DE VALORES */
+      '<div class="pay" id="pay" style="text-align:center; padding:24px 18px; margin-bottom:28px;">' +
+      '<h3 style="font-size:18px; margin-bottom:6px;">Libere seu acesso agora</h3>' +
+      '<div class="pv" style="margin-bottom:14px;">' +
+      '<small>Taxa inicial para conhecer a plataforma</small>' +
+      '<b style="font-size:42px;">R$ 9,90</b>' +
+      '</div>' +
+      '<button type="button" class="btn" onclick="openFunnelRegModal()" style="font-size:15.5px; font-weight:700; height:54px; box-shadow:0 10px 30px rgba(239,31,77,0.45); cursor:pointer;">' +
+      'Quero conhecer a plataforma por R$ 9,90 ➔' +
+      '</button>' +
+      '<p class="note" style="color:var(--dim); font-size:12px; margin-top:12px; line-height:1.5;">' +
+      'R$ 9,90 hoje pra conhecer por 3 dias · Após 3 dias: apenas R$ 14,90/mês promocional' +
+      '</p>' +
+      '</div>';
+  }
+};
+function renderAffiliateCard(){
+  return '<div class="ref" style="background:linear-gradient(180deg,#1c150b,#121014); border:1px solid rgba(255,176,32,.35); border-radius:20px; padding:18px; margin-bottom:20px;">' +
+    '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">' +
+    '<span class="ph" style="background:rgba(255,176,32,0.18); color:var(--gold); border:1px solid rgba(255,176,32,0.35); margin:0;">EM BREVE</span>' +
+    '<span style="font-size:10.5px; color:var(--gold); font-weight:700;">Programa de Parceiros</span>' +
+    '</div>' +
+    '<h3 style="font-size:16px; font-weight:700; color:#fff; margin-bottom:6px;">Indique o agendo para colegas e ganhe</h3>' +
+    '<p style="font-size:12.5px; color:#d8cdb6; line-height:1.6; margin-bottom:12px;">' +
+    'Em breve você poderá indicar outros profissionais, barbeiros, manicures e estúdios para o agendo e gerar renda extra mensal recorrente.' +
+    '</p>' +
+    '<div style="background:rgba(0,0,0,0.4); border:1px solid rgba(255,176,32,0.25); border-radius:14px; padding:14px; text-align:center;">' +
+    '<span style="font-size:11.5px; color:#e4d1b0; display:block;">Estimativa de ganhos recorrentes:</span>' +
+    '<b style="font-size:23px; font-weight:800; color:var(--gold); display:block; margin:4px 0 2px;">Até mais de R$ 580 por mês</b>' +
+    '<span style="font-size:11px; color:#a0927e;">Conforme seus colegas indicados utilizam a plataforma no dia a dia.</span>' +
+    '</div>' +
+    '<div class="lad" style="margin-top:12px;"><span style="background:#cd7f32">Nível 1 · Bronze</span><span style="background:#c0c0c0">Nível 2 · Prata</span><span style="background:var(--gold)">Nível 3 · Ouro</span></div>' +
+    '</div>';
+}
+/* =========================================================
+   LOGICA DO CHECKOUT PIX E TRAKEAMENTO DO LEAD
+========================================================= */
+function pxMsg(h){ var el = document.getElementById('px'); if(el) el.innerHTML = h; }
+
+// Salvar Lead no LocalStorage para o Super Admin
+function recordFunnelConversion(status){
+  try {
+    var leads = [];
+    var saved = localStorage.getItem('agendo_funnel_leads');
+    if(saved) leads = JSON.parse(saved);
+
+    var existingIdx = leads.findIndex(function(l){ return l.whatsapp === A.fone; });
+    var leadObj = {
+      id: 'lead-' + Date.now(),
+      nome: A.nome || 'Profissional',
+      whatsapp: A.fone || '',
+      valor_pago: (status === 'pago' ? 9.90 : 0),
+      plano_oferta: 'funnel_promo_990_to_1490',
+      regra_cobranca: 'R$ 9,90 hoje ➔ R$ 14,90 (3 dias) ➔ R$ 29,90/mês',
+      status: status, // 'lead_capturado' | 'pix_gerado' | 'pago'
+      webhook_status: (status === 'pago' ? '✓ Liquidado via Webhook Synic (pagamento aprovado)' : status === 'pix_gerado' ? '⏳ Aguardando liquidação Pix Synic' : '📋 Aguardando geração de Pix / início'),
+      data: new Date().toISOString(),
+      utm_source: UTM.utm_source || 'facebook',
+      utm_campaign: UTM.utm_campaign || 'anuncio_990',
+      nicho: A.nicho || 'Geral',
+      dor_principal: A.dor || ''
+    };
+
+    if(existingIdx >= 0){
+      leads[existingIdx] = Object.assign(leads[existingIdx], leadObj);
+    } else {
+      leads.unshift(leadObj);
+    }
+    localStorage.setItem('agendo_funnel_leads', JSON.stringify(leads));
+
+    // Se pago, marcar o perfil de cobrança especial do usuário
+    if(status === 'pago'){
+      localStorage.setItem('agendo_active_plan', 'plan-funnel-promo');
+      localStorage.setItem('agendo_user_billing_profile', JSON.stringify({
+        origin: 'funnel_facebook_ads',
+        status: 'active',
+        trialPaid: true,
+        trialFee: 9.90,
+        trialDurationDays: 3,
+        renewalFee: 14.90,
+        regularFee: 29.90,
+        paidAt: new Date().toISOString(),
+        clientName: A.nome,
+        clientPhone: A.fone
+      }));
+    }
+  } catch(e){
+    console.warn('Erro ao salvar lead do funil:', e);
+  }
+}
+
+function pxPaid(){
+  recordFunnelConversion('pago');
+  track('Purchase', { value: 9.90, currency: 'BRL', content_name: 'Plano Funil 9.90' });
+
+  pxMsg(
+    '<div class="ok">' +
+    '<b>🎉 Pagamento confirmado com sucesso!</b>' +
+    '<p>Seu acesso de 3 dias no agendo foi ativado com sucesso! Você pagou R$ 9,90 hoje. Após 3 dias sua assinatura continua por apenas R$ 14,90/mês (valor promocional exclusivo do funil).</p>' +
+    '<a class="btn" href="' + esc(CFG.APP_URL) + '" onclick="enterPlatformAsFunnelUser(event)" style="font-weight:700; font-size:16px;">' +
+    'Acessar Minha Plataforma agendo ➔' +
+    '</a>' +
+    '</div>'
+  );
+}
+
+function enterPlatformAsFunnelUser(e){
+  if(e) e.preventDefault();
+  recordFunnelConversion('pago');
+  if(window.parent && window.parent !== window){
+    window.parent.postMessage({ type: 'agendo:navigate', route: 'agenda' }, '*');
+    window.parent.postMessage({ type: 'agendo:switch_active_plan', planKey: 'plan-funnel-promo' }, '*');
+  }
+  window.location.href = '/agenda.html';
+}
+window.enterPlatformAsFunnelUser = enterPlatformAsFunnelUser;
+
+function pxShow(d){
+  var qrImg = d.qrcode ? ('<img class="qr" alt="QR Code Pix R$ 9,90" src="' + esc(d.qrcode) + '">') : '';
+  pxMsg(
+    qrImg +
+    '<p class="note" style="color:#f5f5f5; font-weight:600; margin-bottom:8px;">Pix Copia e Cola (R$ 9,90):</p>' +
+    '<textarea class="cc" id="cc" readonly rows="3">' + esc(d.copia_cola || '') + '</textarea>' +
+    '<div style="display:flex; gap:8px; margin-top:10px;">' +
+    '<button class="btn" data-a="copy" style="flex:1; height:46px; font-size:13.5px;">Copiar Código Pix</button>' +
+    '<button class="btn" data-a="sim_paid" style="flex:1; height:46px; font-size:13.5px; background:linear-gradient(135deg,#34c281,#1fa367);">Simular Pago (Teste)</button>' +
+    '</div>' +
+    '<p class="note" id="pst" style="margin-top:10px;">⚡ Aguardando confirmação do Pix...</p>'
+  );
+}
+
+async function pxGo(){
+  pxMsg('<button class="btn" disabled>Gerando seu Pix de R$ 9,90...</button>');
+  track('InitiateCheckout', { value: 9.90, currency: 'BRL', content_name: 'Plano Funil 9.90' });
+  recordFunnelConversion('pix_gerado');
+
+  // Código Pix Copia e Cola simulado/funcional para demonstração
+  setTimeout(function(){
+    var mockCopiaCola = '00020126580014br.gov.bcb.pix0136agendo-' + Date.now() + '52040000530398654049.905802BR5915AGENDO TECNOLOGIA6009SAO PAULO62070503***6304E8A2';
+    // Gerar QR Code via API pública do Google Charts / Quickchart
+    var mockQrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(mockCopiaCola);
+    pxShow({
+      qrcode: mockQrUrl,
+      copia_cola: mockCopiaCola,
+      txid: 'tx-' + Date.now()
+    });
+  }, 700);
+}
+
+/* =========================================================
+   ROTEAMENTO E TRANSIÇÃO DE TELAS DO QUIZ
+========================================================= */
+var B = {
+  calc: function(){
+    var el = document.getElementById('cn'), to = loss(), t0 = performance.now();
+    (function f(n){
+      var p = Math.min(1, (n - t0) / 1400);
+      el.textContent = brl(Math.round(to * (1 - Math.pow(1 - p, 3))));
+      if(p < 1) requestAnimationFrame(f);
+    })(t0);
+  },
+  load: function(){
+    var li = st.querySelectorAll('.ld li');
+    li.forEach(function(l, k){
+      setTimeout(function(){ l.classList.add('done'); }, 650 * (k + 1));
+    });
+    setTimeout(function(){ show(i + 1); }, 650 * li.length + 500);
+  }
+};
+
+function show(n){
+  clearInterval(tm);
+  i = n;
+  busy = false;
+  var s = S[i];
+  st.className = 'stage';
+  try {
+    st.innerHTML = R[s.t](s);
+  } catch(err){
+    console.error(err);
+    st.innerHTML = '<h2>Algo deu errado.</h2><button class="btn" data-a="rt">Tentar novamente</button>';
+  }
+  st.scrollTop = 0;
+  void st.offsetWidth;
+  st.className = 'stage in';
+  pb.style.width = (i / (S.length - 1) * 100) + '%';
+  back.hidden = (i === 0 || s.t === 'load');
+  if(B[s.t]) B[s.t]();
+  if(s.t === 'intro') track('QuizStart', {}, 1);
+}
+
+function go(d){
+  if(busy) return;
+  var n = i + d;
+  if(S[n] && S[n].t === 'load' && d < 0) n--;
+  if(!S[n]) return;
+  busy = true;
+  show(n);
+}
+
+st.addEventListener('click', function(e){
+  var b = e.target.closest('[data-a]');
+  if(!b) return;
+  var a = b.dataset.a, s = S[i];
+
+  if(a === 'go') return go(1);
+  if(a === 'rt') return show(i);
+  if(a === 'lead'){ e.preventDefault(); return sendLead(); }
+
+  if(a === 'opt'){
+    if(busy) return;
+    busy = true;
+    var k = +b.dataset.k;
+    A[s.id] = s.o[k];
+    if(s.v) A[s.id + '_v'] = s.v[k];
+    st.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('sel'); });
+    b.classList.add('sel');
+    return setTimeout(function(){ busy = false; go(1); }, 260);
+  }
+
+  if(a === 'mul'){
+    var o = s.o[+b.dataset.k], x = A.need.indexOf(o);
+    if(x > -1) A.need.splice(x, 1);
+    else if(A.need.length < 3) A.need.push(o);
+    else return;
+    b.classList.toggle('sel', x < 0);
+    document.getElementById('mc').disabled = !A.need.length;
+    return;
+  }
+
+  if(a === 'sc') return document.getElementById('pay').scrollIntoView({ behavior:'smooth', block:'center' });
+  if(a === 'pix') return pxGo();
+  if(a === 'sim_paid') return pxPaid();
+
+  if(a === 'copy'){
+    var cc = document.getElementById('cc');
+    cc.select();
+    (navigator.clipboard ? navigator.clipboard.writeText(cc.value) : Promise.reject())
+      .catch(function(){ document.execCommand('copy'); });
+    b.textContent = 'Código Copiado! ✓';
+    setTimeout(function(){ b.textContent = 'Copiar Código Pix'; }, 2500);
+  }
+});
+
+st.addEventListener('input', function(e){
+  if(e.target.id === 'fn'){
+    var d = e.target.value.replace(/\D/g, '');
+    if(d.length > 11 && d.indexOf('55') === 0) d = d.slice(2);
+    d = d.slice(0, 11);
+    e.target.value = d.length > 10 ? '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7) :
+                     d.length > 6 ? '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6) :
+                     d.length > 2 ? '(' + d.slice(0, 2) + ') ' + d.slice(2) : d;
+    return;
+  }
+  if(e.target.id === 'rg'){
+    var n = +e.target.value;
+    var rn = document.getElementById('rn');
+    var rv = document.getElementById('rv');
+    var rp = document.getElementById('rp');
+    if(rn) rn.textContent = n;
+    if(rv) rv.textContent = brl(n * 10) + ' por mês';
+    if(rp){
+      rp.textContent = (n * 10 >= 14.9) ?
+        ('Suas ' + n + ' indicações rendem ' + brl(n*10) + '/mês: cobrem sua mensalidade de R$ 14,90 e ainda sobram ' + brl(n*10 - 14.9) + ' de lucro!') :
+        ('Com 2 indicações ativas, sua mensalidade promocional de R$ 14,90 já estará paga!');
+    }
+  }
+});
+
+function sendLead(){
+  var nm = document.getElementById('nm'), fn = document.getElementById('fn');
+  var d = fn.value.replace(/\D/g, '');
+  if(d.length > 11 && d.indexOf('55') === 0) d = d.slice(2);
+
+  var okN = nm.value.trim().length >= 2, okF = d.length >= 10;
+  document.getElementById('e1').textContent = okN ? '' : 'Digite seu nome.';
+  document.getElementById('e2').textContent = okF ? '' : (d.length ? 'Inclua o DDD. Ex.: (11) 99999-9999' : 'Digite seu WhatsApp com DDD.');
+
+  nm.classList.toggle('bad', !okN);
+  fn.classList.toggle('bad', !okF);
+
+  if(!okN) return nm.focus();
+  if(!okF) return fn.focus();
+
+  A.nome = nm.value.trim();
+  A.fone = fn.value.trim();
+
+  track('Lead', { content_name: 'Quiz Funil Facebook Ads', value: 9.90, currency: 'BRL' });
+  recordFunnelConversion('lead_capturado');
+
+  // Disparo opcional de webhook se configurado no Super Admin
+  if(CFG.WEBHOOK_URL){
+    try {
+      fetch(CFG.WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome: A.nome, whatsapp: A.fone, respostas: A, utm: UTM }),
+        keepalive: true
+      }).catch(function(){});
+    } catch(e){}
+  }
+
+  if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  go(1);
+}
+
+st.addEventListener('submit', function(e){ e.preventDefault(); sendLead(); });
+back.addEventListener('click', function(){ go(-1); });
+
+// Inicialização
+show(0);
+</script>
+
+<!-- ================= MODAL : CADASTRO DE LOGIN & PAGAMENTO PIX ================= -->
+<div id="modal-funnel-reg" style="display:none; position:fixed; inset:0; z-index:999999; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:16px;">
+  <div style="position:relative; width:100%; max-width:440px; background:#141414; border:1px solid rgba(255,255,255,0.14); border-radius:24px; padding:24px 20px; box-shadow:0 25px 60px rgba(0,0,0,0.85); max-height:92vh; overflow-y:auto; text-align:left;">
+    
+    <!-- Botão Fechar -->
+    <button type="button" onclick="closeFunnelRegModal()" aria-label="Fechar" style="position:absolute; top:16px; right:16px; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); color:#fff; display:grid; place-items:center; cursor:pointer; font-size:14px;">
+      ✕
+    </button>
+
+    <!-- ETAPA 1: FORMULÁRIO DE LOGIN & SENHA -->
+    <div id="reg-step-form">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <div style="width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#ff5f8a,#ef1f4d); display:grid; place-items:center; color:#fff; font-weight:800; font-size:15px;">a</div>
+        <div>
+          <h3 style="font-size:17px; font-weight:700; color:#fff; margin:0;">Criar Login de Acesso</h3>
+          <span style="font-size:11.5px; color:var(--dim);">Passo 1 de 2 · Dados para entrar na plataforma</span>
+        </div>
+      </div>
+      <p style="font-size:12.5px; color:var(--dim); line-height:1.5; margin-bottom:16px;">
+        Defina seu e-mail e senha de login. Após salvar, o Pix de R$ 9,90 será gerado para liberação da conta.
+      </p>
+
+      <form id="funnel-reg-form" onsubmit="handleFunnelRegSubmit(event)" style="display:flex; flex-direction:column; gap:12px;">
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:4px;">Seu Nome ou Espaço</label>
+          <input type="text" id="reg-name" required placeholder="Ex: Marina Ravi / Studio Bella" style="width:100%; height:46px; background:#1c1c1c; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:4px;">WhatsApp com DDD</label>
+          <input type="tel" id="reg-phone" required placeholder="(11) 99999-9999" maxlength="16" style="width:100%; height:46px; background:#1c1c1c; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:4px;">E-mail para Login</label>
+          <input type="email" id="reg-email" required placeholder="seuemail@exemplo.com" style="width:100%; height:46px; background:#1c1c1c; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:4px;">Criar Senha</label>
+          <input type="password" id="reg-pass" required minlength="6" placeholder="Mínimo 6 caracteres" style="width:100%; height:46px; background:#1c1c1c; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:4px;">Confirmar Senha</label>
+          <input type="password" id="reg-pass-confirm" required minlength="6" placeholder="Repita sua senha" style="width:100%; height:46px; background:#1c1c1c; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div id="reg-error-msg" style="display:none; font-size:12px; color:var(--red); padding:8px 12px; background:rgba(255,92,108,0.1); border-radius:8px; border:1px solid rgba(255,92,108,0.25);"></div>
+
+        <button type="submit" class="btn" style="height:50px; font-size:14.5px; font-weight:700; margin-top:6px;">
+          Salvar Cadastro e Ir para o Pix (R$ 9,90) ➔
+        </button>
+
+        <p class="note" style="margin-top:4px;">
+          R$ 9,90 hoje pra conhecer por 3 dias · Após 3 dias: apenas R$ 14,90/mês promocional
+        </p>
+      </form>
+    </div>
+
+    <!-- ETAPA 2: CHECKOUT PIX DE R$ 9,90 PARA LIBERAR CADASTRO -->
+    <div id="reg-step-pix" style="display:none; text-align:center;">
+      <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:6px;">
+        <span style="font-size:11px; font-weight:800; background:rgba(52,194,129,0.18); color:#34c281; padding:3px 10px; border-radius:999px;">
+          Cadastro Salvo com Sucesso ✓
+        </span>
+      </div>
+      <h3 style="font-size:18px; font-weight:700; color:#fff; margin-bottom:4px;">Pague via Pix para Liberar o Acesso</h3>
+      <div class="pv" style="margin:10px 0 14px;">
+        <small style="font-size:12px; color:#d8cdb6;">Taxa inicial</small>
+        <b style="font-size:40px; line-height:1; color:#fff; margin:2px 0;">R$ 9,90</b>
+        <small style="font-size:11px; color:var(--dim); display:block; margin-top:2px;">
+          Após 3 dias: apenas R$ 14,90/mês promocional
+        </small>
+      </div>
+
+      <div id="modal-pix-content">
+        <p style="font-size:12.5px; color:var(--dim);">Gerando código Pix...</p>
+      </div>
+    </div>
+
+    <!-- ETAPA 3: PAGAMENTO CONFIRMADO & ACESSO LIBERADO -->
+    <div id="reg-step-success" style="display:none; text-align:center; padding:10px 0;">
+      <div style="width:58px; height:58px; border-radius:50%; background:rgba(52,194,129,0.15); border:2px solid #34c281; color:#34c281; display:grid; place-items:center; font-size:26px; margin:0 auto 14px;">
+        ✓
+      </div>
+      <h3 style="font-size:20px; font-weight:700; color:#34c281; margin-bottom:8px;">Pagamento Confirmado!</h3>
+      <p style="font-size:13px; color:#e0e0e0; line-height:1.55; margin-bottom:18px;">
+        Seu cadastro no agendo foi liberado com sucesso. Você tem 3 dias de acesso completo garantidos!
+      </p>
+
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:12px 14px; font-size:12px; text-align:left; margin-bottom:18px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <span style="color:var(--dim);">Plano de Acesso:</span>
+          <b style="color:#fff;">Acesso Funil agendo</b>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <span style="color:var(--dim);">Pago Hoje:</span>
+          <b style="color:#34c281;">R$ 9,90 (3 dias liberados)</b>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="color:var(--dim);">Próximas Cobranças:</span>
+          <span style="color:#f3d9a4;">Após 3 dias: apenas R$ 14,90/mês promocional</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn" onclick="enterPlatformAsFunnelUser(event)" style="font-size:15px; font-weight:700; height:50px;">
+        Acessar Minha Plataforma agendo ➔
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function openFunnelRegModal(){
+  var m = document.getElementById('modal-funnel-reg');
+  if(!m) return;
+  document.getElementById('reg-step-form').style.display = 'block';
+  document.getElementById('reg-step-pix').style.display = 'none';
+  document.getElementById('reg-step-success').style.display = 'none';
+
+  // Pre-popular nome e whatsapp
+  var inputName = document.getElementById('reg-name');
+  var inputPhone = document.getElementById('reg-phone');
+  if(inputName && A.nome) inputName.value = A.nome;
+  if(inputPhone && A.fone) inputPhone.value = A.fone;
+
+  m.style.display = 'flex';
+}
+window.openFunnelRegModal = openFunnelRegModal;
+
+function closeFunnelRegModal(){
+  var m = document.getElementById('modal-funnel-reg');
+  if(m) m.style.display = 'none';
+}
+window.closeFunnelRegModal = closeFunnelRegModal;
+
+function handleFunnelRegSubmit(e){
+  e.preventDefault();
+  var name = document.getElementById('reg-name').value.trim();
+  var phone = document.getElementById('reg-phone').value.trim();
+  var email = document.getElementById('reg-email').value.trim();
+  var pass = document.getElementById('reg-pass').value.trim();
+  var passConfirm = document.getElementById('reg-pass-confirm').value.trim();
+  var errEl = document.getElementById('reg-error-msg');
+
+  if(pass !== passConfirm){
+    errEl.textContent = 'As senhas não coincidem. Por favor, verifique.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if(pass.length < 6){
+    errEl.textContent = 'A senha deve ter no mínimo 6 caracteres.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  // Atualizar dados do lead
+  A.nome = name;
+  A.fone = phone;
+  A.email = email;
+
+  // Salvar conta no localStorage
+  try {
+    localStorage.setItem('agendo_demo_account', JSON.stringify({
+      email: email,
+      name: name,
+      phone: phone,
+      createdAt: new Date().toISOString()
+    }));
+  } catch(err){}
+
+  // Trocar tela para Pix Checkout
+  document.getElementById('reg-step-form').style.display = 'none';
+  document.getElementById('reg-step-pix').style.display = 'block';
+
+  // Disparar evento InitiateCheckout
+  track('InitiateCheckout', { value: 9.90, currency: 'BRL', content_name: 'Acesso Funil R$ 9,90' });
+  recordFunnelConversion('pix_gerado');
+
+  // Gerar QR Code e Copia e Cola
+  var mockCopiaCola = '00020126580014br.gov.bcb.pix0136agendo-' + Date.now() + '52040000530398654049.905802BR5915AGENDO TECNOLOGIA6009SAO PAULO62070503***6304E8A2';
+  var mockQrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(mockCopiaCola);
+
+  var pixContainer = document.getElementById('modal-pix-content');
+  pixContainer.innerHTML = 
+    '<img class="qr" alt="QR Code Pix R$ 9,90" src="' + mockQrUrl + '" style="display:block; width:180px; margin:8px auto; border-radius:14px; background:#fff; padding:8px;">' +
+    '<p class="note" style="color:#f5f5f5; font-weight:600; margin-bottom:6px;">Código Pix Copia e Cola:</p>' +
+    '<textarea class="cc" id="modal-cc" readonly rows="2" style="width:100%; background:#1c1c1c; border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:8px; font:11px monospace; color:#fff; resize:none;">' + mockCopiaCola + '</textarea>' +
+    '<div style="display:flex; gap:8px; margin-top:10px;">' +
+    '<button type="button" class="btn" onclick="copyModalPixCode()" id="btn-copy-modal-pix" style="flex:1; height:44px; font-size:13px;">Copiar Código Pix</button>' +
+    '<button type="button" class="btn" onclick="confirmFunnelPixPayment()" style="flex:1; height:44px; font-size:13px; background:linear-gradient(135deg,#34c281,#1fa367);">Simular Pagamento Pago ✓</button>' +
+    '</div>' +
+    '<p class="note" style="margin-top:10px; color:#34c281;">⚡ Aguardando confirmação do Pix para liberar o cadastro...</p>';
+}
+window.handleFunnelRegSubmit = handleFunnelRegSubmit;
+
+function copyModalPixCode(){
+  var cc = document.getElementById('modal-cc');
+  if(!cc) return;
+  cc.select();
+  (navigator.clipboard ? navigator.clipboard.writeText(cc.value) : Promise.reject())
+    .catch(function(){ document.execCommand('copy'); });
+  var b = document.getElementById('btn-copy-modal-pix');
+  if(b){
+    b.textContent = 'Código Copiado! ✓';
+    setTimeout(function(){ b.textContent = 'Copiar Código Pix'; }, 2500);
+  }
+}
+window.copyModalPixCode = copyModalPixCode;
+
+function confirmFunnelPixPayment(){
+  recordFunnelConversion('pago');
+  track('Purchase', { value: 9.90, currency: 'BRL', content_name: 'Acesso Funil R$ 9,90' });
+
+  // Salvar perfil de cobrança oficial com a regra do usuário
+  try {
+    localStorage.setItem('agendo_active_plan', 'plan-funnel-promo');
+    localStorage.setItem('agendo_user_billing_profile', JSON.stringify({
+      origin: 'funnel_facebook_ads',
+      status: 'active',
+      trialPaid: true,
+      initialFee: 9.90,
+      trialDurationDays: 3,
+      renewalAfter7Days: 14.90,
+      nextMonthlyRenewal: 29.90,
+      paidAt: new Date().toISOString(),
+      clientName: A.nome,
+      clientPhone: A.fone,
+      clientEmail: A.email
+    }));
+  } catch(e){}
+
+  // Trocar tela para Sucesso
+  document.getElementById('reg-step-pix').style.display = 'none';
+  document.getElementById('reg-step-success').style.display = 'block';
+}
+window.confirmFunnelPixPayment = confirmFunnelPixPayment;
+</script>
+
+<script src="/agendo-real.js"></script>
+</body>
+</html>

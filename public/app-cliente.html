@@ -1,0 +1,3483 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>App do Cliente — agendo</title>
+  <meta name="description" content="Portal VIP e autoatendimento do cliente com design minimalista, limpo e contemporâneo." />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;450;600;652;700&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       MOBBIN MONOCHROME DESIGN SYSTEM
+       - Canvas: #ffffff
+       - Canvas Soft: #f3f3f3 (6% ink wash)
+       - Field: #f0f0f0 (8% ink wash)
+       - Hairline Soft: #f0f0f0 (1px faint edge)
+       - Hairline: #e0e0e0 (16% control border)
+       - Ink Black: #141414 (Primary brand, display, CTAs, footer)
+       - Soft Ink: #262626
+       - Muted: #707070
+       - Faint: #adadad
+       - Rosa Pink Accent: #ff2d87 (Exclusivo para destaque e elegância)
+       - Stadium Pills: border-radius 9999px everywhere interactive
+       - Shadow-free elevation: depth by tint ladder differences
+    ========================================================= */
+    :root {
+      --canvas: #09090c;
+      --canvas-soft: #121217;
+      --field: #181820;
+      --hairline-soft: rgba(255, 255, 255, 0.08);
+      --hairline: rgba(255, 255, 255, 0.15);
+      --ink: #f4f4f6;
+      --ink-soft: #e4e4e7;
+      --muted: #a1a1aa;
+      --faint: #71717a;
+      --accent: #ff2d87;
+      --pink: #ff2d87;
+      --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --rounded-md: 24px;
+      --rounded-sm: 16px;
+      --rounded-full: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      letter-spacing: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    body {
+      background: #000000;
+      color: var(--ink);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .app-viewport {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background: #000000;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 96px;
+    }
+
+    @media (max-width: 500px) {
+      .app-viewport {
+        border-left: none;
+        border-right: none;
+      }
+    }
+
+    /* ---------- Header Flutuante Mobbin Clean ---------- */
+    .header-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 14px 18px 12px;
+      border-bottom: 1px solid var(--hairline-soft);
+    }
+
+    .nav-pill-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-identity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    /* iOS-style squircle (30% corner radius) */
+    .squircle-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px; /* 30% */
+      background: var(--ink);
+      color: #ffffff;
+      font-weight: 652;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .squircle-avatar .status-dot {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 10px;
+      height: 10px;
+      border-radius: var(--rounded-full);
+      background: var(--accent);
+      border: 2px solid var(--canvas);
+    }
+
+    .user-text {
+      min-width: 0;
+    }
+
+    .user-text h1 {
+      font-size: 16px;
+      font-weight: 652;
+      line-height: 1.15;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-text .subtext {
+      font-size: 11.5px;
+      font-weight: 456;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .header-right-badges {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+
+    .badge-popular {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 652;
+      padding: 2.5px 8px;
+      border-radius: var(--rounded-full);
+      line-height: 1.2;
+    }
+
+    .header-credit-text {
+      font-size: 12px;
+      font-weight: 652;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    /* ---------- Buttons (Stadium Pills) ---------- */
+    .button-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 42px;
+      padding: 0 20px;
+      border-radius: var(--rounded-full);
+      background: var(--ink);
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s ease;
+    }
+
+    .button-primary:hover {
+      opacity: 0.88;
+    }
+
+    .button-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 38px;
+      padding: 0 16px;
+      border-radius: var(--rounded-full);
+      background: var(--canvas);
+      color: var(--ink);
+      border: 1px solid var(--hairline);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+
+    .button-outline:hover {
+      background: var(--canvas-soft);
+    }
+
+    .button-pill-soft {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: var(--rounded-full);
+      background: var(--canvas-soft);
+      color: var(--ink);
+      font-size: 11.5px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+
+    .button-pill-soft:hover {
+      background: var(--field);
+    }
+
+    /* ---------- Content Containers ---------- */
+    .content-body {
+      padding: 18px 16px;
+      flex: 1;
+    }
+
+    .view-pane {
+      display: block;
+    }
+
+    .view-pane.hidden {
+      display: none !important;
+    }
+
+    /* Banner Configurável pelo Lojista */
+    .banner-hero-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--rounded-md);
+      margin-bottom: 20px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 22px 20px;
+      background-size: cover;
+      background-position: center;
+      color: #ffffff;
+      border: 1px solid var(--hairline-soft);
+    }
+
+    .banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(20, 20, 20, 0.25) 0%, rgba(20, 20, 20, 0.88) 100%);
+      pointer-events: none;
+    }
+
+    .banner-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .banner-title {
+      font-size: 22px;
+      font-weight: 652;
+      line-height: 1.15;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .banner-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+
+    /* Standard Cards (Canvas white + 1px soft hairline, rounded.md 24px) */
+    .clean-card {
+      background: var(--canvas);
+      border: 1px solid var(--hairline-soft);
+      border-radius: var(--rounded-md);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin: 18px 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .appt-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .appt-title {
+      font-size: 18px;
+      font-weight: 652;
+      line-height: 1.13;
+      color: var(--ink);
+    }
+
+    .appt-meta {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .appt-date-box {
+      text-align: right;
+    }
+
+    .appt-date-time {
+      font-size: 15px;
+      font-weight: 652;
+      color: var(--ink);
+    }
+
+    .appt-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    /* Marquee / Strip de Serviços e Pacotes com Foto */
+    .services-strip {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+      margin: 0 -16px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .services-strip::-webkit-scrollbar { display: none; }
+
+    .service-photo-card {
+      flex: 0 0 210px;
+      background: var(--canvas-soft);
+      border-radius: var(--rounded-sm);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid var(--hairline-soft);
+    }
+
+    .service-img-thumb {
+      width: 100%;
+      height: 110px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      background: var(--field);
+    }
+
+    .service-img-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .service-tile-name {
+      font-size: 14px;
+      font-weight: 652;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-bottom: 3px;
+    }
+
+    .service-tile-desc {
+      font-size: 11.5px;
+      font-weight: 456;
+      color: var(--muted);
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .service-tile-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .service-tile-price {
+      font-size: 15px;
+      font-weight: 652;
+      color: var(--ink);
+    }
+
+    /* Cards de Serviços e Produtos no Padrão do Sistema Lojista */
+    .svc-card-visual {
+      flex: 0 0 250px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--canvas-soft);
+      border: 1px solid var(--hairline-soft);
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      transition: transform 0.15s ease, border-color 0.15s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .svc-card-visual:hover {
+      border-color: var(--hairline);
+      transform: translateY(-2px);
+    }
+    .svc-card-image {
+      height: 165px;
+      position: relative;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .svc-card-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.55) 75%, rgba(20,20,20,0.92) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .svc-card-image > * {
+      position: relative;
+      z-index: 2;
+    }
+    .svc-card-badge {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      z-index: 2;
+      padding: 5px 11px;
+      border-radius: 9999px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(135deg, #ff5f8a, #ef1f4d);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .svc-card-body {
+      padding: 14px 15px 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .svc-card-cat {
+      font-size: 10px;
+      font-weight: 800;
+      color: #ff5f8a;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .svc-card-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+      line-height: 1.25;
+    }
+    .svc-card-desc {
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+    .svc-card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .svc-card-price {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+    .svc-card-btn {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #ff5f8a, #ef1f4d);
+      padding: 8px 16px;
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(239,31,77,0.35);
+      transition: opacity 0.15s ease;
+    }
+    .svc-card-btn:hover {
+      opacity: 0.92;
+    }
+
+    /* Tab Switcher de Catálogo */
+    .catalog-tabs {
+      display: flex;
+      background: var(--canvas-soft);
+      padding: 4px;
+      border-radius: var(--rounded-full);
+      margin: 18px 0 14px;
+      border: 1px solid var(--hairline-soft);
+    }
+    .catalog-tab-btn {
+      flex: 1;
+      height: 34px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: var(--rounded-full);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.2s ease;
+    }
+    .catalog-tab-btn.is-active {
+      background: linear-gradient(135deg, #ff5f8a, #ef1f4d);
+      color: #fff;
+      box-shadow: 0 3px 12px rgba(239,31,77,0.3);
+    }
+
+    /* Clean Transaction / List Rows */
+    .clean-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: var(--canvas-soft);
+      border-radius: var(--rounded-sm);
+      margin-bottom: 8px;
+    }
+
+    .row-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .row-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .row-val {
+      font-size: 14px;
+      font-weight: 652;
+      color: var(--ink);
+    }
+
+    /* Ficha Anamnese Field Grid */
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .field-cell {
+      background: var(--field);
+      border-radius: var(--rounded-sm);
+      padding: 12px;
+    }
+
+    .field-cell-label {
+      font-size: 11px;
+      font-weight: 456;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .field-cell-val {
+      font-size: 13px;
+      font-weight: 650;
+      color: var(--ink);
+    }
+
+    /* ---------- Floating Stadium Nav Pill (Bottom) ---------- */
+    .floating-bottom-nav {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 440px;
+      background: rgba(14, 14, 18, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--rounded-full);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 6px;
+      z-index: 80;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8);
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      color: #71717a;
+      background: none;
+      border: none;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: var(--rounded-full);
+      flex: 1;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .bottom-nav-item.is-active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+
+    /* Ícone de Crédito com brilho dourado ao selecionar (o texto 'Créditos' não fica amarelo, somente o ícone) */
+    .bottom-nav-item[data-tab="credits"].is-active,
+    .bottom-nav-item[data-tab="credits"].is-active span,
+    .bottom-nav-item[data-tab="credits"].is-active .nav-label {
+      color: var(--ink) !important;
+    }
+    .bottom-nav-item[data-tab="credits"].is-active svg {
+      color: #ffd700 !important;
+      stroke: #ffd700 !important;
+      fill: rgba(255, 215, 0, 0.22);
+      filter: drop-shadow(0 0 7px rgba(255, 215, 0, 0.85));
+    }
+
+    /* Badge e Ícone estilizado de Barra de Ouro VIP */
+    .gold-bar-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.18), rgba(245, 158, 11, 0.25));
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      padding: 3px 8px;
+      border-radius: 999px;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+      vertical-align: middle;
+    }
+    .gold-bar-badge svg {
+      display: inline-block;
+      vertical-align: middle;
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+    }
+
+    .bottom-nav-item svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .bottom-nav-fab {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--rounded-full);
+      background: var(--ink);
+      color: #ffffff;
+      border: none;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      margin: 0 4px;
+      flex-shrink: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .bottom-nav-fab:hover {
+      opacity: 0.88;
+    }
+
+    /* ---------- Inverted Polarity Footer (Exclusivo da Página de Configuração) ---------- */
+    .inverted-footer {
+      background: var(--ink);
+      color: #ffffff;
+      border-radius: var(--rounded-md) var(--rounded-md) 0 0;
+      padding: 32px 20px 24px;
+      margin-top: 24px;
+    }
+
+    .footer-brand {
+      font-size: 24px;
+      font-weight: 652;
+      line-height: 1.0;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .footer-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--faint);
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .footer-links a {
+      color: var(--faint);
+      font-size: 12px;
+      font-weight: 456;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    /* ---------- Modals (Clean Gallery Surfaces) ---------- */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 20, 20, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-window {
+      width: 100%;
+      max-width: 480px;
+      background: var(--canvas);
+      border-radius: var(--rounded-md) var(--rounded-md) 0 0;
+      padding: 24px 20px 32px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .modal-heading {
+      font-size: 20px;
+      font-weight: 652;
+      color: var(--ink);
+    }
+
+    .modal-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--rounded-full);
+      background: var(--canvas-soft);
+      border: 1px solid var(--hairline);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .text-input-field {
+      width: 100%;
+      background: var(--field);
+      border: 1px solid transparent;
+      border-radius: var(--rounded-sm);
+      padding: 12px 14px;
+      color: var(--ink);
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+      transition: border 0.15s ease;
+    }
+
+    .text-input-field:focus {
+      border: 2px solid var(--ink);
+    }
+
+    /* ---------- Seletor de Procedimentos em Formato de Lista ---------- */
+    .svc-catalog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .svc-catalog-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    .svc-catalog-list::-webkit-scrollbar-thumb {
+      background: var(--hairline);
+      border-radius: var(--rounded-full);
+    }
+    .svc-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--canvas-soft);
+      border: 1px solid var(--hairline-soft);
+      border-radius: var(--rounded-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .svc-list-item:hover {
+      background: var(--field);
+    }
+    .svc-list-item.is-selected {
+      background: #ffffff;
+      border: 1.5px solid var(--ink);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .svc-item-thumb {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--hairline);
+    }
+    .svc-item-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .svc-item-details {
+      flex: 1;
+      min-width: 0;
+    }
+    .svc-item-title {
+      font-size: 13.5px;
+      font-weight: 652;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .svc-item-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .svc-item-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .svc-item-price {
+      font-size: 14px;
+      font-weight: 652;
+      color: var(--ink);
+    }
+    .svc-radio-pill {
+      width: 18px;
+      height: 18px;
+      border-radius: var(--rounded-full);
+      border: 1.5px solid var(--hairline);
+      display: grid;
+      place-items: center;
+      margin-left: auto;
+      margin-top: 4px;
+      transition: all 0.15s ease;
+    }
+    .svc-list-item.is-selected .svc-radio-pill {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+    .svc-radio-pill::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: none;
+    }
+    .svc-list-item.is-selected .svc-radio-pill::after {
+      display: block;
+    }
+
+    /* ---------- Calendário Interativo ---------- */
+    .calendar-container {
+      background: var(--canvas-soft);
+      border-radius: var(--rounded-sm);
+      padding: 14px 12px;
+      margin-bottom: 16px;
+      border: 1px solid var(--hairline-soft);
+    }
+    .cal-nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+    .cal-month-title {
+      font-size: 13.5px;
+      font-weight: 652;
+      color: var(--ink);
+    }
+    .cal-nav-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--rounded-full);
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      transition: background 0.15s ease;
+    }
+    .cal-nav-btn:hover {
+      background: var(--field);
+    }
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .cal-days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+      text-align: center;
+    }
+    .cal-day-cell {
+      height: 32px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: var(--rounded-full);
+      cursor: pointer;
+      color: var(--ink);
+      transition: all 0.15s ease;
+      position: relative;
+    }
+    .cal-day-cell:hover:not(.is-disabled):not(.is-selected) {
+      background: var(--field);
+    }
+    .cal-day-cell.is-selected {
+      background: var(--ink) !important;
+      color: #ffffff !important;
+      font-weight: 652;
+    }
+    .cal-day-cell.is-today::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .cal-day-cell.is-selected.is-today::after {
+      background: #ffffff;
+    }
+    .cal-day-cell.is-disabled {
+      color: var(--faint);
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .cal-selected-preview {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--hairline);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ---------- Horários em Pills ---------- */
+    .time-pills-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 18px;
+    }
+    .time-slot-pill {
+      height: 32px;
+      padding: 0 13px;
+      border-radius: var(--rounded-full);
+      background: var(--canvas-soft);
+      border: 1px solid var(--hairline);
+      color: var(--ink);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .time-slot-pill:hover {
+      background: var(--field);
+    }
+    .time-slot-pill.is-selected {
+      background: var(--ink) !important;
+      color: #ffffff !important;
+      border-color: var(--ink) !important;
+      font-weight: 652;
+    }
+
+    /* Toast */
+    .toast-pill {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink);
+      color: #ffffff;
+      padding: 9px 18px;
+      border-radius: var(--rounded-full);
+      font-size: 12px;
+      font-weight: 600;
+      z-index: 150;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .toast-pill.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-viewport">
+
+  <!-- Header Flutuante Mobbin Clean (Sem abas superiores, sem botão agendar, com VIP OURO e Créditos no canto direito) -->
+  <header class="header-wrapper">
+    <div class="nav-pill-bar">
+      <div class="brand-identity">
+        <!-- Squircle iOS 30% corner radius -->
+        <div class="squircle-avatar" id="client-avatar">
+          C<span class="status-dot"></span>
+        </div>
+        <div class="user-text">
+          <h1 id="client-name">Carla Mendes.</h1>
+          <div class="subtext">Portal VIP do Cliente</div>
+        </div>
+      </div>
+
+      <!-- Canto Direito com VIP OURO e Créditos em destaque (como era antes) -->
+      <div class="header-right-badges">
+        <span class="badge-popular" id="client-tier-badge" style="background:linear-gradient(135deg, #ffd700, #f59e0b); color:#1a1200; font-weight:800; border:none; padding:3px 9px; box-shadow:0 2px 8px rgba(245,158,11,0.25);">
+          VIP OURO
+        </span>
+        <span class="header-credit-text" id="client-header-credit" style="color:var(--ink); font-size:11.5px; font-weight:700;">
+          ✦ R$ 425,00 em créditos
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Corpo Principal -->
+  <main class="content-body">
+    
+    <!-- ================= ABA 1: INÍCIO ================= -->
+    <div id="pane-home" class="view-pane">
+      
+      <!-- Banner Configurável pelo Usuário Lojista -->
+      <section class="banner-hero-card" id="clientapp-banner-card">
+        <div class="banner-overlay"></div>
+        <div class="banner-content">
+          <span class="badge-popular" id="banner-tag-badge" style="margin-bottom:8px;">✦ Novidade da Semana</span>
+          <h2 class="banner-title" id="banner-title-text">Semana da Beleza & Renovação Facial.</h2>
+          <p class="banner-desc" id="banner-desc-text">
+            Agende procedimentos combinados e ganhe créditos em dobro direto no seu saldo VIP.
+          </p>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button type="button" class="button-primary" id="banner-cta-button" style="background:#ffffff; color:#141414; font-weight:700; height:38px; font-size:12.5px; border:none; border-radius:var(--rounded-full); padding:0 18px; cursor:pointer;" onclick="openBookingModal()">
+              Aproveitar bônus ↗
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Próximo Agendamento -->
+      <!-- Próximo Agendamento (Visual Elegante e Destaque Vívido) -->
+      <div class="section-eyebrow" style="color:#ffffff; font-weight:700;">
+        <span>Próximos agendamentos</span>
+        <span style="font-size:11px; color:#34c281; font-weight:800; background:rgba(52,194,129,0.18); padding:2px 8px; border-radius:999px;">● Confirmado</span>
+      </div>
+      <section class="clean-card" style="background:linear-gradient(135deg, rgba(255,45,135,0.12) 0%, rgba(18,18,22,0.98) 100%); border:1px solid rgba(255,45,135,0.35); box-shadow:0 8px 24px rgba(0,0,0,0.6); padding:20px;">
+        <div class="appt-header-row" style="margin-bottom:16px;">
+          <div>
+            <span class="badge-popular" style="background:linear-gradient(135deg, #ff5f8a, #ef1f4d); color:#ffffff; font-weight:800; margin-bottom:6px; font-size:10px;">Procedimento Marcado</span>
+            <h2 class="appt-title" id="home-next-svc-title" style="color:#ffffff; font-size:19px; font-weight:800; margin-top:4px;">Limpeza de pele profunda.</h2>
+            <p class="appt-meta" style="color:#a1a1aa; font-size:13px; margin-top:3px;">Marina Ravi · Estética Avançada & Spa</p>
+          </div>
+          <div class="appt-date-box" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:14px; padding:10px 14px; text-align:right;">
+            <div class="appt-date-time" id="home-next-svc-date" style="color:#ffffff; font-size:14px; font-weight:800;">Hoje às 14:00</div>
+            <div style="font-size:11.5px; color:#ff5f8a; font-weight:700; margin-top:3px;">📍 Sala 02</div>
+          </div>
+        </div>
+        <div class="appt-actions">
+          <button type="button" class="button-outline" style="flex:1; border-color:rgba(255,255,255,0.25); color:#ffffff; font-weight:700; background:rgba(255,255,255,0.06);" onclick="openRescheduleModal()">
+            Reagendar
+          </button>
+          <a href="https://maps.google.com" target="_blank" rel="noopener" class="button-primary" style="flex:1; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; font-weight:700; color:#ffffff; box-shadow:0 4px 14px rgba(239,31,77,0.35); text-decoration:none;">
+            Como chegar ↗
+          </a>
+        </div>
+      </section>
+
+      <!-- Abas: Agendamento Rápido vs Produtos -->
+      <div class="catalog-tabs">
+        <button type="button" id="cat-tab-quick" class="catalog-tab-btn is-active" onclick="switchHomeCatalogTab('quick')">
+          ⚡ Agendamento Rápido
+        </button>
+        <button type="button" id="cat-tab-prods" class="catalog-tab-btn" onclick="switchHomeCatalogTab('prods')">
+          🛍️ Produtos & Home Care
+        </button>
+      </div>
+
+      <!-- ABA 1: CARDS DE AGENDAMENTO RÁPIDO (ESTILO SISTEMA LOJISTA) -->
+      <div id="pane-cat-quick">
+        <div class="section-eyebrow" style="margin-top:4px;">
+          <span>Procedimentos Mais Pedidos</span>
+          <a href="javascript:void(0)" onclick="openPublicStudioPage()" style="font-size:12px; color:#ff2d87; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:4px; cursor:pointer;">Ver catálogo completo ↗</a>
+        </div>
+        <div class="services-strip">
+          <!-- Card 1: Peeling de Diamante -->
+          <div class="svc-card-visual" onclick="quickBook('Peeling de Diamante', 150)">
+            <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1512290900672-1f486121ea28?auto=format&fit=crop&w=600&q=80');">
+              <span class="svc-card-badge">50 MIN</span>
+            </div>
+            <div class="svc-card-body">
+              <div class="svc-card-cat">ESTÉTICA FACIAL</div>
+              <div class="svc-card-name">Peeling de Diamante</div>
+              <div class="svc-card-desc">Renovação celular intensiva, esfoliação precisa e aplicação de máscara calmante.</div>
+              <div class="svc-card-bottom">
+                <div class="svc-card-price">R$ 150,00</div>
+                <button type="button" class="svc-card-btn" onclick="event.stopPropagation(); quickBook('Peeling de Diamante', 150)">Agendar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Limpeza de Pele Profunda -->
+          <div class="svc-card-visual" onclick="quickBook('Limpeza de Pele Profunda', 160)">
+            <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80');">
+              <span class="svc-card-badge">60 MIN</span>
+            </div>
+            <div class="svc-card-body">
+              <div class="svc-card-cat">CUIDADO INTENSIVO</div>
+              <div class="svc-card-name">Limpeza de Pele Profunda</div>
+              <div class="svc-card-desc">Higienização com vapor de ozônio, extração sem dor e hidratação profunda.</div>
+              <div class="svc-card-bottom">
+                <div class="svc-card-price">R$ 160,00</div>
+                <button type="button" class="svc-card-btn" onclick="event.stopPropagation(); quickBook('Limpeza de Pele Profunda', 160)">Agendar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Massagem Relaxante -->
+          <div class="svc-card-visual" onclick="quickBook('Massagem Relaxante', 180)">
+            <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80');">
+              <span class="svc-card-badge">50 MIN</span>
+            </div>
+            <div class="svc-card-body">
+              <div class="svc-card-cat">BEM-ESTAR & SPA</div>
+              <div class="svc-card-name">Massagem Relaxante</div>
+              <div class="svc-card-desc">Alívio de tensões musculares com blend exclusivo de óleos essenciais aquecidos.</div>
+              <div class="svc-card-bottom">
+                <div class="svc-card-price">R$ 180,00</div>
+                <button type="button" class="svc-card-btn" onclick="event.stopPropagation(); quickBook('Massagem Relaxante', 180)">Agendar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Drenagem Linfática -->
+          <div class="svc-card-visual" onclick="quickBook('Drenagem Linfática', 160)">
+            <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=600&q=80');">
+              <span class="svc-card-badge">60 MIN</span>
+            </div>
+            <div class="svc-card-body">
+              <div class="svc-card-cat">TERAPIAS CORPORAIS</div>
+              <div class="svc-card-name">Drenagem Linfática</div>
+              <div class="svc-card-desc">Redução imediata de retenção e edemas com manobras precisas e drenantes.</div>
+              <div class="svc-card-bottom">
+                <div class="svc-card-price">R$ 160,00</div>
+                <button type="button" class="svc-card-btn" onclick="event.stopPropagation(); quickBook('Drenagem Linfática', 160)">Agendar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Design de Sobrancelhas -->
+          <div class="svc-card-visual" onclick="quickBook('Design de Sobrancelhas', 90)">
+            <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=600&q=80');">
+              <span class="svc-card-badge">30 MIN</span>
+            </div>
+            <div class="svc-card-body">
+              <div class="svc-card-cat">OLHAR & VISAGISMO</div>
+              <div class="svc-card-name">Design de Sobrancelhas</div>
+              <div class="svc-card-desc">Visagismo facial com alinhamento simétrico e acabamento em henna de longa fixação.</div>
+              <div class="svc-card-bottom">
+                <div class="svc-card-price">R$ 90,00</div>
+                <button type="button" class="svc-card-btn" onclick="event.stopPropagation(); quickBook('Design de Sobrancelhas', 90)">Agendar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 2: PRODUTOS & HOME CARE (ESTILO SISTEMA LOJISTA) -->
+      <div id="pane-cat-prods" class="hidden">
+        <div class="section-eyebrow" style="margin-top:4px;">
+          <span>Produtos para Manutenção em Casa</span>
+          <a href="javascript:void(0)" onclick="openPublicStudioPage()" style="font-size:12px; color:#ff2d87; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:4px; cursor:pointer;">Ver catálogo completo ↗</a>
+        </div>
+        <div class="services-strip">
+          <!-- Produto 1: Sérum Vitamina C 15% -->
+          <div class="svc-card-visual" onclick="openProductPurchaseModal('Sérum Vitamina C 15% (30ml)', 139)">
+            <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1608248597359-59749fb8c5d1?auto=format&fit=crop&w=600&q=80');">
+              <span class="svc-card-badge">✦ MAIS VENDIDO</span>
+            </div>
+            <div class="svc-card-body">
+              <div class="svc-card-cat">DERMOCOSMÉTICOS</div>
+              <div class="svc-card-name">Sérum Vitamina C 15%</div>
+              <div class="svc-card-desc">Uniformiza o tom, ilumina e potencializa o colágeno contra o envelhecimento precoce.</div>
+              <div class="svc-card-bottom">
+                <div class="svc-card-price">R$ 139,00</div>
+                <button type="button" class="svc-card-btn" onclick="event.stopPropagation(); openProductPurchaseModal('Sérum Vitamina C 15% (30ml)', 139)">Reservar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produto 2: Filtro Solar Toque Seco FPS 50 -->
+          <div class="svc-card-visual" onclick="openProductPurchaseModal('Filtro Solar Toque Seco FPS 50', 98)">
+            <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=80');">
+              <span class="svc-card-badge">HOME CARE</span>
+            </div>
+            <div class="svc-card-body">
+              <div class="svc-card-cat">PROTEÇÃO DIÁRIA</div>
+              <div class="svc-card-name">Filtro Solar FPS 50</div>
+              <div class="svc-card-desc">Toque aveludado e efeito mate. Proteção contra radiação solar e luz azul de telas.</div>
+              <div class="svc-card-bottom">
+                <div class="svc-card-price">R$ 98,00</div>
+                <button type="button" class="svc-card-btn" onclick="event.stopPropagation(); openProductPurchaseModal('Filtro Solar Toque Seco FPS 50', 98)">Reservar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produto 3: Óleo Relaxante Lavanda & Bergamota -->
+          <div class="svc-card-visual" onclick="openProductPurchaseModal('Óleo Relaxante Lavanda & Bergamota', 85)">
+            <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=600&q=80');">
+              <span class="svc-card-badge">AROMATERAPIA</span>
+            </div>
+            <div class="svc-card-body">
+              <div class="svc-card-cat">SPA EM CASA</div>
+              <div class="svc-card-name">Óleo Relaxante Lavanda</div>
+              <div class="svc-card-desc">Óleos 100% vegetais prensados a frio para hidratação corporal pós-banho e aromaterapia.</div>
+              <div class="svc-card-bottom">
+                <div class="svc-card-price">R$ 85,00</div>
+                <button type="button" class="svc-card-btn" onclick="event.stopPropagation(); openProductPurchaseModal('Óleo Relaxante Lavanda & Bergamota', 85)">Reservar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produto 4: Máscara Argila Rosa Revitalizante -->
+          <div class="svc-card-visual" onclick="openProductPurchaseModal('Máscara Argila Rosa Revitalizante', 75)">
+            <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1567928815116-43b918bfd37b?auto=format&fit=crop&w=600&q=80');">
+              <span class="svc-card-badge">RITUAL SEMANAL</span>
+            </div>
+            <div class="svc-card-body">
+              <div class="svc-card-cat">CUIDADO SEMANAL</div>
+              <div class="svc-card-name">Máscara Argila Rosa</div>
+              <div class="svc-card-desc">Desintoxica suavemente, reduz a vermelhidão e restaura a luminosidade da pele sensível.</div>
+              <div class="svc-card-bottom">
+                <div class="svc-card-price">R$ 75,00</div>
+                <button type="button" class="svc-card-btn" onclick="event.stopPropagation(); openProductPurchaseModal('Máscara Argila Rosa Revitalizante', 75)">Reservar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indique e Ganhe (Vívido e sem o botão interno de configurar) -->
+      <section class="clean-card" style="margin-top:18px; background:linear-gradient(135deg, rgba(255,215,0,0.12) 0%, rgba(18,18,22,0.98) 100%); border:1px solid rgba(255,215,0,0.35); box-shadow:0 8px 24px rgba(0,0,0,0.6); padding:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span class="badge-popular" id="referral-badge-val" style="background:linear-gradient(135deg, #ffd700, #f59e0b); color:#1a1200; font-weight:800; font-size:11px; padding:3px 10px;">Ganhe R$ 20 em créditos</span>
+            </div>
+            <h3 style="font-size:18px; font-weight:800; color:#ffffff; margin-top:6px;" id="referral-title-text">Indique e ganhe.</h3>
+            <p style="font-size:13px; color:#d4d4d8; line-height:1.45; margin-top:4px;" id="referral-desc-text">
+              Sua amiga ganha 15% de boas-vindas no primeiro procedimento e você recebe R$ 20 em créditos.
+            </p>
+          </div>
+        </div>
+        <button type="button" class="button-primary" style="width:100%; height:42px; font-size:13px; font-weight:700; background:linear-gradient(135deg, #ffd700, #f59e0b); color:#1a1200; border:none; box-shadow:0 4px 14px rgba(245,158,11,0.35); cursor:pointer;" onclick="copyReferralLink()">
+          Copiar link de indicação
+        </button>
+      </section>
+    </div>
+
+    <!-- ================= ABA 2: CRÉDITOS & CUPONS ================= -->
+    <div id="pane-credits" class="view-pane hidden">
+      <!-- Tabs superiores: Saldo & Planos vs Cupons (sem ícone de diamante na tab Saldo & Planos) -->
+      <div class="catalog-tabs" style="margin: 4px 0 16px;">
+        <button type="button" id="tab-credits-balance" class="catalog-tab-btn is-active" onclick="switchCreditsTab('balance')">
+          Saldo & Planos
+        </button>
+        <button type="button" id="tab-credits-coupons" class="catalog-tab-btn" onclick="switchCreditsTab('coupons')">
+          🎟️ Meus Cupons
+        </button>
+      </div>
+
+      <!-- Sub-aba 1: Saldo & Planos de Assinatura -->
+      <div id="pane-sub-credits-balance">
+        <!-- Componente de Bonificação por Agendamentos Recorrentes -->
+        <section class="clean-card" style="background:var(--canvas-soft); border:none; padding:24px 20px; border-radius:var(--rounded-md); margin-bottom:18px;">
+          <p style="font-size:12px; font-weight:456; color:var(--muted); margin-bottom:6px;">Bonificação por agendamentos recorrentes.</p>
+          <div style="font-size:40px; font-weight:652; line-height:1.0; color:var(--ink); margin-bottom:8px;" id="credits-balance-total">R$ 425,00</div>
+          <p style="font-size:13.5px; font-weight:300; color:var(--muted); line-height:1.4; margin-bottom:18px;">
+            Acumule 10% a cada atendimento e utilize como desconto direto no seu próximo procedimento.
+          </p>
+
+          <!-- Nível VIP e Progresso -->
+          <div style="background:var(--canvas); border-radius:var(--rounded-sm); padding:12px 14px; margin-bottom:18px; border:1px solid var(--hairline-soft);">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:600; color:var(--ink); margin-bottom:8px;">
+              <span id="credits-tier-label" style="display:flex; align-items:center; gap:5px;">
+                <span class="gold-bar-badge" style="padding:1px 6px;">
+                  <svg width="14" height="10" viewBox="0 0 32 22" fill="none"><polygon points="7,2 27,2 22,11 2,11" fill="#ffe57f"/><polygon points="2,11 22,11 26,20 5,20" fill="#ffd700"/><polygon points="27,2 31,9 26,20 22,11" fill="#cca010"/></svg>
+                  <span style="font-size:9.5px; font-weight:800; color:#ffd700;">VIP OURO</span>
+                </span>
+                <span>(8/8 agendamentos)</span>
+              </span>
+              <span class="badge-popular" style="background:linear-gradient(135deg, #ffd700, #f59e0b); color:#1a1200; font-weight:800;">+ R$ 20,00 no 8º</span>
+            </div>
+            <div style="width:100%; height:6px; background:var(--hairline); border-radius:var(--rounded-full); overflow:hidden;">
+              <div id="credits-progress-bar" style="height:100%; background:linear-gradient(90deg, #ffd700, #f59e0b); border-radius:var(--rounded-full); width:100%;"></div>
+            </div>
+          </div>
+
+          <!-- Ações do Componente -->
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="button-primary" style="flex:1;" onclick="openBookingModal()">
+              Usar créditos & agendar
+            </button>
+            <button type="button" class="button-outline" onclick="scrollToHistory()">
+              Extrato
+            </button>
+          </div>
+        </section>
+
+        <!-- PLANOS DE ASSINATURA DE CRÉDITOS PARA PROCEDIMENTOS -->
+        <div class="section-eyebrow">
+          <span>Planos de Assinatura para Procedimentos</span>
+          <span class="badge-popular" style="background:linear-gradient(135deg, #ff5f8a, #ef1f4d); color:#fff;">+ Descontos & Prioridade</span>
+        </div>
+        <p style="font-size:12px; color:var(--muted); margin:-6px 0 14px; line-height:1.4;">
+          Assine um plano para realizar seus procedimentos mensais com desconto exclusivo, créditos bônus e prioridade máxima na agenda do estúdio.
+        </p>
+
+        <div class="services-strip" style="margin-bottom:18px;">
+          <!-- Plano 1: Assinatura Bronze -->
+          <div class="service-photo-card" style="flex:0 0 230px; background:var(--canvas); border:1px solid var(--hairline-soft); border-radius:var(--rounded-sm); padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span class="badge-popular" style="background:var(--canvas-soft); color:var(--ink);">Plano Bronze</span>
+                <span style="font-size:10px; color:#34c281; font-weight:700;">10% OFF</span>
+              </div>
+              <div style="font-size:24px; font-weight:652; color:var(--ink); margin:2px 0 2px;">R$ 150<span style="font-size:12px; color:var(--muted); font-weight:400;">/mês</span></div>
+              <div style="font-size:12px; color:var(--accent); font-weight:652; margin-bottom:8px;">Receba R$ 180 (+R$ 30 bônus)</div>
+              
+              <ul style="list-style:none; padding:0; margin:0 0 10px; font-size:11.5px; color:var(--muted); line-height:1.5;">
+                <li style="display:flex; gap:6px; align-items:flex-start;">
+                  <span style="color:#34c281;">✓</span> <span><b>10% de desconto</b> em qualquer procedimento</span>
+                </li>
+                <li style="display:flex; gap:6px; align-items:flex-start;">
+                  <span style="color:#ff5f8a;">★</span> <span><b>Prioridade padrão</b> na fila de agendamento</span>
+                </li>
+                <li style="display:flex; gap:6px; align-items:flex-start;">
+                  <span style="color:#ffd700;">✦</span> <span>Avaliação facial e retorno inclusos</span>
+                </li>
+              </ul>
+            </div>
+            <button type="button" class="button-primary" style="height:36px; font-size:12px; width:100%;" onclick="openPackagePurchaseModal('Plano Assinatura Bronze', 150, 180, 30, '10% de desconto + Prioridade padrão')">
+              Assinar Plano Bronze
+            </button>
+          </div>
+
+          <!-- Plano 2: Assinatura VIP Pro (Mais Escolhido) -->
+          <div class="service-photo-card" style="flex:0 0 240px; background:var(--canvas-soft); border:1px solid rgba(255,95,138,0.4); border-radius:var(--rounded-sm); padding:16px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 4px 16px rgba(255,95,138,0.12);">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span class="badge-popular" style="background:linear-gradient(135deg, #ff5f8a, #ef1f4d); color:#fff;">Mais Escolhido</span>
+                <span style="font-size:10px; color:#ff5f8a; font-weight:800; background:rgba(255,95,138,0.15); padding:2px 6px; border-radius:999px;">20% OFF</span>
+              </div>
+              <div style="font-size:24px; font-weight:652; color:var(--ink); margin:2px 0 2px;">R$ 300<span style="font-size:12px; color:var(--muted); font-weight:400;">/mês</span></div>
+              <div style="font-size:12px; color:var(--accent); font-weight:652; margin-bottom:8px;">Receba R$ 380 (+R$ 80 bônus)</div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 10px; font-size:11.5px; color:var(--ink); line-height:1.5;">
+                <li style="display:flex; gap:6px; align-items:flex-start;">
+                  <span style="color:#34c281;">✓</span> <span><b>20% de desconto</b> em procedimentos e produtos</span>
+                </li>
+                <li style="display:flex; gap:6px; align-items:flex-start;">
+                  <span style="color:#ff5f8a;">⚡</span> <span><b>Prioridade VIP</b> em horários de pico (sábados e noites)</span>
+                </li>
+                <li style="display:flex; gap:6px; align-items:flex-start;">
+                  <span style="color:#ffd700;">★</span> <span>Cashback em dobro (10%) + 1 protocolo facial cortesia</span>
+                </li>
+              </ul>
+            </div>
+            <button type="button" class="button-primary" style="height:36px; font-size:12px; width:100%; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; box-shadow:0 3px 12px rgba(239,31,77,0.35);" onclick="openPackagePurchaseModal('Plano Assinatura VIP Pro', 300, 380, 80, '20% de desconto + Prioridade VIP em horários de pico')">
+              Assinar Plano VIP Pro
+            </button>
+          </div>
+
+          <!-- Plano 3: Assinatura VIP Diamante Club -->
+          <div class="service-photo-card" style="flex:0 0 240px; background:var(--canvas); border:1px solid rgba(255,215,0,0.4); border-radius:var(--rounded-sm); padding:16px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 4px 16px rgba(255,215,0,0.12);">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span class="badge-popular" style="background:linear-gradient(135deg, #ffd700, #f59e0b); color:#1a1200; font-weight:800;">VIP Diamante</span>
+                <span style="font-size:10px; color:#ffd700; font-weight:800; background:rgba(255,215,0,0.15); padding:2px 6px; border-radius:999px;">30% OFF</span>
+              </div>
+              <div style="font-size:24px; font-weight:652; color:var(--ink); margin:2px 0 2px;">R$ 600<span style="font-size:12px; color:var(--muted); font-weight:400;">/mês</span></div>
+              <div style="font-size:12px; color:var(--accent); font-weight:652; margin-bottom:8px;">Receba R$ 800 (+R$ 200 bônus)</div>
+
+              <ul style="list-style:none; padding:0; margin:0 0 10px; font-size:11.5px; color:var(--muted); line-height:1.5;">
+                <li style="display:flex; gap:6px; align-items:flex-start;">
+                  <span style="color:#34c281;">✓</span> <span><b>30% de desconto</b> em todo o estúdio</span>
+                </li>
+                <li style="display:flex; gap:6px; align-items:flex-start;">
+                  <span style="color:#ffd700;">👑</span> <span><b>Prioridade Máxima & Fila Zero</b> com encaixe garantido</span>
+                </li>
+                <li style="display:flex; gap:6px; align-items:flex-start;">
+                  <span style="color:#ff5f8a;">✦</span> <span>1 procedimento cortesia/mês + produtos a preço de custo</span>
+                </li>
+              </ul>
+            </div>
+            <button type="button" class="button-primary" style="height:36px; font-size:12px; width:100%;" onclick="openPackagePurchaseModal('Plano Assinatura VIP Diamante', 600, 800, 200, '30% de desconto + Prioridade Máxima Fila Zero')">
+              Assinar Plano Diamante
+            </button>
+          </div>
+        </div>
+
+        <!-- Histórico de Bonificação -->
+        <div class="section-eyebrow" id="section-credits-history">Histórico de bonificações</div>
+        <div id="credits-history-list">
+          <div class="clean-row">
+            <div>
+              <div class="row-title">Bônus Agendamento Recorrente.</div>
+              <div class="row-sub">Limpeza facial · 15/09/2026</div>
+            </div>
+            <div class="row-val" style="color:var(--accent);">+ R$ 15,00</div>
+          </div>
+          <div class="clean-row">
+            <div>
+              <div class="row-title">Bônus Especial de Aniversário.</div>
+              <div class="row-sub">Concedido pelo estúdio · 01/09/2026</div>
+            </div>
+            <div class="row-val" style="color:var(--accent);">+ R$ 20,00</div>
+          </div>
+          <div class="clean-row">
+            <div>
+              <div class="row-title">Bônus Boas-vindas VIP.</div>
+              <div class="row-sub">Primeiro agendamento · 10/08/2026</div>
+            </div>
+            <div class="row-val" style="color:var(--accent);">+ R$ 10,00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-aba 2: Cupons (Resgatar Cupom & Cupons Disponíveis com UI/UX dedicada) -->
+      <div id="pane-sub-credits-coupons" class="hidden">
+        <section class="clean-card" style="margin-bottom:16px;">
+          <h3 style="font-size:16px; font-weight:700; color:var(--ink); margin-bottom:4px;">Resgatar Cupom de Desconto</h3>
+          <p style="font-size:12px; color:var(--muted); margin-bottom:12px;">Digite o código promocional oferecido pelo estúdio para resgatar na sua conta.</p>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="coupon-redeem-input" class="text-input-field" placeholder="Ex: BEMVINDA15" style="margin:0; text-transform:uppercase; font-weight:700; letter-spacing:0.04em;" />
+            <button type="button" class="button-primary" style="height:44px; padding:0 18px; font-size:12.5px; font-weight:700; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; box-shadow:0 3px 10px rgba(239,31,77,0.3); flex-shrink:0;" onclick="handleRedeemCouponClient()">
+              Resgatar
+            </button>
+          </div>
+        </section>
+
+        <div class="section-eyebrow">Cupons Disponíveis no Studio</div>
+        <div id="client-coupons-active-list" style="display:flex; flex-direction:column; gap:12px;">
+          <!-- Card Cupom 1: BEMVINDA15 -->
+          <div class="clean-card" style="margin-bottom:0; padding:16px; border:1px solid var(--hairline-soft);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+              <div>
+                <span style="font-size:12px; font-weight:800; color:#ff5f8a; background:rgba(255,95,138,0.12); padding:3px 9px; border-radius:6px; letter-spacing:0.04em;">BEMVINDA15</span>
+                <b style="font-size:15px; color:var(--ink); display:block; margin-top:6px;">15% OFF no Estúdio</b>
+                <span style="font-size:12px; color:var(--muted); display:block; margin-top:2px;">15% de desconto no primeiro atendimento</span>
+              </div>
+              <button type="button" class="button-outline" style="height:32px; font-size:11.5px; padding:0 14px; font-weight:700;" onclick="copyCouponCode('BEMVINDA15')">Copiar</button>
+            </div>
+            <div style="font-size:11px; color:var(--muted); border-top:1px dashed var(--hairline-soft); padding-top:8px; margin-top:6px; display:flex; align-items:center; gap:5px;">
+              <span>⏰</span> <span>Válido para clientes VIP Marina Ravi · Configurado pelo Lojista</span>
+            </div>
+          </div>
+
+          <!-- Card Cupom 2: CLIENTEVIP20 -->
+          <div class="clean-card" style="margin-bottom:0; padding:16px; border:1px solid var(--hairline-soft);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+              <div>
+                <span style="font-size:12px; font-weight:800; color:#ff5f8a; background:rgba(255,95,138,0.12); padding:3px 9px; border-radius:6px; letter-spacing:0.04em;">CLIENTEVIP20</span>
+                <b style="font-size:15px; color:var(--ink); display:block; margin-top:6px;">R$ 20,00 OFF no Estúdio</b>
+                <span style="font-size:12px; color:var(--muted); display:block; margin-top:2px;">R$ 20,00 OFF em agendamentos acima de R$ 100</span>
+              </div>
+              <button type="button" class="button-outline" style="height:32px; font-size:11.5px; padding:0 14px; font-weight:700;" onclick="copyCouponCode('CLIENTEVIP20')">Copiar</button>
+            </div>
+            <div style="font-size:11px; color:var(--muted); border-top:1px dashed var(--hairline-soft); padding-top:8px; margin-top:6px; display:flex; align-items:center; gap:5px;">
+              <span>⏰</span> <span>Válido para clientes VIP Marina Ravi · Configurado pelo Lojista</span>
+            </div>
+          </div>
+
+          <!-- Card Cupom 3: ANIVERSARIO50 -->
+          <div class="clean-card" style="margin-bottom:0; padding:16px; border:1px solid var(--hairline-soft);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+              <div>
+                <span style="font-size:12px; font-weight:800; color:#ff5f8a; background:rgba(255,95,138,0.12); padding:3px 9px; border-radius:6px; letter-spacing:0.04em;">ANIVERSARIO50</span>
+                <b style="font-size:15px; color:var(--ink); display:block; margin-top:6px;">R$ 50,00 OFF no Estúdio</b>
+                <span style="font-size:12px; color:var(--muted); display:block; margin-top:2px;">R$ 50,00 de presente no mês do seu aniversário</span>
+              </div>
+              <button type="button" class="button-outline" style="height:32px; font-size:11.5px; padding:0 14px; font-weight:700;" onclick="copyCouponCode('ANIVERSARIO50')">Copiar</button>
+            </div>
+            <div style="font-size:11px; color:var(--muted); border-top:1px dashed var(--hairline-soft); padding-top:8px; margin-top:6px; display:flex; align-items:center; gap:5px;">
+              <span>⏰</span> <span>Válido para clientes VIP Marina Ravi · Configurado pelo Lojista</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= ABA 3: AGENDAMENTOS & PRODUTOS COMPRADOS ================= -->
+    <div id="pane-appts" class="view-pane hidden">
+      <!-- Tabs superiores: Meus Agendamentos vs Produtos Comprados -->
+      <div class="catalog-tabs" style="margin: 4px 0 16px;">
+        <button type="button" id="tab-appts-services" class="catalog-tab-btn is-active" onclick="switchApptsTab('services')">
+          📅 Meus Agendamentos
+        </button>
+        <button type="button" id="tab-appts-products" class="catalog-tab-btn" onclick="switchApptsTab('products')">
+          🛍️ Produtos Comprados
+        </button>
+      </div>
+
+      <!-- Sub-aba 1: Agendamentos -->
+      <div id="pane-sub-appts-services">
+        <div class="section-eyebrow">Próximos agendamentos</div>
+        <section class="clean-card">
+          <div class="appt-header-row">
+            <div>
+              <span class="badge-popular" style="background:var(--ink); margin-bottom:6px;">Confirmado</span>
+              <h2 class="appt-title" id="appts-next-title" style="margin-top:4px;">Limpeza de pele profunda.</h2>
+              <p class="appt-meta">Profissional Marina Ravi · 60 minutos</p>
+            </div>
+            <div class="appt-date-box">
+              <div class="appt-date-time" id="appts-next-date">Hoje às 14:00</div>
+              <div style="font-size:11.5px; color:var(--muted);">Studio Marina Ravi</div>
+            </div>
+          </div>
+          <div class="appt-actions">
+            <button type="button" class="button-outline" style="flex:1;" onclick="openRescheduleModal()">
+              Reagendar horário
+            </button>
+            <a href="https://maps.google.com" target="_blank" rel="noopener" class="button-pill-soft" style="flex:1;">
+              Como chegar ↗
+            </a>
+          </div>
+        </section>
+
+        <div class="section-eyebrow">Histórico de cuidados concluídos</div>
+        <div class="clean-row">
+          <div>
+            <div class="row-title">Drenagem Linfática Corporal.</div>
+            <div class="row-sub">15/08/2026 · Marina Ravi</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="row-val">R$ 150,00</div>
+            <div style="font-size:10.5px; color:var(--accent); font-weight:600;">+ R$ 15 créditos</div>
+          </div>
+        </div>
+        <div class="clean-row">
+          <div>
+            <div class="row-title">Peeling de Diamante.</div>
+            <div class="row-sub">20/07/2026 · Marina Ravi</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="row-val">R$ 150,00</div>
+            <div style="font-size:10.5px; color:var(--accent); font-weight:600;">+ R$ 15 créditos</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-aba 2: Produtos Comprados (esperando estar pronto) -->
+      <div id="pane-sub-appts-products" class="hidden">
+        <div style="background:var(--canvas-soft); border-radius:var(--rounded-sm); padding:12px 14px; margin-bottom:14px; border:1px solid var(--hairline-soft); display:flex; align-items:center; gap:10px;">
+          <span style="font-size:18px;">📦</span>
+          <span style="font-size:11.5px; color:var(--ink); line-height:1.4;">
+            <b>Retirada no Studio:</b> Seus cosméticos comprados ficam reservados para entrega no balcão no seu próximo agendamento!
+          </span>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <!-- Item 1: Sérum Vitamina C 15% -->
+          <div class="clean-card" style="margin-bottom:0; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+              <div style="display:flex; gap:12px; align-items:center;">
+                <div style="width:48px; height:48px; border-radius:12px; overflow:hidden; background:var(--field); flex-shrink:0;">
+                  <img src="https://images.unsplash.com/photo-1608248597359-59749fb8c5d1?auto=format&fit=crop&w=200&q=80" alt="Sérum" style="width:100%; height:100%; object-fit:cover;" />
+                </div>
+                <div>
+                  <b style="font-size:14px; color:var(--ink); display:block;">Sérum Vitamina C 15% (30ml)</b>
+                  <span style="font-size:11px; color:var(--muted);">Pedido #8492 · Pago via Pix</span>
+                </div>
+              </div>
+              <b style="font-size:14px; color:var(--ink);">R$ 139,00</b>
+            </div>
+            <div style="background:var(--field); border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:11px; color:var(--muted);">Status da preparação:</span>
+              <span style="display:inline-flex; align-items:center; gap:5px; background:rgba(255,183,0,0.18); color:#f59e0b; border:1px solid rgba(255,183,0,0.4); font-size:10.5px; font-weight:800; padding:2px 8px; border-radius:999px;">
+                ⏳ Esperando estar pronto
+              </span>
+            </div>
+            <span style="font-size:11px; color:var(--muted); display:block; margin-top:6px;">
+              📍 Previsão: Retirada no balcão hoje durante seu atendimento das 14:00.
+            </span>
+          </div>
+
+          <!-- Item 2: Filtro Solar Toque Seco FPS 50 -->
+          <div class="clean-card" style="margin-bottom:0; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+              <div style="display:flex; gap:12px; align-items:center;">
+                <div style="width:48px; height:48px; border-radius:12px; overflow:hidden; background:var(--field); flex-shrink:0;">
+                  <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=200&q=80" alt="Filtro solar" style="width:100%; height:100%; object-fit:cover;" />
+                </div>
+                <div>
+                  <b style="font-size:14px; color:var(--ink); display:block;">Filtro Solar Toque Seco FPS 50</b>
+                  <span style="font-size:11px; color:var(--muted);">Pedido #8410 · Pago via Cartão</span>
+                </div>
+              </div>
+              <b style="font-size:14px; color:var(--ink);">R$ 98,00</b>
+            </div>
+            <div style="background:var(--field); border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:11px; color:var(--muted);">Status da preparação:</span>
+              <span style="display:inline-flex; align-items:center; gap:5px; background:rgba(52,194,129,0.18); color:#34c281; border:1px solid rgba(52,194,129,0.4); font-size:10.5px; font-weight:800; padding:2px 8px; border-radius:999px;">
+                ✓ Pronto para retirada no Studio
+              </span>
+            </div>
+            <span style="font-size:11px; color:var(--muted); display:block; margin-top:6px;">
+              📍 Disponível na recepção com a profissional Marina Ravi.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= ABA 4: CONFIGURAÇÕES DA CONTA (AJUSTES) ================= -->
+    <div id="pane-config" class="view-pane hidden">
+
+      <!-- 1. NÍVEL FIDELIDADE VIP OURO COM PROGRESSO DE OURO (PRIMEIRO COMPONENTE) -->
+      <section class="clean-card" style="background:var(--canvas-soft); border:1px solid rgba(255,215,0,0.35); margin-bottom:16px; box-shadow: 0 4px 18px rgba(255,215,0,0.08);">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+          <div>
+            <span style="font-size:11.5px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Nível Fidelidade</span>
+            <div style="display:flex; align-items:center; gap:8px; margin-top:2px;">
+              <h2 style="font-size:22px; font-weight:800; color:var(--ink); margin:0;" id="cfg-tier-title">VIP OURO.</h2>
+              <!-- Ícone de barra de ouro VIP (apenas figura, sem o texto) -->
+              <span class="gold-bar-badge" title="Status Barra de Ouro VIP Ouro" style="padding:4px 6px;">
+                <svg width="22" height="15" viewBox="0 0 32 22" fill="none">
+                  <polygon points="7,2 27,2 22,11 2,11" fill="#ffe57f" stroke="#cca010" stroke-width="0.8"/>
+                  <text x="14.5" y="7.5" font-size="4" font-weight="900" fill="#664800" text-anchor="middle">999.9</text>
+                  <polygon points="2,11 22,11 26,20 5,20" fill="#ffd700" stroke="#b8860b" stroke-width="0.8"/>
+                  <text x="14" y="16.5" font-size="4.5" font-weight="900" fill="#4d3600" text-anchor="middle">GOLD</text>
+                  <polygon points="27,2 31,9 26,20 22,11" fill="#cca010" stroke="#664800" stroke-width="0.8"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+          <span class="badge-popular" id="cfg-tier-badge" style="background:linear-gradient(135deg, #ffd700, #f59e0b); color:#1a1200; font-weight:800; border:none; padding:4px 10px; box-shadow:0 2px 8px rgba(245,158,11,0.3);">
+            Nível Ativo
+          </span>
+        </div>
+        <p style="font-size:13px; color:var(--muted); line-height:1.45; margin:10px 0 14px;">
+          Você acumulou 8 atendimentos no estúdio. Nível <b style="color:#ffd700;">VIP OURO</b> ativo com cashback e bônus contínuos liberados!
+        </p>
+
+        <!-- Barra de Progresso de Categoria (De Ouro para VIP Ouro) -->
+        <div style="background:var(--canvas); border-radius:var(--rounded-sm); padding:12px 14px; border:1px solid rgba(255,215,0,0.3);">
+          <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700; color:var(--ink); margin-bottom:8px;">
+            <span style="display:flex; align-items:center; gap:6px;">
+              <span style="color:#d97706;">✦</span> Progresso da Categoria
+            </span>
+            <span style="color:#b45309; font-weight:800;" id="cfg-progress-label">8 de 8 atendimentos (100%)</span>
+          </div>
+          <!-- Barra de progresso de ouro com brilho e gradiente dourado -->
+          <div style="width:100%; height:8px; background:var(--hairline); border-radius:var(--rounded-full); overflow:hidden; border:1px solid rgba(255,215,0,0.25);">
+            <div id="cfg-gold-progress-bar" style="height:100%; background:linear-gradient(90deg, #ffd700 0%, #ffb800 50%, #f59e0b 100%); border-radius:var(--rounded-full); width:100%; box-shadow:0 0 12px rgba(255, 215, 0, 0.8);"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. MEUS DETALHES (CLIQUE PARA ABRIR O MODAL COMPLETO) -->
+      <section class="clean-card" style="margin-bottom:16px; cursor:pointer;" onclick="openClientDetailsModal()">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:52px; height:52px; border-radius:50%; overflow:hidden; border:2px solid rgba(255,255,255,0.2); flex-shrink:0;">
+              <img id="cfg-summary-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Avatar" style="width:100%; height:100%; object-fit:cover;" />
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <h3 style="font-size:16px; font-weight:700; color:var(--ink); margin:0;" id="cfg-summary-name">Carla Mendes</h3>
+                <span class="badge-popular" style="padding:2px 7px; font-size:10px; background:rgba(255,45,135,0.15); color:#ff5f8a; border:1px solid rgba(255,45,135,0.3);">
+                  VIP OURO
+                </span>
+              </div>
+              <p style="font-size:11.5px; color:var(--muted); margin-top:2px;" id="cfg-summary-sub">
+                8 atendimentos · R$ 425,00 créditos · R$ 120 cashback
+              </p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:4px; color:#ff2d87; font-size:12.5px; font-weight:700;">
+            <span>Abrir Meus Detalhes</span>
+            <span>➔</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. SEÇÃO DA FICHA DE ANAMNESE (MULTITENANT CONFORME CONFIGURAÇÃO DO LOJISTA) -->
+      <section class="clean-card" id="cfg-anamnese-card" style="cursor:pointer;" onclick="handleAnamneseCardClick()">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; border-radius:12px; background:var(--field); display:grid; place-items:center; font-size:18px;" id="cfg-anamnese-icon">
+              📋
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <b style="font-size:15px; color:var(--ink); display:block;" id="cfg-anamnese-title">Minha Ficha de Anamnese</b>
+                <span id="cfg-anamnese-status-badge" style="font-size:10px; background:rgba(52,194,129,0.15); color:#34c281; padding:2px 7px; border-radius:999px; font-weight:800;">ATIVO</span>
+              </div>
+              <span style="font-size:12px; color:var(--muted);" id="cfg-anamnese-subtitle">Tipo de pele, sensibilidade e orientações Home Care</span>
+            </div>
+          </div>
+          <span style="font-size:13px; color:#ff2d87; font-weight:700;" id="cfg-anamnese-arrow">Abrir ➔</span>
+        </div>
+      </section>
+
+      <!-- 3. Seção para a Página de Indicar com Link de Afiliado -->
+      <section class="clean-card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+          <div>
+            <span class="badge-popular" style="margin-bottom:6px;">Programa de Afiliadas</span>
+            <h3 style="font-size:16px; font-weight:652; color:var(--ink); margin-top:2px;">Indicar com Link de Afiliado.</h3>
+            <p style="font-size:12.5px; color:var(--muted); line-height:1.4; margin-top:4px;">
+              Compartilhe seu link exclusivo do estúdio. A cada amiga que agendar, ela recebe 15% de boas-vindas e você ganha <b>R$ 20 em créditos imediatos</b>.
+            </p>
+          </div>
+        </div>
+
+        <div style="background:var(--field); border-radius:var(--rounded-sm); padding:10px 14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:12px; color:var(--ink); font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" id="cfg-affiliate-link">
+            https://agendo.link/marinaravi/app?afiliada=carlamendes
+          </span>
+          <span style="font-size:11px; color:var(--accent); font-weight:700; flex-shrink:0; margin-left:8px;">SEU LINK</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+          <div style="background:var(--canvas-soft); padding:10px 12px; border-radius:var(--rounded-sm); text-align:center;">
+            <span style="font-size:11px; color:var(--muted); display:block;">Amigas que Agendaram</span>
+            <b style="font-size:17px; color:var(--ink);">3</b>
+          </div>
+          <div style="background:var(--canvas-soft); padding:10px 12px; border-radius:var(--rounded-sm); text-align:center;">
+            <span style="font-size:11px; color:var(--muted); display:block;">Créditos Ganhos</span>
+            <b style="font-size:17px; color:var(--accent);">R$ 60,00</b>
+          </div>
+        </div>
+
+        <button type="button" class="button-outline" style="width:100%;" onclick="copyReferralLink()">
+          Copiar link de afiliada
+        </button>
+      </section>
+
+      <!-- 4. Seção de Página Pública do Estabelecimento -->
+      <section class="clean-card" style="cursor:pointer;" onclick="openPublicStudioPage()">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; border-radius:12px; background:var(--field); display:grid; place-items:center; font-size:18px;">
+              🏪
+            </div>
+            <div>
+              <b style="font-size:15px; color:var(--ink); display:block;">Página Pública do Estabelecimento</b>
+              <span style="font-size:12px; color:var(--muted);">Studio Marina Ravi · Procedimentos e agendamento avulso</span>
+            </div>
+          </div>
+          <span style="font-size:13px; color:var(--muted); font-weight:700;">Visitar ↗</span>
+        </div>
+      </section>
+
+      <!-- 5. Troca de Senha e E-mail (Minimizado por Padrão) -->
+      <section class="clean-card" style="margin-bottom:14px; overflow:hidden;">
+        <div onclick="toggleSecuritySection()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:36px; height:36px; border-radius:10px; background:var(--field); display:grid; place-items:center; font-size:16px;">
+              🔒
+            </div>
+            <div>
+              <b style="font-size:14.5px; color:var(--ink); display:block;">Segurança e Conta do Cliente</b>
+              <span style="font-size:11.5px; color:var(--muted);">E-mail e redefinição de senha</span>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:10px; font-weight:700; background:var(--field); color:var(--muted); padding:3px 8px; border-radius:999px;">Minimizado</span>
+            <span id="sec-chevron" style="font-size:14px; color:var(--muted); font-weight:700; transition:transform 0.2s ease;">⌄</span>
+          </div>
+        </div>
+
+        <div id="sec-form-container" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--hairline-soft);">
+          <p style="font-size:12.5px; color:var(--muted); margin-bottom:14px;">Atualize seu endereço de e-mail e senha de acesso.</p>
+          <form onsubmit="handleAccountSecurityUpdate(event)">
+            <div style="margin-bottom:12px;">
+              <label style="font-size:11.5px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">E-mail cadastrado</label>
+              <input type="email" id="cfg-user-email" class="text-input-field" value="carla.mendes@email.com" required />
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;">
+              <div>
+                <label style="font-size:11.5px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Nova senha</label>
+                <input type="password" id="cfg-new-pass" class="text-input-field" placeholder="••••••••" />
+              </div>
+              <div>
+                <label style="font-size:11.5px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Confirmar senha</label>
+                <input type="password" id="cfg-conf-pass" class="text-input-field" placeholder="••••••••" />
+              </div>
+            </div>
+
+            <button type="submit" class="button-primary" style="width:100%; height:40px; font-size:13px;">
+              Salvar alterações de login ✓
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 6. Sair da Conta -->
+      <section style="margin-top:10px; margin-bottom:20px;">
+        <button type="button" class="button-outline" style="width:100%; height:44px; color:#ef1f4d; border-color:rgba(239,31,77,0.3);" onclick="handleLogoutClient()">
+          Encerrar sessão / Sair da conta
+        </button>
+      </section>
+
+      <!-- 7. Rodapé Mobbin Exclusivo da Página de Configuração Conforme Solicitado -->
+      <footer class="inverted-footer" style="margin:20px -16px -18px;">
+        <div class="footer-brand">agendo.</div>
+        <p class="footer-desc">
+          Tecnologia e conveniência para agendamentos inteligentes e fidelização contínua.
+        </p>
+        <div class="footer-links">
+          <a href="/painel-agenda">Painel do Estúdio ↗</a>
+          <a href="/planos">Planos SaaS</a>
+          <a href="/landingpage">Sobre a Plataforma</a>
+        </div>
+      </footer>
+
+    </div>
+
+  </main>
+
+  <!-- Floating Stadium Bottom Nav (Créditos no lugar de Agendados, e Agendados no lugar de Créditos) -->
+  <nav class="floating-bottom-nav" aria-label="Navegação inferior">
+    <button type="button" class="bottom-nav-item is-active" data-tab="home" onclick="switchTab('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7"/><path d="M5 10v9a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1v-9"/></svg>
+      Início
+    </button>
+    <button type="button" class="bottom-nav-item" data-tab="credits" onclick="switchTab('credits')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.8 9A2 2 0 0 0 13 8h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1-1.8-1"/><path d="M12 6v2m0 8v2"/></svg>
+      <span class="nav-label">Créditos</span>
+    </button>
+    <button type="button" class="bottom-nav-fab" onclick="openBookingModal()" title="Novo agendamento">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+    <button type="button" class="bottom-nav-item" data-tab="appts" onclick="switchTab('appts')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+      Agendados
+    </button>
+    <button type="button" class="bottom-nav-item" data-tab="config" onclick="switchTab('config')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Ajustes
+    </button>
+  </nav>
+
+</div>
+
+<!-- MODAL: FICHA DE ANAMNESE DIGITAL COMPLETA -->
+<div id="modal-ficha-anamnese" class="modal-backdrop" onclick="handleBackdropClick(event, 'modal-ficha-anamnese')">
+  <div class="modal-window">
+    <div class="modal-top">
+      <h3 class="modal-heading">Minha Ficha de Anamnese.</h3>
+      <button type="button" class="modal-close-btn" onclick="closeModal('modal-ficha-anamnese')">✕</button>
+    </div>
+    <p style="font-size:12.5px; color:var(--muted); line-height:1.4; margin-bottom:16px;">
+      Histórico dermatológico, sensibilidade e prescrições do profissional responsável.
+    </p>
+
+    <div class="field-grid">
+      <div class="field-cell">
+        <div class="field-cell-label">Tipo de pele</div>
+        <div class="field-cell-val" id="modal-ficha-skin">Mista / Oleosa Z-T</div>
+      </div>
+      <div class="field-cell">
+        <div class="field-cell-label">Sensibilidade</div>
+        <div class="field-cell-val">Grau Leve</div>
+      </div>
+      <div class="field-cell">
+        <div class="field-cell-label">Alergias relatadas</div>
+        <div class="field-cell-val">Nenhuma restrição</div>
+      </div>
+      <div class="field-cell">
+        <div class="field-cell-label">Último procedimento</div>
+        <div class="field-cell-val">Drenagem (Ago/26)</div>
+      </div>
+    </div>
+
+    <!-- Campos Dinâmicos da Anamnese Configurados pelo Lojista -->
+    <div id="modal-anamnese-dynamic-client" style="margin-bottom:12px;"></div>
+
+    <div style="background:var(--canvas-soft); border-radius:var(--rounded-sm); padding:14px; margin-bottom:12px;">
+      <div style="font-size:12px; font-weight:652; color:var(--ink); margin-bottom:4px;">Rotina Home Care indicada.</div>
+      <p style="font-size:12px; color:var(--muted); line-height:1.45;">
+        Manter fotoproteção FPS 50 reaplicada a cada 3 horas. Hidratação noturna calmante com sérum de ácido hialurônico.
+      </p>
+    </div>
+
+    <div class="clean-row" style="margin-bottom:16px; background:var(--field);">
+      <div>
+        <div class="row-sub">Termo de consentimento livre e esclarecido</div>
+        <div class="row-title" id="modal-ficha-consent">Assinado digitalmente por Carla Mendes</div>
+      </div>
+      <span style="font-size:12px; font-weight:652; color:var(--ink);">✓ Válido</span>
+    </div>
+
+    <button type="button" class="button-outline" style="width:100%;" onclick="closeModal('modal-ficha-anamnese')">
+      Fechar Ficha
+    </button>
+  </div>
+</div>
+
+<!-- MODAL: MEUS DETALHES COMPLETOS -->
+<div id="modal-client-details" class="modal-backdrop" onclick="handleBackdropClick(event, 'modal-client-details')">
+  <div class="modal-window" style="max-height:90vh; overflow-y:auto;">
+    <div class="modal-top">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,45,135,0.15); display:grid; place-items:center; color:#ff5f8a; font-size:16px;">
+          👤
+        </div>
+        <h3 class="modal-heading" style="margin:0;">Meus Detalhes</h3>
+      </div>
+      <button type="button" class="modal-close-btn" onclick="closeModal('modal-client-details')">✕</button>
+    </div>
+
+    <!-- 4 Blocos de Resumo e Estatísticas Solicitados -->
+    <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:8px; margin-bottom:16px;">
+      <div style="background:var(--canvas-soft); padding:10px 12px; border-radius:var(--rounded-sm); border:1px solid var(--hairline-soft);">
+        <span style="font-size:10.5px; color:var(--muted); display:block;">Nível Atual</span>
+        <div style="font-size:14px; color:var(--ink); font-weight:800; display:flex; align-items:center; gap:5px; margin-top:2px;">
+          <span>VIP OURO</span>
+        </div>
+      </div>
+      <div style="background:var(--canvas-soft); padding:10px 12px; border-radius:var(--rounded-sm); border:1px solid var(--hairline-soft);">
+        <span style="font-size:10.5px; color:var(--muted); display:block;">Total de Atendimento</span>
+        <b style="font-size:14.5px; color:var(--ink);" id="details-stat-atend">8 atendimentos</b>
+      </div>
+      <div style="background:var(--canvas-soft); padding:10px 12px; border-radius:var(--rounded-sm); border:1px solid var(--hairline-soft);">
+        <span style="font-size:10.5px; color:var(--muted); display:block;">Total de Créditos</span>
+        <b style="font-size:14.5px; color:var(--ink);" id="details-stat-credits">R$ 425,00</b>
+      </div>
+      <div style="background:var(--canvas-soft); padding:10px 12px; border-radius:var(--rounded-sm); border:1px solid var(--hairline-soft);">
+        <span style="font-size:10.5px; color:var(--muted); display:block;">Cashback Ganho</span>
+        <b style="font-size:14.5px; color:#ff5f8a;" id="details-stat-cashback">R$ 120,00</b>
+      </div>
+    </div>
+
+    <!-- Formulário com Blocos Editáveis -->
+    <form onsubmit="handleSaveClientDetails(event)" style="display:flex; flex-direction:column; gap:12px;">
+      <!-- Bloco 1: Foto do Perfil (Upload Moderno de Foto Única) -->
+      <div style="background:var(--canvas-soft); border-radius:var(--rounded-sm); padding:16px; border:1px solid var(--hairline); text-align:center;">
+        <label style="font-size:12px; font-weight:700; color:var(--ink); display:block; margin-bottom:12px;">Foto do Perfil</label>
+        
+        <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+          <!-- Avatar interativo com badge de câmera -->
+          <div style="position:relative; width:80px; height:80px; cursor:pointer;" onclick="document.getElementById('details-file-upload-input').click()" title="Clique para escolher uma nova foto">
+            <div style="width:80px; height:80px; border-radius:50%; overflow:hidden; border:2.5px solid var(--accent); background:#000; box-shadow:0 4px 14px rgba(0,0,0,0.5);">
+              <img id="details-avatar-preview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Avatar" style="width:100%; height:100%; object-fit:cover;" />
+            </div>
+            <div style="position:absolute; bottom:0; right:0; width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); color:#fff; display:grid; place-items:center; border:2px solid #000; box-shadow:0 2px 6px rgba(0,0,0,0.4); font-size:12px;">
+              📷
+            </div>
+          </div>
+
+          <input type="file" id="details-file-upload-input" accept="image/*" style="display:none;" onchange="handleSingleAvatarUpload(event)" />
+          
+          <button type="button" class="button-pill-soft" style="height:32px; font-size:11.5px; padding:0 14px; background:rgba(255,45,135,0.12); color:#ff5f8a; border:1px solid rgba(255,45,135,0.3); font-weight:700; cursor:pointer;" onclick="document.getElementById('details-file-upload-input').click()">
+            Alterar Foto do Perfil
+          </button>
+          
+          <!-- Input opcional para URL direta -->
+          <div style="width:100%; margin-top:4px;">
+            <input type="text" id="details-input-avatar" class="text-input-field" style="font-size:11px; height:34px; padding:6px 10px; text-align:center;" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" oninput="updateAvatarPreview(this.value)" placeholder="Ou cole a URL direta de uma foto..." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 2: Apelido / Como gosta de ser chamada -->
+      <div>
+        <label style="font-size:11.5px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Apelido / Como gosta de ser chamada</label>
+        <input type="text" id="details-input-nickname" class="text-input-field" value="Carla Mendes" placeholder="Ex: Carla Mendes" required />
+      </div>
+
+      <!-- Bloco 3: Telefone / WhatsApp -->
+      <div>
+        <label style="font-size:11.5px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">WhatsApp / Telefone para Notificações</label>
+        <input type="tel" id="details-input-phone" class="text-input-field" value="(11) 98765-4321" placeholder="(11) 98765-4321" required />
+      </div>
+
+      <!-- Bloco 4: Preferências & Cuidados Especiais -->
+      <div>
+        <label style="font-size:11.5px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Minhas Preferências & Cuidados Especiais</label>
+        <textarea id="details-input-pref" class="text-input-field" style="min-height:64px; resize:vertical;" placeholder="Ex: Prefiro procedimentos com produtos hipoalergênicos...">Prefiro procedimentos com produtos hipoalergênicos e esfoliação suave.</textarea>
+      </div>
+
+      <!-- Botão Atualizar Meus Dados -->
+      <button type="submit" class="button-primary" style="width:100%; height:44px; font-size:13.5px; font-weight:700; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; box-shadow:0 3px 12px rgba(239,31,77,0.35); cursor:pointer;">
+        Atualizar Meus Dados ✓
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ASSINATURA DE PLANO / PACOTE DE CRÉDITOS PARA PROCEDIMENTOS -->
+<div id="modal-buy-package" class="modal-backdrop" onclick="handleBackdropClick(event, 'modal-buy-package')">
+  <div class="modal-window">
+    <div class="modal-top">
+      <div>
+        <span class="badge-popular" style="background:linear-gradient(135deg, #ff5f8a, #ef1f4d); color:#fff; font-size:10px;">Assinatura Mensal</span>
+        <h3 class="modal-heading" style="margin-top:2px;">Plano para Procedimentos.</h3>
+      </div>
+      <button type="button" class="modal-close-btn" onclick="closeModal('modal-buy-package')">✕</button>
+    </div>
+    
+    <div style="background:var(--canvas-soft); border-radius:var(--rounded-sm); padding:16px; margin-bottom:16px; border:1px solid rgba(255,95,138,0.25);">
+      <h4 style="font-size:18px; font-weight:700; color:var(--ink);" id="buy-pkg-title">Plano Assinatura VIP Pro</h4>
+      <p style="font-size:12px; color:var(--muted); margin:4px 0 10px;" id="buy-pkg-benefits-desc">
+        Desconto exclusivo em procedimentos, créditos todo mês e prioridade VIP na agenda.
+      </p>
+      
+      <div style="display:flex; justify-content:space-between; margin-top:12px; font-size:13px;">
+        <span style="color:var(--muted);">Valor mensal:</span>
+        <b style="font-size:15px; color:var(--ink);" id="buy-pkg-pay">R$ 300,00/mês</b>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-top:4px; font-size:13px;">
+        <span style="color:var(--accent); font-weight:600;">Créditos recebidos todo mês:</span>
+        <b style="font-size:16px; color:var(--accent);" id="buy-pkg-receive">R$ 380,00</b>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-top:4px; font-size:12px; border-top:1px solid var(--hairline); padding-top:8px;">
+        <span style="color:var(--muted);">Bônus líquido em créditos:</span>
+        <b style="color:var(--accent);" id="buy-pkg-bonus">+ R$ 80,00 todo mês</b>
+      </div>
+    </div>
+
+    <!-- Benefícios do Plano -->
+    <div style="background:var(--field); border-radius:var(--rounded-sm); padding:12px 14px; margin-bottom:14px;">
+      <div style="font-size:11.5px; font-weight:700; color:var(--ink); margin-bottom:6px;">⚡ Seus Benefícios Exclusivos:</div>
+      <div style="font-size:11.5px; color:var(--muted); line-height:1.5;" id="buy-pkg-extra-perks">
+        ✓ Desconto garantido de 10% a 30% em procedimentos<br>
+        ✓ Prioridade de agendamento em horários concorridos<br>
+        ✓ Acúmulo contínuo de cashback no saldo VIP
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <label style="font-size:12px; font-weight:600; color:var(--muted); display:block; margin-bottom:6px;">Forma de Pagamento</label>
+      <select class="text-input-field" id="buy-pkg-method">
+        <option selected>⚡ Pix Instantâneo (Ativação Imediata)</option>
+        <option>💳 Cartão de Crédito Recorrente (Sem comprometer limite)</option>
+      </select>
+    </div>
+
+    <button type="button" class="button-primary" style="width:100%; height:46px; font-weight:700; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; box-shadow:0 4px 14px rgba(239,31,77,0.35);" onclick="confirmPackagePurchase()">
+      Confirmar Assinatura & Ativar Benefícios ✓
+    </button>
+  </div>
+</div>
+
+<!-- Modal de Agendamento -->
+<div id="modal-booking" class="modal-backdrop" onclick="handleBackdropClick(event, 'modal-booking')">
+  <div class="modal-window">
+    <div class="modal-top">
+      <h3 class="modal-heading">Novo agendamento.</h3>
+      <button type="button" class="modal-close-btn" onclick="closeModal('modal-booking')">✕</button>
+    </div>
+
+    <!-- 1. Procedimento em formato de lista (semelhante ao catálogo) -->
+    <div style="margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <label style="font-size:12px; font-weight:600; color:var(--ink);">Escolha o Procedimento</label>
+        <span style="font-size:11px; color:var(--muted);" id="booking-catalog-count">6 disponíveis</span>
+      </div>
+      <div class="svc-catalog-list" id="booking-services-list">
+        <!-- Renderizado dinamicamente via JS com foto, título, duração, descrição e preço -->
+      </div>
+    </div>
+
+    <!-- 2. Data em Formato de Calendário -->
+    <div style="margin-bottom:16px;">
+      <label style="font-size:12px; font-weight:600; color:var(--ink); display:block; margin-bottom:8px;">Selecione a Data</label>
+      <div class="calendar-container">
+        <div class="cal-nav-row">
+          <button type="button" class="cal-nav-btn" onclick="changeBookingMonth(-1)">‹</button>
+          <span class="cal-month-title" id="booking-cal-month-title">Outubro 2026</span>
+          <button type="button" class="cal-nav-btn" onclick="changeBookingMonth(1)">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <span>DOM</span><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SÁB</span>
+        </div>
+        <div class="cal-days-grid" id="booking-cal-days-grid">
+          <!-- Dias gerados via JS -->
+        </div>
+        <div class="cal-selected-preview">
+          <span style="color:var(--muted); font-size:11px;">Data do atendimento:</span>
+          <b id="booking-selected-date-label">Terça-feira, 06 de Outubro</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Horários Disponíveis em Pills -->
+    <div style="margin-bottom:16px;">
+      <label style="font-size:12px; font-weight:600; color:var(--ink); display:block; margin-bottom:8px;">Horários Disponíveis</label>
+      <div class="time-pills-wrap" id="booking-time-pills-container">
+        <!-- Pills geradas via JS -->
+      </div>
+    </div>
+
+    <!-- Resumo com Desconto de Créditos -->
+    <div style="background:var(--canvas-soft); border-radius:var(--rounded-sm); padding:16px; margin-bottom:20px; border:1px solid var(--hairline-soft);">
+      <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px;">
+        <span style="color:var(--muted);" id="book-summary-svc-name">Limpeza de Pele Profunda:</span>
+        <span style="font-weight:600;" id="book-val-raw">R$ 180,00</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px;">
+        <span style="color:var(--accent); font-weight:600;">✦ Desconto fidelidade:</span>
+        <span style="color:var(--accent); font-weight:652;" id="book-val-credit">- R$ 45,00</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:14.5px; font-weight:652; border-top:1px solid var(--hairline); padding-top:10px; margin-top:6px;">
+        <span>Total a pagar:</span>
+        <span id="book-val-final">R$ 135,00</span>
+      </div>
+      <div style="font-size:11.5px; color:var(--muted); margin-top:8px;" id="book-summary-datetime">
+        🗓 Terça-feira, 06/10 às 14:00 · Sala 02
+      </div>
+    </div>
+
+    <button type="button" class="button-primary" style="width:100%; height:46px; font-size:14px;" onclick="confirmBooking()">
+      Confirmar agendamento
+    </button>
+  </div>
+</div>
+
+<!-- Modal de Reagendamento com Calendário e Horários em Pill -->
+<div id="modal-reschedule" class="modal-backdrop" onclick="handleBackdropClick(event, 'modal-reschedule')">
+  <div class="modal-window">
+    <div class="modal-top">
+      <h3 class="modal-heading">Reagendar atendimento.</h3>
+      <button type="button" class="modal-close-btn" onclick="closeModal('modal-reschedule')">✕</button>
+    </div>
+    <p style="font-size:13px; color:var(--muted); line-height:1.4; margin-bottom:16px;">
+      Selecione um novo dia e horário disponível com a profissional Marina Ravi.
+    </p>
+
+    <!-- Calendário de Reagendamento -->
+    <div style="margin-bottom:16px;">
+      <label style="font-size:12px; font-weight:600; color:var(--ink); display:block; margin-bottom:8px;">Novo Dia</label>
+      <div class="calendar-container">
+        <div class="cal-nav-row">
+          <button type="button" class="cal-nav-btn" onclick="changeReschedMonth(-1)">‹</button>
+          <span class="cal-month-title" id="resched-cal-month-title">Outubro 2026</span>
+          <button type="button" class="cal-nav-btn" onclick="changeReschedMonth(1)">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <span>DOM</span><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SÁB</span>
+        </div>
+        <div class="cal-days-grid" id="resched-cal-days-grid">
+          <!-- Dias gerados via JS -->
+        </div>
+        <div class="cal-selected-preview">
+          <span style="color:var(--muted); font-size:11px;">Nova data escolhida:</span>
+          <b id="resched-selected-date-label">Sexta-feira, 09 de Outubro</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horários em Pills de Reagendamento -->
+    <div style="margin-bottom:20px;">
+      <label style="font-size:12px; font-weight:600; color:var(--ink); display:block; margin-bottom:8px;">Novo Horário Disponível</label>
+      <div class="time-pills-wrap" id="resched-time-pills-container">
+        <!-- Pills geradas via JS -->
+      </div>
+    </div>
+
+    <button type="button" class="button-primary" style="width:100%; height:46px;" onclick="confirmReschedule()">
+      Confirmar novo horário
+    </button>
+  </div>
+</div>
+
+<!-- Toast Pill Notification -->
+<div id="toast" class="toast-pill">Mensagem confirmada.</div>
+
+<script>
+  let activeTab = 'home';
+  let activePersona = 'c1';
+
+  // Personas com dados do cliente e histórico RCM integrado
+  let personas = {
+    c1: {
+      name: 'Carla Mendes',
+      nickname: 'Carla Mendes',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      phone: '(11) 98765-4321',
+      totalSpend: 1840,
+      tier: 'VIP OURO',
+      credits: 425,
+      totalCashback: 120,
+      apptsCount: 8,
+      nextSvc: 'Limpeza de pele profunda.',
+      nextDate: 'Hoje às 14:00',
+      skin: 'Mista / Oleosa Z-T',
+      pref: 'Prefiro procedimentos com produtos hipoalergênicos e esfoliação suave.'
+    },
+    c2: {
+      name: 'Ana Carolina',
+      nickname: 'Carol',
+      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+      phone: '(11) 98221-4470',
+      totalSpend: 980,
+      tier: 'VIP PRATA',
+      credits: 30,
+      totalCashback: 75,
+      apptsCount: 4,
+      nextSvc: 'Design de sobrancelhas.',
+      nextDate: 'Amanhã às 10:30',
+      skin: 'Seca e Sensível',
+      pref: 'Extração leve com vapor de ozônio e protetor solar FPS 50.'
+    },
+    c3: {
+      name: 'Beatriz Lima',
+      nickname: 'Bia',
+      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
+      phone: '(11) 97123-8890',
+      totalSpend: 1620,
+      tier: 'VIP DIAMANTE',
+      credits: 80,
+      totalCashback: 210,
+      apptsCount: 9,
+      nextSvc: 'Harmonização facial.',
+      nextDate: 'Sexta às 16:00',
+      skin: 'Normal / Madura',
+      pref: 'Pele sensível, prefere produtos sem fragrância.'
+    }
+  };
+
+  // Configurações do Lojista: Banner da Home (Configurado exclusivamente pelo lojista no painel)
+  let bannerConfig = {
+    tag: '✦ Novidade da Semana',
+    title: 'Semana da Beleza & Renovação Facial.',
+    desc: 'Agende procedimentos combinados e ganhe créditos em dobro direto no seu saldo VIP.',
+    cta: 'Aproveitar bônus ↗',
+    img: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1000&q=80'
+  };
+
+  // Configurações do Lojista: Indique e Ganhe
+  let referralConfig = {
+    reward: 'R$ 20',
+    discount: '15%',
+    title: 'Indique e ganhe.',
+    desc: 'Sua amiga ganha 15% de boas-vindas no primeiro procedimento e você recebe R$ 20 em créditos.'
+  };
+
+  // Pacote de Créditos selecionado no momento da compra
+  let selectedPackage = null;
+
+  // Carrega do LocalStorage
+  try {
+    const savedP = localStorage.getItem('agendo_data_clientAppUsers');
+    if (savedP) personas = { ...personas, ...JSON.parse(savedP) };
+
+    const savedBanner = localStorage.getItem('agendo_clientapp_banner');
+    if (savedBanner) bannerConfig = { ...bannerConfig, ...JSON.parse(savedBanner) };
+
+    const savedRef = localStorage.getItem('agendo_clientapp_referral_config');
+    if (savedRef) referralConfig = { ...referralConfig, ...JSON.parse(savedRef) };
+  } catch(e){}
+
+  function savePersonas() {
+    try {
+      localStorage.setItem('agendo_data_clientAppUsers', JSON.stringify(personas));
+    } catch(e){}
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  function handleBannerClick() {
+    const target = bannerConfig.linkTarget || 'booking';
+    if (target === 'booking') {
+      openBookingModal();
+    } else if (target === 'credits' || target === 'planos') {
+      switchTab('credits');
+      switchCreditsTab('balance');
+    } else if (target === 'coupons') {
+      switchTab('credits');
+      switchCreditsTab('coupons');
+    } else if (target === 'appts') {
+      switchTab('appts');
+    } else if (target === 'products') {
+      switchTab('home');
+      switchHomeCatalogTab('prods');
+    } else if (target === 'details') {
+      switchTab('config');
+      openClientDetailsModal();
+    } else if (target === 'anamnese') {
+      handleAnamneseCardClick();
+    } else if (target.startsWith('http://') || target.startsWith('https://')) {
+      window.open(target, '_blank');
+    } else {
+      openBookingModal();
+    }
+  }
+  window.handleBannerClick = handleBannerClick;
+
+  function renderBanner() {
+    const card = document.getElementById('clientapp-banner-card');
+    if (card) {
+      card.style.backgroundImage = `url('${bannerConfig.img}')`;
+      card.style.cursor = 'pointer';
+      card.onclick = handleBannerClick;
+
+      const hasText = !!((bannerConfig.tag && bannerConfig.tag.trim()) ||
+                         (bannerConfig.title && bannerConfig.title.trim()) ||
+                         (bannerConfig.desc && bannerConfig.desc.trim()) ||
+                         (bannerConfig.cta && bannerConfig.cta.trim()));
+      const overlay = card.querySelector('.banner-overlay');
+      if (overlay) {
+        overlay.style.opacity = hasText ? '1' : '0';
+      }
+    }
+    const tagEl = document.getElementById('banner-tag-badge');
+    if (tagEl) {
+      if (bannerConfig.tag && bannerConfig.tag.trim()) {
+        tagEl.textContent = bannerConfig.tag;
+        tagEl.style.display = 'inline-block';
+      } else {
+        tagEl.style.display = 'none';
+      }
+    }
+    const titleEl = document.getElementById('banner-title-text');
+    if (titleEl) {
+      if (bannerConfig.title && bannerConfig.title.trim()) {
+        titleEl.textContent = bannerConfig.title;
+        titleEl.style.display = 'block';
+      } else {
+        titleEl.style.display = 'none';
+      }
+    }
+    const descEl = document.getElementById('banner-desc-text');
+    if (descEl) {
+      if (bannerConfig.desc && bannerConfig.desc.trim()) {
+        descEl.textContent = bannerConfig.desc;
+        descEl.style.display = 'block';
+      } else {
+        descEl.style.display = 'none';
+      }
+    }
+    const ctaEl = document.getElementById('banner-cta-button');
+    if (ctaEl) {
+      if (bannerConfig.cta && bannerConfig.cta.trim()) {
+        ctaEl.textContent = bannerConfig.cta;
+        ctaEl.style.display = 'inline-block';
+        ctaEl.onclick = (e) => {
+          e.stopPropagation();
+          handleBannerClick();
+        };
+      } else {
+        ctaEl.style.display = 'none';
+      }
+    }
+  }
+
+  function renderReferral() {
+    const badgeEl = document.getElementById('referral-badge-val');
+    if (badgeEl) badgeEl.textContent = `Ganhe ${referralConfig.reward}`;
+    const titleEl = document.getElementById('referral-title-text');
+    if (titleEl) titleEl.textContent = referralConfig.title;
+    const descEl = document.getElementById('referral-desc-text');
+    if (descEl) descEl.textContent = referralConfig.desc;
+  }
+
+  // Multitenant: Verifica se a ficha de anamnese está ativa no estúdio do lojista
+  function isAnamneseActiveForClient() {
+    try {
+      const active = localStorage.getItem('agendo_module_anamnese_active');
+      return active !== 'false';
+    } catch(e) {
+      return true;
+    }
+  }
+
+  function renderAnamneseSectionInConfig() {
+    const isAvailable = isAnamneseActiveForClient();
+    const card = document.getElementById('cfg-anamnese-card');
+    const badge = document.getElementById('cfg-anamnese-status-badge');
+    const subtitle = document.getElementById('cfg-anamnese-subtitle');
+    const arrow = document.getElementById('cfg-anamnese-arrow');
+    const icon = document.getElementById('cfg-anamnese-icon');
+
+    if (!card) return;
+
+    if (isAvailable) {
+      card.style.opacity = '1';
+      card.style.cursor = 'pointer';
+      if (badge) {
+        badge.textContent = 'ATIVO';
+        badge.style.background = 'rgba(52,194,129,0.15)';
+        badge.style.color = '#34c281';
+      }
+      if (subtitle) subtitle.textContent = 'Histórico detalhado, tipo de pele, orientações e prescrições Home Care';
+      if (arrow) {
+        arrow.textContent = 'Abrir ➔';
+        arrow.style.color = '#ff2d87';
+      }
+      if (icon) icon.style.filter = 'none';
+    } else {
+      card.style.opacity = '0.6';
+      card.style.cursor = 'not-allowed';
+      if (badge) {
+        badge.textContent = 'INDISPONÍVEL';
+        badge.style.background = 'rgba(255,255,255,0.08)';
+        badge.style.color = 'var(--muted)';
+      }
+      if (subtitle) subtitle.textContent = 'Ficha de anamnese desativada neste estúdio pelo lojista (multitenant)';
+      if (arrow) {
+        arrow.textContent = 'Indisponível';
+        arrow.style.color = 'var(--muted)';
+      }
+      if (icon) icon.style.filter = 'grayscale(1)';
+    }
+  }
+
+  function handleAnamneseCardClick() {
+    if (!isAnamneseActiveForClient()) {
+      showToast('A ficha de anamnese está indisponível para este estabelecimento no momento.');
+      return;
+    }
+    openFichaModal();
+  }
+  window.handleAnamneseCardClick = handleAnamneseCardClick;
+
+  function renderPersona() {
+    const p = personas[activePersona] || personas.c1;
+    const nameEl = document.getElementById('client-name');
+    if (nameEl) nameEl.textContent = `${p.nickname || p.name}.`;
+
+    const avatarEl = document.getElementById('client-avatar');
+    if (avatarEl) {
+      if (p.avatar) {
+        avatarEl.innerHTML = `<img src="${p.avatar}" alt="${p.name}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" /><span class="status-dot"></span>`;
+      } else {
+        avatarEl.innerHTML = `${p.name.charAt(0)}<span class="status-dot"></span>`;
+      }
+    }
+
+    const tierBadge = document.getElementById('client-tier-badge');
+    if (tierBadge) tierBadge.textContent = p.tier;
+
+    const creditText = document.getElementById('client-header-credit');
+    if (creditText) creditText.textContent = `✦ R$ ${p.credits},00 em créditos`;
+
+    const balTotal = document.getElementById('credits-balance-total');
+    if (balTotal) balTotal.textContent = `R$ ${p.credits},00`;
+
+    // Nível no componente de créditos
+    const tierLabel = document.getElementById('credits-tier-label');
+    if (tierLabel) {
+      tierLabel.innerHTML = `
+        <span class="gold-bar-badge" style="padding:1px 6px;">
+          <svg width="14" height="10" viewBox="0 0 32 22" fill="none"><polygon points="7,2 27,2 22,11 2,11" fill="#ffe57f"/><polygon points="2,11 22,11 26,20 5,20" fill="#ffd700"/><polygon points="27,2 31,9 26,20 22,11" fill="#cca010"/></svg>
+          <span style="font-size:9.5px; font-weight:800; color:#ffd700;">VIP OURO</span>
+        </span>
+        <span>(${p.apptsCount || 8}/8 agendamentos)</span>
+      `;
+    }
+    const pct = Math.min(100, Math.round(((p.apptsCount || 8) / 8) * 100));
+    const progBar = document.getElementById('credits-progress-bar');
+    if (progBar) progBar.style.width = pct + '%';
+
+    // Barra de progresso de ouro na página de ajustes
+    const goldBar = document.getElementById('cfg-gold-progress-bar');
+    if (goldBar) goldBar.style.width = pct + '%';
+    const progLabel = document.getElementById('cfg-progress-label');
+    if (progLabel) progLabel.textContent = `${p.apptsCount || 8} de 8 atendimentos (${pct}%)`;
+
+    // Próximo agendamento
+    const nextTitle = document.getElementById('home-next-svc-title');
+    if (nextTitle) nextTitle.textContent = p.nextSvc;
+    const nextDate = document.getElementById('home-next-svc-date');
+    if (nextDate) nextDate.textContent = p.nextDate;
+    const apptsTitle = document.getElementById('appts-next-title');
+    if (apptsTitle) apptsTitle.textContent = p.nextSvc;
+    const apptsDate = document.getElementById('appts-next-date');
+    if (apptsDate) apptsDate.textContent = p.nextDate;
+
+    // Ficha Modal
+    const modalSkin = document.getElementById('modal-ficha-skin');
+    if (modalSkin) modalSkin.textContent = p.skin;
+    const modalConsent = document.getElementById('modal-ficha-consent');
+    if (modalConsent) modalConsent.textContent = `Assinado digitalmente por ${p.name}`;
+
+    // Configurações Page: Nível Fidelidade
+    const cfgTier = document.getElementById('cfg-tier-title');
+    if (cfgTier) cfgTier.textContent = `${p.tier}.`;
+
+    // Resumo no Card de Ajustes
+    const sumAv = document.getElementById('cfg-summary-avatar');
+    if (sumAv && p.avatar) sumAv.src = p.avatar;
+    const sumName = document.getElementById('cfg-summary-name');
+    if (sumName) sumName.textContent = p.nickname || p.name;
+    const sumSub = document.getElementById('cfg-summary-sub');
+    if (sumSub) sumSub.textContent = `${p.apptsCount || 8} atendimentos · R$ ${p.credits},00 créditos · R$ ${p.totalCashback || 120},00 cashback`;
+
+    // Meus Detalhes: Blocos de Estatísticas
+    const statTier = document.getElementById('details-stat-tier');
+    if (statTier) statTier.innerHTML = `👑 ${p.tier}`;
+
+    const statAtend = document.getElementById('details-stat-atend');
+    if (statAtend) statAtend.textContent = `${p.apptsCount || 8} atendimentos`;
+
+    const statCredits = document.getElementById('details-stat-credits');
+    if (statCredits) statCredits.textContent = `R$ ${p.credits},00`;
+
+    const statCashback = document.getElementById('details-stat-cashback');
+    if (statCashback) statCashback.textContent = `R$ ${p.totalCashback || 120},00`;
+
+    // Meus Detalhes: Campos Editáveis
+    const inNick = document.getElementById('details-input-nickname');
+    if (inNick) inNick.value = p.nickname || p.name || 'Carla Mendes';
+
+    const inPhone = document.getElementById('details-input-phone');
+    if (inPhone) inPhone.value = p.phone || '(11) 98765-4321';
+
+    const inPref = document.getElementById('details-input-pref');
+    if (inPref && p.pref) inPref.value = p.pref;
+
+    const inAv = document.getElementById('details-input-avatar');
+    if (inAv && p.avatar) inAv.value = p.avatar;
+
+    const prevAv = document.getElementById('details-avatar-preview');
+    if (prevAv && p.avatar) prevAv.src = p.avatar;
+
+    const cfgLink = document.getElementById('cfg-affiliate-link');
+    if (cfgLink) {
+      const cleanSlug = p.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      cfgLink.textContent = `https://agendo.link/marinaravi/app?afiliada=${cleanSlug}`;
+    }
+
+    renderAnamneseSectionInConfig();
+    updateBookingTotal();
+  }
+
+  // Funções para avatar do cliente (Upload único de 1 foto ou URL)
+  function updateAvatarPreview(url) {
+    const img = document.getElementById('details-avatar-preview');
+    if (img && url) img.src = url;
+    const sumAv = document.getElementById('cfg-summary-avatar');
+    if (sumAv && url) sumAv.src = url;
+  }
+  window.updateAvatarPreview = updateAvatarPreview;
+
+  function handleSingleAvatarUpload(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      const dataUrl = evt.target.result;
+      const inAv = document.getElementById('details-input-avatar');
+      if (inAv) inAv.value = dataUrl;
+      updateAvatarPreview(dataUrl);
+      showToast('Foto do perfil carregada! Clique em Atualizar Meus Dados.');
+    };
+    reader.readAsDataURL(file);
+  }
+  window.handleSingleAvatarUpload = handleSingleAvatarUpload;
+
+  function openClientDetailsModal() {
+    renderPersona();
+    const modal = document.getElementById('modal-client-details');
+    if (modal) modal.classList.add('open');
+  }
+  window.openClientDetailsModal = openClientDetailsModal;
+
+  // Atualizar Meus Detalhes
+  function handleSaveClientDetails(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const nickname = document.getElementById('details-input-nickname')?.value || 'Carla Mendes';
+    const phone = document.getElementById('details-input-phone')?.value || '(11) 98765-4321';
+    const pref = document.getElementById('details-input-pref')?.value || '';
+    const avatar = document.getElementById('details-input-avatar')?.value || '';
+
+    const p = personas[activePersona] || personas.c1;
+    p.nickname = nickname;
+    p.phone = phone;
+    p.pref = pref;
+    if (avatar) p.avatar = avatar;
+
+    savePersonas();
+    renderPersona();
+    closeModal('modal-client-details');
+
+    try {
+      let crmList = JSON.parse(localStorage.getItem('crmClientsList') || '[]');
+      if (!Array.isArray(crmList) || crmList.length === 0) {
+        crmList = [{ id: 'c1', n: nickname, t: phone, total: 1840, atend: 8, bonus: p.credits, dias: 0, hora: '14:00', vip: 1 }];
+      } else {
+        const item = crmList.find(c => c.id === 'c1' || (c.n && c.n.toLowerCase().includes('carla')));
+        if (item) {
+          item.n = nickname;
+          item.t = phone;
+          if (pref) item.cliente_pref = pref;
+        }
+      }
+      localStorage.setItem('crmClientsList', JSON.stringify(crmList));
+      window.dispatchEvent(new Event('storage'));
+    } catch(err){}
+
+    showToast('Meus dados e preferências atualizados com sucesso! ✓');
+  }
+  window.handleSaveClientDetails = handleSaveClientDetails;
+
+  // 1. Alternador de Abas de Catálogo (Agendamento Rápido vs Produtos)
+  function switchHomeCatalogTab(tab) {
+    const btnQuick = document.getElementById('cat-tab-quick');
+    const btnProds = document.getElementById('cat-tab-prods');
+    const paneQuick = document.getElementById('pane-cat-quick');
+    const paneProds = document.getElementById('pane-cat-prods');
+
+    if (tab === 'quick') {
+      if (btnQuick) btnQuick.classList.add('is-active');
+      if (btnProds) btnProds.classList.remove('is-active');
+      if (paneQuick) paneQuick.classList.remove('hidden');
+      if (paneProds) paneProds.classList.add('hidden');
+    } else {
+      if (btnProds) btnProds.classList.add('is-active');
+      if (btnQuick) btnQuick.classList.remove('is-active');
+      if (paneProds) paneProds.classList.remove('hidden');
+      if (paneQuick) paneQuick.classList.add('hidden');
+    }
+  }
+  window.switchHomeCatalogTab = switchHomeCatalogTab;
+
+  // 2. Reserva/Compra de Produto
+  function openProductPurchaseModal(prodName, prodPrice) {
+    showToast(`🛍️ Produto "${prodName}" reservado! Valor: R$ ${prodPrice},00.`);
+  }
+  window.openProductPurchaseModal = openProductPurchaseModal;
+
+  // 3. Minimizar / Expandir Seção de Segurança
+  function toggleSecuritySection() {
+    const cont = document.getElementById('sec-form-container');
+    const chev = document.getElementById('sec-chevron');
+    if (!cont) return;
+    const isHidden = cont.style.display === 'none' || cont.style.display === '';
+    cont.style.display = isHidden ? 'block' : 'none';
+    if (chev) {
+      chev.style.transform = isHidden ? 'rotate(180deg)' : 'none';
+    }
+  }
+  window.toggleSecuritySection = toggleSecuritySection;
+
+  // 4. Alternador de Abas de Créditos (Saldo vs Cupons)
+  function switchCreditsTab(tab) {
+    const btnBal = document.getElementById('tab-credits-balance');
+    const btnCps = document.getElementById('tab-credits-coupons');
+    const paneBal = document.getElementById('pane-sub-credits-balance');
+    const paneCps = document.getElementById('pane-sub-credits-coupons');
+
+    if (tab === 'balance') {
+      if (btnBal) btnBal.classList.add('is-active');
+      if (btnCps) btnCps.classList.remove('is-active');
+      if (paneBal) {
+        paneBal.classList.remove('hidden');
+        paneBal.style.display = 'block';
+      }
+      if (paneCps) {
+        paneCps.classList.add('hidden');
+        paneCps.style.display = 'none';
+      }
+    } else {
+      if (btnCps) btnCps.classList.add('is-active');
+      if (btnBal) btnBal.classList.remove('is-active');
+      if (paneCps) {
+        paneCps.classList.remove('hidden');
+        paneCps.style.display = 'block';
+      }
+      if (paneBal) {
+        paneBal.classList.add('hidden');
+        paneBal.style.display = 'none';
+      }
+      loadClientCoupons();
+    }
+  }
+  window.switchCreditsTab = switchCreditsTab;
+
+  // 5. Alternador de Abas de Agendamentos (Serviços vs Produtos Comprados)
+  function switchApptsTab(tab) {
+    const btnSvc = document.getElementById('tab-appts-services');
+    const btnPrd = document.getElementById('tab-appts-products');
+    const paneSvc = document.getElementById('pane-sub-appts-services');
+    const panePrd = document.getElementById('pane-sub-appts-products');
+
+    if (tab === 'services') {
+      if (btnSvc) btnSvc.classList.add('is-active');
+      if (btnPrd) btnPrd.classList.remove('is-active');
+      if (paneSvc) {
+        paneSvc.classList.remove('hidden');
+        paneSvc.style.display = 'block';
+      }
+      if (panePrd) {
+        panePrd.classList.add('hidden');
+        panePrd.style.display = 'none';
+      }
+    } else {
+      if (btnPrd) btnPrd.classList.add('is-active');
+      if (btnSvc) btnSvc.classList.remove('is-active');
+      if (panePrd) {
+        panePrd.classList.remove('hidden');
+        panePrd.style.display = 'block';
+      }
+      if (paneSvc) {
+        paneSvc.classList.add('hidden');
+        paneSvc.style.display = 'none';
+      }
+    }
+  }
+  window.switchApptsTab = switchApptsTab;
+
+  // 6. Cupons da Cliente & Resgate
+  function loadClientCoupons() {
+    let coupons = [];
+    try {
+      coupons = JSON.parse(localStorage.getItem('agendo_clientapp_coupons') || '[]');
+    } catch(e){}
+
+    if (!coupons || coupons.length === 0) {
+      coupons = [
+        { code: 'BEMVINDA15', type: 'percent', val: 15, desc: '15% de desconto no primeiro atendimento', active: true },
+        { code: 'CLIENTEVIP20', type: 'fixed', val: 20, desc: 'R$ 20,00 OFF em agendamentos acima de R$ 100', active: true },
+        { code: 'ANIVERSARIO50', type: 'fixed', val: 50, desc: 'R$ 50,00 de presente no mês do seu aniversário', active: true }
+      ];
+      try {
+        localStorage.setItem('agendo_clientapp_coupons', JSON.stringify(coupons));
+      } catch(e){}
+    }
+
+    const listEl = document.getElementById('client-coupons-active-list');
+    if (!listEl) return;
+
+    listEl.innerHTML = coupons.map(cp => `
+      <div class="clean-card" style="margin-bottom:0; padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+          <div>
+            <span style="font-size:12px; font-weight:800; color:#ff5f8a; background:rgba(255,95,138,0.12); padding:3px 9px; border-radius:6px; letter-spacing:0.04em;">${cp.code}</span>
+            <b style="font-size:14.5px; color:var(--ink); display:block; margin-top:6px;">${cp.type === 'percent' ? cp.val + '% OFF' : 'R$ ' + cp.val + ',00 OFF'} no Estúdio</b>
+            <span style="font-size:11.5px; color:var(--muted); display:block; margin-top:2px;">${cp.desc}</span>
+          </div>
+          <button type="button" class="button-outline" style="height:32px; font-size:11px; padding:0 12px;" onclick="copyCouponCode('${cp.code}')">Copiar</button>
+        </div>
+        <div style="font-size:10.5px; color:var(--muted); border-top:1px dashed var(--hairline-soft); padding-top:8px; margin-top:6px;">
+          ⏰ Válido para clientes VIP Marina Ravi · Configurado pelo Lojista
+        </div>
+      </div>
+    `).join('');
+  }
+  window.loadClientCoupons = loadClientCoupons;
+
+  function copyCouponCode(code) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(code).catch(() => {});
+    }
+    const input = document.getElementById('coupon-redeem-input');
+    if (input) input.value = code;
+    showToast(`Cupom ${code} copiado para a área de transferência! ✓`);
+  }
+  window.copyCouponCode = copyCouponCode;
+
+  function handleRedeemCouponClient() {
+    const input = document.getElementById('coupon-redeem-input');
+    const code = input ? input.value.trim().toUpperCase() : '';
+    if (!code) {
+      showToast('Digite um código de cupom para resgatar.');
+      return;
+    }
+
+    let coupons = [];
+    try {
+      coupons = JSON.parse(localStorage.getItem('agendo_clientapp_coupons') || '[]');
+    } catch(e){}
+
+    const found = coupons.find(c => c.code.toUpperCase() === code);
+    if (found) {
+      const p = personas[activePersona] || personas.c1;
+      const bonusAdded = found.type === 'fixed' ? found.val : 25;
+      p.credits = (p.credits || 0) + bonusAdded;
+      p.totalCashback = (p.totalCashback || 120) + bonusAdded;
+      savePersonas();
+      renderPersona();
+      if (input) input.value = '';
+      showToast(`Parabéns! Cupom ${found.code} resgatado com sucesso! +R$ ${bonusAdded},00 em créditos adicionados! 🎉`);
+    } else {
+      showToast(`Cupom "${code}" não encontrado ou expirado no estúdio.`);
+    }
+  }
+  window.handleRedeemCouponClient = handleRedeemCouponClient;
+
+  // Sincronização em tempo real de banners vindos da agenda do lojista
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'agendo_clientapp_banner') {
+      try {
+        bannerConfig = { ...bannerConfig, ...JSON.parse(e.newValue || '{}') };
+        renderBanner();
+      } catch(err){}
+    }
+    if (e.key === 'agendo_module_anamnese_active') {
+      renderAnamneseSectionInConfig();
+    }
+    if (e.key === 'agendo_clientapp_coupons') {
+      loadClientCoupons();
+    }
+  });
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'agendo:clientapp_banner_updated' && e.data.banner) {
+      bannerConfig = { ...bannerConfig, ...e.data.banner };
+      renderBanner();
+    }
+  });
+
+  function switchTab(tabKey) {
+    activeTab = tabKey;
+    document.querySelectorAll('.bottom-nav-item').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.tab === tabKey);
+    });
+    document.querySelectorAll('.view-pane').forEach(p => p.classList.add('hidden'));
+    const target = document.getElementById('pane-' + tabKey);
+    if (target) target.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function scrollToHistory() {
+    const el = document.getElementById('section-credits-history');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Assinatura de Planos e Créditos para Procedimentos
+  function openPackagePurchaseModal(title, payVal, receiveVal, bonusVal, perksText) {
+    selectedPackage = { title, payVal, receiveVal, bonusVal, perksText };
+    const titleEl = document.getElementById('buy-pkg-title');
+    if (titleEl) titleEl.textContent = title;
+    const payEl = document.getElementById('buy-pkg-pay');
+    if (payEl) payEl.textContent = `R$ ${payVal},00/mês`;
+    const recEl = document.getElementById('buy-pkg-receive');
+    if (recEl) recEl.textContent = `R$ ${receiveVal},00`;
+    const bonusEl = document.getElementById('buy-pkg-bonus');
+    if (bonusEl) bonusEl.textContent = `+ R$ ${bonusVal},00 todo mês`;
+    const perksEl = document.getElementById('buy-pkg-extra-perks');
+    if (perksEl && perksText) {
+      perksEl.innerHTML = `✓ ${perksText}<br>✓ Créditos cumulativos que nunca expiram<br>✓ Agendamento prioritário e benefícios VIP no estúdio`;
+    }
+    document.getElementById('modal-buy-package').classList.add('open');
+  }
+  window.openPackagePurchaseModal = openPackagePurchaseModal;
+
+  function confirmPackagePurchase() {
+    if (!selectedPackage) return;
+    const p = personas[activePersona] || personas.c1;
+    p.credits = (p.credits || 0) + selectedPackage.receiveVal;
+    p.totalCashback = (p.totalCashback || 120) + (selectedPackage.bonusVal || 0);
+    savePersonas();
+    renderPersona();
+    closeModal('modal-buy-package');
+    showToast(`Assinatura ativada com sucesso! R$ ${selectedPackage.receiveVal},00 em créditos e prioridade VIP liberados! 🎉`);
+  }
+  window.confirmPackagePurchase = confirmPackagePurchase;
+
+  // Modal de Ficha com campos detalhados do lojista
+  function renderAnamneseFieldsModal() {
+    const dynContainer = document.getElementById('modal-anamnese-dynamic-client');
+    if (!dynContainer) return;
+
+    let template = [];
+    try {
+      const saved = localStorage.getItem('agendo_anamnese_template');
+      if (saved) template = JSON.parse(saved);
+    } catch(e){}
+
+    if (!template || template.length === 0) {
+      template = [
+        { section: 'Pele e saúde', label: 'Histórico dermatológico', val: 'Sem registros de psoríase, dermatite ou cicatrizes quelóides' },
+        { section: 'Pele e saúde', label: 'Medicamentos e restrições', val: 'Nenhum medicamento fotossensibilizante em uso' },
+        { section: 'Rotina e hábitos', label: 'Rotina de cuidados Home Care', val: 'Higienização suave, sérum antioxidante e fotoproteção diária' },
+        { section: 'Procedimentos', label: 'Observações da profissional Marina Ravi', val: 'Excelente cicatrização e resposta aos protocolos de renovação cutânea' }
+      ];
+    }
+
+    const grouped = {};
+    template.forEach(f => {
+      const s = f.section || 'Informações Adicionais';
+      grouped[s] = grouped[s] || [];
+      grouped[s].push(f);
+    });
+
+    dynContainer.innerHTML = Object.keys(grouped).map(sec => `
+      <div style="background:var(--field); border-radius:var(--rounded-sm); padding:12px; margin-bottom:8px; border:1px solid var(--hairline-soft);">
+        <b style="font-size:11px; color:#ff2d87; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:6px;">📋 ${sec}</b>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          ${grouped[sec].map(item => `
+            <div>
+              <span style="font-size:10.5px; color:var(--muted); display:block;">${item.label}</span>
+              <span style="font-size:12px; font-weight:600; color:var(--ink);">${item.val || 'Conforme histórico dermatológico registrado no estúdio'}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openFichaModal() {
+    renderAnamneseFieldsModal();
+    document.getElementById('modal-ficha-anamnese').classList.add('open');
+  }
+
+  // Link para Vitrine Pública do Estabelecimento (Sem window.open)
+  function openPublicStudioPage() {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'agendo:navigate', route: 'painel-agenda#public' }, '*');
+      }
+    } catch(e){}
+    window.location.href = '/painel-agenda#public';
+  }
+  window.openPublicStudioPage = openPublicStudioPage;
+
+  // Atualização de Segurança da Conta
+  function handleAccountSecurityUpdate(e) {
+    e.preventDefault();
+    const newPass = document.getElementById('cfg-new-pass').value;
+    const confPass = document.getElementById('cfg-conf-pass').value;
+    if (newPass && newPass !== confPass) {
+      showToast('As senhas digitadas não coincidem.');
+      return;
+    }
+    showToast('Dados de acesso e e-mail atualizados com sucesso! ✓');
+    document.getElementById('cfg-new-pass').value = '';
+    document.getElementById('cfg-conf-pass').value = '';
+  }
+
+  // Sair / Logout
+  function handleLogoutClient() {
+    if (confirm('Deseja realmente encerrar a sessão no App do Cliente?')) {
+      showToast('Sessão encerrada com sucesso.');
+      setTimeout(() => {
+        window.location.href = '/landingpage';
+      }, 900);
+    }
+  }
+
+  // Catálogo Oficial de Procedimentos do Estabelecimento
+  const servicesCatalog = [
+    {
+      id: 'limpeza',
+      name: 'Limpeza de Pele Profunda',
+      price: 180,
+      duration: '60 min',
+      desc: 'Higienização profunda, extração de cravos e máscara calmante.',
+      img: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80',
+      category: 'Facial'
+    },
+    {
+      id: 'peeling',
+      name: 'Peeling de Diamante',
+      price: 150,
+      duration: '45 min',
+      desc: 'Renovação celular intensiva com máscara calmante de ouro.',
+      img: 'https://images.unsplash.com/photo-1512290900672-1f486121ea28?auto=format&fit=crop&w=600&q=80',
+      category: 'Facial'
+    },
+    {
+      id: 'massagem',
+      name: 'Massagem Relaxante',
+      price: 180,
+      duration: '60 min',
+      desc: 'Alívio profundo de tensões musculares com óleos essenciais.',
+      img: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80',
+      category: 'Corporal'
+    },
+    {
+      id: 'drenagem',
+      name: 'Drenagem Linfática',
+      price: 160,
+      duration: '50 min',
+      desc: 'Redução de edemas, desintoxicação e alívio circulatório.',
+      img: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=600&q=80',
+      category: 'Corporal'
+    },
+    {
+      id: 'sobrancelhas',
+      name: 'Design de Sobrancelhas',
+      price: 90,
+      duration: '35 min',
+      desc: 'Visagismo facial com harmonização e aplicação de henna.',
+      img: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=600&q=80',
+      category: 'Olhar'
+    },
+    {
+      id: 'harmonizacao',
+      name: 'Harmonização Facial',
+      price: 800,
+      duration: '90 min',
+      desc: 'Protocolo avançado de rejuvenescimento e contorno estético.',
+      img: 'https://images.unsplash.com/photo-1512290900672-1f486121ea28?auto=format&fit=crop&w=600&q=80',
+      category: 'Avançada'
+    }
+  ];
+
+  // Estado da Seleção de Agendamento
+  let selectedServiceId = 'limpeza';
+  let bookingYear = 2026;
+  let bookingMonth = 9; // Outubro (0-indexed)
+  let bookingDay = 6;
+  let bookingTime = '14:00';
+
+  // Estado da Seleção de Reagendamento
+  let reschedYear = 2026;
+  let reschedMonth = 9;
+  let reschedDay = 9;
+  let reschedTime = '11:30';
+
+  const availableHours = [
+    '09:00', '09:45', '10:30', '11:15', '14:00', '14:45', '15:30', '16:15', '17:00', '18:00'
+  ];
+
+  const monthNamesPt = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+  const dayNamesPt = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+
+  // 1. Renderiza Lista de Serviços no Formato Catálogo
+  function renderServicesList() {
+    const container = document.getElementById('booking-services-list');
+    if (!container) return;
+
+    container.innerHTML = servicesCatalog.map(svc => {
+      const isSelected = svc.id === selectedServiceId;
+      return `
+        <div class="svc-list-item ${isSelected ? 'is-selected' : ''}" onclick="selectService('${svc.id}')">
+          <div class="svc-item-thumb">
+            <img src="${svc.img}" alt="${svc.name}" loading="lazy" />
+          </div>
+          <div class="svc-item-details">
+            <div class="svc-item-title">${svc.name}</div>
+            <div class="svc-item-meta">${svc.category} · ${svc.duration} · ${svc.desc}</div>
+          </div>
+          <div class="svc-item-right">
+            <div class="svc-item-price">R$ ${svc.price}</div>
+            <div class="svc-radio-pill"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    const countEl = document.getElementById('booking-catalog-count');
+    if (countEl) countEl.textContent = `${servicesCatalog.length} opções disponíveis`;
+  }
+
+  function selectService(id) {
+    selectedServiceId = id;
+    renderServicesList();
+    updateBookingTotal();
+  }
+
+  // 2. Renderiza Calendário Interativo para Novo Agendamento
+  function renderBookingCalendar() {
+    const titleEl = document.getElementById('booking-cal-month-title');
+    if (titleEl) titleEl.textContent = `${monthNamesPt[bookingMonth]} ${bookingYear}`;
+
+    const grid = document.getElementById('booking-cal-days-grid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    const firstDayIndex = new Date(bookingYear, bookingMonth, 1).getDay();
+    const daysInMonth = new Date(bookingYear, bookingMonth + 1, 0).getDate();
+
+    // Células vazias antes do primeiro dia
+    for (let i = 0; i < firstDayIndex; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'cal-day-cell is-disabled';
+      grid.appendChild(empty);
+    }
+
+    // Dias do mês
+    for (let d = 1; d <= daysInMonth; d++) {
+      const cell = document.createElement('div');
+      const isSelected = d === bookingDay;
+      const isSunday = new Date(bookingYear, bookingMonth, d).getDay() === 0;
+
+      cell.className = `cal-day-cell ${isSelected ? 'is-selected' : ''} ${d === 3 ? 'is-today' : ''} ${isSunday ? 'is-disabled' : ''}`;
+      cell.textContent = d;
+
+      if (!isSunday) {
+        cell.onclick = () => selectBookingDate(d);
+      }
+      grid.appendChild(cell);
+    }
+
+    updateSelectedDateLabel();
+  }
+
+  function changeBookingMonth(delta) {
+    bookingMonth += delta;
+    if (bookingMonth < 0) {
+      bookingMonth = 11;
+      bookingYear--;
+    } else if (bookingMonth > 11) {
+      bookingMonth = 0;
+      bookingYear++;
+    }
+    bookingDay = 1;
+    renderBookingCalendar();
+    updateBookingTotal();
+  }
+
+  function selectBookingDate(day) {
+    bookingDay = day;
+    renderBookingCalendar();
+    updateBookingTotal();
+  }
+
+  function updateSelectedDateLabel() {
+    const d = new Date(bookingYear, bookingMonth, bookingDay);
+    const dayName = dayNamesPt[d.getDay()];
+    const label = document.getElementById('booking-selected-date-label');
+    if (label) {
+      const dStr = String(bookingDay).padStart(2, '0');
+      label.textContent = `${dayName}, ${dStr} de ${monthNamesPt[bookingMonth]}`;
+    }
+  }
+
+  // 3. Renderiza Pills de Horários Disponíveis
+  function renderBookingTimePills() {
+    const container = document.getElementById('booking-time-pills-container');
+    if (!container) return;
+
+    container.innerHTML = availableHours.map(hour => {
+      const isSelected = hour === bookingTime;
+      return `
+        <button type="button" class="time-slot-pill ${isSelected ? 'is-selected' : ''}" onclick="selectBookingTime('${hour}')">
+          ${hour}
+        </button>
+      `;
+    }).join('');
+  }
+
+  function selectBookingTime(time) {
+    bookingTime = time;
+    renderBookingTimePills();
+    updateBookingTotal();
+  }
+
+  // 4. Calendário e Pills para Modal de Reagendamento
+  function renderRescheduleCalendar() {
+    const titleEl = document.getElementById('resched-cal-month-title');
+    if (titleEl) titleEl.textContent = `${monthNamesPt[reschedMonth]} ${reschedYear}`;
+
+    const grid = document.getElementById('resched-cal-days-grid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    const firstDayIndex = new Date(reschedYear, reschedMonth, 1).getDay();
+    const daysInMonth = new Date(reschedYear, reschedMonth + 1, 0).getDate();
+
+    for (let i = 0; i < firstDayIndex; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'cal-day-cell is-disabled';
+      grid.appendChild(empty);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const cell = document.createElement('div');
+      const isSelected = d === reschedDay;
+      const isSunday = new Date(reschedYear, reschedMonth, d).getDay() === 0;
+
+      cell.className = `cal-day-cell ${isSelected ? 'is-selected' : ''} ${d === 3 ? 'is-today' : ''} ${isSunday ? 'is-disabled' : ''}`;
+      cell.textContent = d;
+
+      if (!isSunday) {
+        cell.onclick = () => {
+          reschedDay = d;
+          renderRescheduleCalendar();
+          updateReschedDateLabel();
+        };
+      }
+      grid.appendChild(cell);
+    }
+
+    updateReschedDateLabel();
+  }
+
+  function changeReschedMonth(delta) {
+    reschedMonth += delta;
+    if (reschedMonth < 0) {
+      reschedMonth = 11;
+      reschedYear--;
+    } else if (reschedMonth > 11) {
+      reschedMonth = 0;
+      reschedYear++;
+    }
+    reschedDay = 1;
+    renderRescheduleCalendar();
+  }
+
+  function updateReschedDateLabel() {
+    const d = new Date(reschedYear, reschedMonth, reschedDay);
+    const dayName = dayNamesPt[d.getDay()];
+    const label = document.getElementById('resched-selected-date-label');
+    if (label) {
+      const dStr = String(reschedDay).padStart(2, '0');
+      label.textContent = `${dayName}, ${dStr} de ${monthNamesPt[reschedMonth]}`;
+    }
+  }
+
+  function renderRescheduleTimePills() {
+    const container = document.getElementById('resched-time-pills-container');
+    if (!container) return;
+
+    container.innerHTML = availableHours.map(hour => {
+      const isSelected = hour === reschedTime;
+      return `
+        <button type="button" class="time-slot-pill ${isSelected ? 'is-selected' : ''}" onclick="selectReschedTime('${hour}')">
+          ${hour}
+        </button>
+      `;
+    }).join('');
+  }
+
+  function selectReschedTime(time) {
+    reschedTime = time;
+    renderRescheduleTimePills();
+  }
+
+  // 5. Atualização dos Cálculos e Resumo
+  function updateBookingTotal() {
+    const p = personas[activePersona] || personas.c1;
+    const svc = servicesCatalog.find(s => s.id === selectedServiceId) || servicesCatalog[0];
+
+    const price = svc.price;
+    const credit = Math.min(price, p.credits || 0);
+    const finalPrice = Math.max(0, price - credit);
+
+    const nameEl = document.getElementById('book-summary-svc-name');
+    if (nameEl) nameEl.textContent = `${svc.name}:`;
+
+    const rawEl = document.getElementById('book-val-raw');
+    if (rawEl) rawEl.textContent = `R$ ${price},00`;
+
+    const creditEl = document.getElementById('book-val-credit');
+    if (creditEl) creditEl.textContent = `- R$ ${credit},00`;
+
+    const finalEl = document.getElementById('book-val-final');
+    if (finalEl) finalEl.textContent = `R$ ${finalPrice},00`;
+
+    const dtEl = document.getElementById('book-summary-datetime');
+    if (dtEl) {
+      const dStr = String(bookingDay).padStart(2, '0');
+      const mStr = String(bookingMonth + 1).padStart(2, '0');
+      dtEl.textContent = `🗓 ${dStr}/${mStr} às ${bookingTime} · Studio Marina Ravi`;
+    }
+  }
+
+  // 6. Abertura e Fechamento dos Modais
+  function openBookingModal() {
+    renderServicesList();
+    renderBookingCalendar();
+    renderBookingTimePills();
+    updateBookingTotal();
+    document.getElementById('modal-booking').classList.add('open');
+  }
+
+  function openRescheduleModal() {
+    renderRescheduleCalendar();
+    renderRescheduleTimePills();
+    document.getElementById('modal-reschedule').classList.add('open');
+  }
+
+  function closeModal(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('open');
+  }
+
+  function handleBackdropClick(e, id) {
+    if (e.target.id === id) closeModal(id);
+  }
+
+  function quickBook(svcName, price) {
+    const found = servicesCatalog.find(s => s.name.toLowerCase().includes(svcName.toLowerCase()) || svcName.toLowerCase().includes(s.name.toLowerCase()));
+    if (found) {
+      selectedServiceId = found.id;
+    }
+    openBookingModal();
+  }
+
+  function confirmBooking() {
+    const p = personas[activePersona] || personas.c1;
+    const svc = servicesCatalog.find(s => s.id === selectedServiceId) || servicesCatalog[0];
+    const dStr = String(bookingDay).padStart(2, '0');
+    const mStr = String(bookingMonth + 1).padStart(2, '0');
+    
+    p.nextSvc = `${svc.name}.`;
+    p.nextDate = `${dStr}/${mStr} às ${bookingTime}`;
+    p.apptsCount = (p.apptsCount || 0) + 1;
+    p.credits = (p.credits || 0) + 15;
+    
+    savePersonas();
+    renderPersona();
+    closeModal('modal-booking');
+    showToast(`Agendamento de ${svc.name} confirmado para ${dStr}/${mStr} às ${bookingTime}! ✓`);
+    switchTab('appts');
+  }
+
+  function confirmReschedule() {
+    const p = personas[activePersona] || personas.c1;
+    const dStr = String(reschedDay).padStart(2, '0');
+    const mStr = String(reschedMonth + 1).padStart(2, '0');
+    p.nextDate = `${dStr}/${mStr} às ${reschedTime}`;
+    
+    savePersonas();
+    renderPersona();
+    closeModal('modal-reschedule');
+    showToast(`Atendimento reagendado para ${dStr}/${mStr} às ${reschedTime}! ✓`);
+  }
+
+  function copyReferralLink() {
+    const p = personas[activePersona] || personas.c1;
+    const cleanSlug = p.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const link = `https://agendo.link/marinaravi/app?afiliada=${cleanSlug}`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(link).catch(() => {});
+    }
+    showToast('Link de afiliada copiado.');
+  }
+
+  // Inicialização
+  document.addEventListener('DOMContentLoaded', () => {
+    renderPersona();
+    renderBanner();
+    renderReferral();
+    loadClientCoupons();
+    renderServicesList();
+    renderBookingCalendar();
+    renderBookingTimePills();
+  });
+  renderPersona();
+  renderBanner();
+  renderReferral();
+  loadClientCoupons();
+</script>
+
+</body>
+</html>

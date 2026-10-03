@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>window.__agendoLoad=function(k,d){try{var v=localStorage.getItem("agendo_data_"+k);return v?JSON.parse(v):(d||[])}catch(e){return d||[]}}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>agendo — Uma agenda que trabalha enquanto você atende</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#0a0a0a;--card:#141414;--bd:rgba(255,255,255,.08);--bd2:rgba(255,255,255,.16);--tx:#f5f5f5;--dim:#9a9a9a;--faint:#5c5c5c;--ac:#ff5f8a;--ac2:#ef1f4d;--acd:rgba(255,95,138,.15);--gold:#ffb020;--red:#ff5c6c;--hd:'Poppins',system-ui,sans-serif;--bo:'Montserrat',system-ui,-apple-system,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:var(--bo);-webkit-font-smoothing:antialiased;line-height:1.6}
+h1,h2,h3,h4,h5{font-family:var(--hd)}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0}
+.logo{display:flex;align-items:center;gap:9px;font:600 16px var(--hd)}
+.mark{width:30px;height:30px;border-radius:9px;background:var(--ac);display:grid;place-items:center;color:#0a0a0a}
+.mark svg{width:16px;height:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:600 14.5px var(--hd);border-radius:999px;transition:box-shadow .25s,transform .2s,background .2s}
+.b1{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;padding:14px 26px}
+.b1:hover{box-shadow:0 8px 30px rgba(239,31,77,.45);transform:translateY(-1px)}
+.b1.sm{padding:10px 20px;font-size:13px}
+.b2{border:1px solid var(--bd);color:var(--tx);padding:13px 24px;font-weight:500}
+.b2:hover{border-color:var(--bd2);background:#151515}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);background:var(--card);border:1px solid var(--bd);padding:7px 16px 7px 8px;border-radius:999px;margin-bottom:20px}
+.eyebrow i{width:18px;height:18px;border-radius:50%;background:var(--ac);display:grid;place-items:center}
+.eyebrow svg{width:10px;height:10px}
+.hero{position:relative;padding:80px 0 88px;text-align:center;overflow:hidden}
+.glow{position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:640px;height:420px;background:radial-gradient(ellipse,rgba(239,31,77,.22),transparent 70%);pointer-events:none}
+.hero h1{position:relative;font-size:clamp(33px,5.8vw,60px);line-height:1.1;font-weight:600;letter-spacing:-.02em;margin-bottom:22px}
+.hero h1 b{color:var(--ac);font-weight:600}
+.hero .lead{position:relative;font-size:clamp(15px,2vw,18px);color:var(--dim);max-width:580px;margin:0 auto 36px;line-height:1.7}
+.acts{position:relative;display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.segs{padding:0 0 72px}
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--bd);border-radius:999px;padding:9px 16px;font-size:13px;color:#d8d8d8}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--ac)}
+.sec{padding:96px 0 0}
+.head{text-align:center;max-width:600px;margin:0 auto 52px}
+.head h2{font-size:clamp(25px,3.8vw,36px);font-weight:500;letter-spacing:-.01em;line-height:1.2;margin-bottom:14px}
+.head p{font-size:15px;color:var(--dim);line-height:1.7}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:linear-gradient(180deg,var(--card),#101010);border:1px solid var(--bd);border-radius:20px;padding:24px;transition:border-color .25s,transform .25s}
+.card:hover{border-color:var(--bd2);transform:translateY(-2px)}
+.card h3{font-size:16.5px;font-weight:600;margin-bottom:8px;line-height:1.3}
+.card p{font-size:13.5px;color:var(--dim);line-height:1.65}
+.num{font:700 12px var(--hd);color:var(--ac);background:var(--acd);width:28px;height:28px;border-radius:9px;display:grid;place-items:center;margin-bottom:18px}
+.ic{width:46px;height:46px;border-radius:13px;background:rgba(255,92,108,.12);display:grid;place-items:center;margin-bottom:20px}
+.ic svg{width:22px;height:22px;color:var(--red)}
+.mini{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap}
+.mini span{font-size:11px;background:#1c1c1c;border:1px solid var(--bd);border-radius:8px;padding:6px 10px;color:var(--dim)}
+.mini .bad{border-color:rgba(255,92,108,.4);color:var(--red)}
+.pain{margin-top:96px;padding:80px 0;background:linear-gradient(180deg,#0a0a0a,#1c0810 50%,#0a0a0a)}
+.list{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:16px;align-items:flex-start;background:rgba(255,255,255,.03);border:1px solid rgba(255,92,108,.2);border-radius:18px;padding:20px 22px}
+.row i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--red);margin-top:9px;box-shadow:0 0 14px var(--red)}
+.row p{font:500 16px/1.55 var(--hd);color:#ececec}
+.ask{text-align:center;margin-top:36px;font:600 clamp(20px,3vw,26px) var(--hd)}
+.flip{text-align:center}
+.flip .arrow{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:grid;place-items:center;margin:0 auto 22px;box-shadow:0 0 40px rgba(239,31,77,.5)}
+.flip .arrow svg{width:26px;height:26px;color:#fff}
+.vis{background:#0c0c0c;border:1px solid var(--bd);border-radius:14px;height:140px;margin-bottom:18px;display:grid;place-items:center;overflow:hidden;position:relative}
+.vis svg{width:100%;height:100%}
+.tg{position:absolute;top:12px;left:12px;font:600 11px var(--hd);color:var(--ac);background:var(--acd);padding:4px 9px;border-radius:6px}
+.wide{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:26px}
+.wide h3{font-size:18px}.wide p{max-width:250px}
+.tiles{display:flex;gap:8px;flex:none}.tiles span{width:40px;height:56px;border-radius:11px;border:1px solid var(--bd)}
+.tiers{display:flex;flex-direction:column;gap:6px;flex:none;min-width:100px}
+.tiers span{font:700 10px var(--hd);color:#0a0a0a;border-radius:6px;padding:5px 10px;text-align:center}
+.plans{align-items:stretch}
+.plan{display:flex;flex-direction:column;position:relative}
+.plan.hot{border-color:var(--ac);background:linear-gradient(180deg,#2a0d17,#141014);box-shadow:0 20px 60px -25px rgba(239,31,77,.6)}
+.plan .tag2{position:absolute;top:-12px;left:24px;background:var(--ac);color:#0a0a0a;font:700 11px var(--hd);padding:4px 12px;border-radius:999px}
+.pr{font:700 34px var(--hd);margin:14px 0 2px;letter-spacing:-.02em}
+.pr small{font:500 13px var(--bo);color:var(--dim);letter-spacing:0}
+.fr{font-size:12px;color:var(--dim)}
+.plan ul{list-style:none;margin:20px 0 24px;display:flex;flex-direction:column;gap:11px;flex:1}
+.plan li{font-size:13.5px;color:#d8d8d8;padding-left:26px;position:relative}
+.plan li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border-radius:50%;background:var(--ac) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a0a0a' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E") center/10px no-repeat}
+.plan .btn{width:100%}
+details.card{padding:0;overflow:hidden}details.card:hover{transform:none}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 22px;font:500 14.5px var(--hd)}
+summary::-webkit-details-marker{display:none}
+summary i{width:26px;height:26px;border-radius:50%;background:#1c1c1c;border:1px solid var(--bd);display:grid;place-items:center;flex:none;transition:transform .25s,background .2s;color:var(--dim);font-style:normal;font-size:16px}
+details[open]{border-color:var(--bd2)}
+details[open] summary i{background:var(--ac);color:#0a0a0a;transform:rotate(45deg)}
+.ans{padding:0 22px 20px;font-size:13.5px;color:var(--dim);line-height:1.7}
+.faq{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.cta{padding:96px 0}
+.cbox{background:linear-gradient(135deg,#2a0d17,#0d0d0d 60%);border:1px solid var(--bd);border-radius:28px;padding:56px 32px;text-align:center;position:relative;overflow:hidden}
+.cbox::before{content:'';position:absolute;top:-120px;right:-80px;width:360px;height:360px;background:radial-gradient(circle,rgba(239,31,77,.26),transparent 70%)}
+.cbox h2{position:relative;font-size:clamp(25px,3.6vw,36px);font-weight:600;line-height:1.2;max-width:20ch;margin:0 auto 14px}
+.cbox p{position:relative;font-size:14.5px;color:var(--dim);max-width:440px;margin:0 auto 28px;line-height:1.7}
+.foot{border-top:1px solid var(--bd);padding:56px 0 28px}
+.ft{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:32px;margin-bottom:44px}
+.ft p{font-size:13.5px;color:var(--dim);line-height:1.7;margin-top:14px;max-width:280px}
+.ft h4{font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);margin-bottom:16px}
+.ft ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.ft a{font-size:13.5px;color:var(--dim)}.ft a:hover{color:var(--tx)}
+.fb{border-top:1px solid var(--bd);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--faint)}
+@media(max-width:900px){.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:860px){
+.g3,.g4,.g2{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none;margin-left:-24px;margin-right:-24px;padding:18px 24px 16px;scroll-padding-left:24px}
+.g3::-webkit-scrollbar,.g4::-webkit-scrollbar,.g2::-webkit-scrollbar{display:none}
+.g3>.card,.g4>.card,.g2>.card{flex:0 0 min(82%,310px);scroll-snap-align:start}
+.g2>.wide{flex-basis:min(86%,340px)}
+.g3>.card:hover,.g4>.card:hover,.g2>.card:hover{transform:none}
+.ft{grid-template-columns:1fr 1fr}.ft>div:first-child{grid-column:1/-1}}
+@media(max-width:620px){.hero{padding:56px 0 64px}.sec{padding-top:64px}.pain{margin-top:64px;padding:56px 0}.cta{padding:64px 0}.wide{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap"><nav class="nav" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+  <a class="logo" href="#"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></span>agendo</a>
+  <div style="display:flex; align-items:center; gap:8px;">
+    <button type="button" class="btn b2 sm" onclick="openLandingLoginModal('login')" style="cursor:pointer; height:36px; padding:0 14px; font-size:12.5px; border-radius:999px;">Entrar</button>
+    <button type="button" class="btn b1 sm" onclick="openLandingLoginModal('cadastrar')" style="cursor:pointer; height:36px; padding:0 14px; font-size:12.5px; border-radius:999px;">Cadastrar</button>
+  </div>
+</nav></div>
+
+<header class="hero"><div class="glow"></div><div class="wrap">
+  <div class="eyebrow"><i><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Agenda, vitrine e financeiro no mesmo link</div>
+  <h1>Uma agenda que trabalha <b>enquanto você atende.</b></h1>
+  <p class="lead">Imagine abrir o celular e encontrar o dia já preenchido: clientes que escolheram o serviço, o horário e chegaram decididos. Sem mensagem para responder. Sem horário perdido.</p>
+  <div class="acts"><button type="button" class="btn b1" onclick="openOnboardingModal()">Saiba mais</button><a class="btn b2" href="/agenda.html" onclick="testPlatformNow(event)">Testar a plataforma agora ➔</a></div>
+</div></header>
+
+<section class="segs"><div class="wrap"><div class="pills">
+  <span class="pill"><i></i>Salões</span><span class="pill"><i></i>Barbearias</span><span class="pill"><i></i>Estética</span><span class="pill"><i></i>Manicure</span><span class="pill"><i></i>Estúdios</span><span class="pill"><i></i>Autônomos</span>
+</div></div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><div class="eyebrow"><i><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Seu dia hoje</div>
+  <h2>Seu dia é cheio. E cada horário ainda passa por uma conversa.</h2>
+  <p>Funciona, até o dia em que não funciona. É assim que a maioria dos profissionais agenda hoje:</p></div>
+  <div class="g4">
+    <div class="card"><div class="num">1</div><h3>O cliente chama no WhatsApp</h3><p>Ele quer saber preço, serviço e horário, tudo por mensagem.</p></div>
+    <div class="card"><div class="num">2</div><h3>Você responde entre atendimentos</h3><p>Com a mão ocupada, no intervalo, ou quando dá.</p></div>
+    <div class="card"><div class="num">3</div><h3>O horário vai para o caderno</h3><p>Ou para as notas do celular, ou para a memória.</p></div>
+    <div class="card"><div class="num">4</div><h3>Você confirma, lembra e reagenda</h3><p>Tudo de novo, na mão, para cada cliente do dia.</p></div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><div class="eyebrow"><i><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>O problema</div>
+  <h2>O que isso está te custando</h2>
+  <p>Pequenos separados, pesados juntos: no seu bolso e na sua cabeça.</p></div>
+  <div class="g3">
+    <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Cliente esperando resposta</h3><p>Quem quer agendar agora não espera o intervalo do seu almoço.</p>
+      <div class="mini"><span>Oi, tem horário?</span><span class="bad">visto 14:02</span></div></div>
+    <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div><h3>Horários que se atropelam</h3><p>Dois clientes no mesmo horário, ou um horário esquecido no caderno.</p>
+      <div class="mini"><span class="bad">14:30 Marina</span><span class="bad">14:30 João</span></div></div>
+    <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 15l4-4 3 3 5-6"/></svg></div><h3>Faturamento no escuro</h3><p>No fim do mês você sabe que trabalhou muito, mas não sabe quanto sobrou.</p>
+      <div class="mini"><span>Receita ?</span><span>Lucro ?</span></div></div>
+  </div>
+</div></section>
+
+<section class="pain"><div class="wrap">
+  <div class="head"><h2>E o que acontece se nada mudar</h2></div>
+  <div class="list">
+    <div class="row"><i></i><p>Cada mensagem sem resposta é um cliente que agenda com outro profissional.</p></div>
+    <div class="row"><i></i><p>Horário vago hoje é dinheiro que não volta amanhã.</p></div>
+    <div class="row"><i></i><p>Terminar o mês sem saber quanto ganhou pesa mais do que o cansaço.</p></div>
+    <div class="row"><i></i><p>Responder cliente às 23h rouba o seu descanso e o seu tempo.</p></div>
+  </div>
+  <p class="ask">Por quanto tempo você quer viver assim?</p>
+</div></section>
+
+<section class="sec" id="virada"><div class="wrap">
+  <div class="head flip"><div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
+  <h2>Agora imagine o contrário.</h2>
+  <p>Com o agendo, o cliente resolve sozinho e você recupera o seu tempo.</p></div>
+  <div class="g3">
+    <div class="card"><div class="vis"><span class="tg">Cliente</span><svg viewBox="0 0 260 140"><rect x="70" y="22" width="120" height="96" rx="14" fill="#141414" stroke="rgba(255,255,255,.12)"/><rect x="82" y="36" width="96" height="10" rx="5" fill="#ff5f8a"/><rect x="82" y="56" width="70" height="7" rx="3.5" fill="#333"/><rect x="82" y="72" width="84" height="7" rx="3.5" fill="#333"/><rect x="82" y="92" width="40" height="16" rx="8" fill="#f5f5f5"/></svg></div>
+      <h3>Agenda sozinho, a qualquer hora</h3><p>Ele vê serviços, preços e fotos e reserva o horário sem esperar resposta.</p></div>
+    <div class="card"><div class="vis"><span class="tg">Você</span><svg viewBox="0 0 260 140"><g fill="#1c1c1c" stroke="rgba(255,255,255,.1)"><rect x="40" y="26" width="180" height="26" rx="10"/><rect x="40" y="58" width="180" height="26" rx="10"/><rect x="40" y="90" width="180" height="26" rx="10"/></g><circle cx="58" cy="39" r="7" fill="#ffb020"/><circle cx="58" cy="71" r="7" fill="#ff5f8a"/><circle cx="58" cy="103" r="7" fill="#ff5f8a"/></svg></div>
+      <h3>Dia organizado num só lugar</h3><p>Horários, clientes e destaque para os VIP, tudo na tela do celular.</p></div>
+    <div class="card"><div class="vis"><span class="tg">Negócio</span><svg viewBox="0 0 260 140" preserveAspectRatio="none"><defs><linearGradient id="lf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5f8a" stop-opacity=".35"/><stop offset="1" stop-color="#ff5f8a" stop-opacity="0"/></linearGradient></defs><path d="M0,105 C40,108 60,120 90,108 C120,96 130,50 165,45 C190,42 200,52 230,28 L230,140 L0,140Z" fill="url(#lf)"/><path d="M0,105 C40,108 60,120 90,108 C120,96 130,50 165,45 C190,42 200,52 230,28" fill="none" stroke="#ff5f8a" stroke-width="2.5" stroke-linecap="round"/><circle cx="230" cy="28" r="5" fill="#ff5f8a"/></svg></div>
+      <h3>Financeiro à vista</h3><p>Acompanhe o movimento por período e entenda o que mais rende.</p></div>
+  </div>
+  <div class="g2" style="margin-top:20px">
+    <div class="card wide"><div><h3>Vitrine com a sua cara</h3><p>Serviços, produtos, apresentação e galeria, com três formatos de capa em foto ou vídeo.</p></div>
+      <div class="tiles" aria-hidden="true"><span style="background:linear-gradient(180deg,#ff5f8a 40%,#1c1c1c 40%)"></span><span style="background:linear-gradient(180deg,#ef1f4d 60%,#1c1c1c 60%)"></span><span style="background:linear-gradient(180deg,#8f0d24,#1c1c1c)"></span></div></div>
+    <div class="card wide"><div><h3>Afiliados com níveis</h3><p>Indique o agendo e avance de nível conforme suas indicações crescem.</p></div>
+      <div class="tiers" aria-hidden="true"><span style="background:#cd7f32">Nível 1</span><span style="background:#c0c0c0">Nível 2</span><span style="background:#ffb020">Nível 3</span></div></div>
+  </div>
+  <div class="pills" style="margin-top:36px"><span class="pill"><i></i>Clientes VIP</span><span class="pill"><i></i>Cupons de desconto</span><span class="pill"><i></i>Carrinho e produtos</span><span class="pill"><i></i>Agendamento em etapas</span><span class="pill"><i></i>Feito para o celular</span></div>
+</div></section>
+
+<section class="sec" id="planos"><div class="wrap">
+  <div class="head">
+    <div class="eyebrow"><i><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Planos & Transparência</div>
+    <h2>Planos feitos para o seu negócio</h2>
+    <p>Todos os novos usuários têm <span class="dyn-trial-days">3</span> dias para testar gratuitamente. Plataforma para profissionais e estúdios com 100% de autonomia e <b>zero taxas sobre agendamentos</b>:</p>
+  </div>
+  
+  <div class="g3 plans">
+    <!-- PLANO BÁSICO -->
+    <div class="card plan">
+      <h3>Plano Básico</h3>
+      <div class="pr">R$ 29,90<small>/mês</small></div>
+      <div class="fr">Para autônomos e estúdios que querem praticidade</div>
+      <div style="font-size:11px; font-weight:700; color:#34c281; margin:10px 0 6px; text-transform:uppercase; letter-spacing:0.04em;">O que está incluso:</div>
+      <ul style="margin-bottom:12px;">
+        <li>✓ Vitrine pública com link próprio (agendo.link)</li>
+        <li>✓ Agendamento online autônomo 24h</li>
+        <li>✓ Agenda no celular e confirmação automática</li>
+        <li>✓ Controle financeiro essencial</li>
+        <li>✓ Selo Avalie-nos no Google (Google Reviews)</li>
+        <li>✓ CRM de clientes com histórico de visitas</li>
+        <li>✓ <b>Taxa de agendamento: 3%</b> via InfinitePay & API Pix</li>
+      </ul>
+      <div style="font-size:11px; font-weight:700; color:#888; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.04em;">Não incluso:</div>
+      <ul style="color:#666; font-size:12px; margin-bottom:16px;">
+        <li>✕ Sem banners promocionais estilo Link da Bio</li>
+        <li>✕ Sem ficha de anamnese digital</li>
+        <li>✕ Sem catálogo de produtos físicos com carrinho</li>
+        <li>✕ Sem métricas de retenção de 30/60/90 dias</li>
+      </ul>
+      <button type="button" class="btn b2" onclick="openLandingLoginModal('cadastrar')" style="width:100%;">Começar <span class="dyn-trial-days">3</span> dias grátis ➔</button>
+    </div>
+
+    <!-- PLANO PRO -->
+    <div class="card plan hot">
+      <span class="tag2">Mais Escolhido</span>
+      <h3>Plano Pro</h3>
+      <div class="pr">R$ 49,90<small>/mês</small></div>
+      <div class="fr">Para estúdios que querem vender produtos e prontuário</div>
+      <div style="font-size:11px; font-weight:700; color:#34c281; margin:10px 0 6px; text-transform:uppercase; letter-spacing:0.04em;">O que está incluso:</div>
+      <ul style="margin-bottom:12px;">
+        <li>✓ <b>Tudo do Plano Básico</b></li>
+        <li>✓ <b>Banners Promocionais estilo Link da Bio</b> (90×400px)</li>
+        <li>✓ <b>Ficha de Anamnese Digital</b> (prontuário clínico)</li>
+        <li>✓ <b>Catálogo de Produtos físicos</b> com carrinho integrado</li>
+        <li>✓ <b>Galeria ampliada</b> de procedimentos e portfólio</li>
+        <li>✓ <b>Taxa de agendamento: 3%</b> via InfinitePay & API Pix</li>
+      </ul>
+      <div style="font-size:11px; font-weight:700; color:#888; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.04em;">Não incluso:</div>
+      <ul style="color:#666; font-size:12px; margin-bottom:16px;">
+        <li>✕ Sem métricas avançadas de retenção 30/60/90 dias</li>
+      </ul>
+      <button type="button" class="btn b1" onclick="openLandingLoginModal('cadastrar')" style="width:100%;">Testar Plano Pro grátis ➔</button>
+    </div>
+
+    <!-- PLANO STUDIO -->
+    <div class="card plan">
+      <h3>Plano Studio</h3>
+      <div class="pr">R$ 89,90<small>/mês</small></div>
+      <div class="fr">Acesso total para máxima fidelização e escala do estúdio</div>
+      <div style="font-size:11px; font-weight:700; color:var(--gold); margin:10px 0 6px; text-transform:uppercase; letter-spacing:0.04em;">Acesso Total Ilimitado:</div>
+      <ul style="margin-bottom:16px;">
+        <li>✓ <b>Tudo do Plano Pro</b></li>
+        <li>✓ <b>Ranking VIP de Clientes (LTV)</b> — quem mais gera receita</li>
+        <li>✓ <b>Métricas de Retenção de Clientes (30, 60 e 90 dias)</b></li>
+        <li>✓ <b>Alertas de Clientes Inativos</b> para reengajamento via WhatsApp</li>
+        <li>✓ <b>Taxa ZERO (0%)</b> em agendamentos via InfinitePay & API Pix</li>
+        <li>✓ <b>Suporte prioritário VIP</b> via WhatsApp</li>
+      </ul>
+      <button type="button" class="btn b2" onclick="openLandingLoginModal('cadastrar')" style="width:100%;">Testar Plano Studio grátis ➔</button>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><div class="eyebrow"><i><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Dúvidas frequentes</div>
+  <h2>Perguntas que profissionais costumam fazer</h2></div>
+  <div class="faq">
+    <details class="card" open><summary>O que acontece depois dos <span class="dyn-trial-days">3</span> dias?<i>+</i></summary><div class="ans">Você escolhe o plano que faz sentido para o seu momento: a partir de R$ 29,90 ou R$ 69,90.</div></details>
+    <details class="card"><summary>Preciso instalar algum aplicativo?<i>+</i></summary><div class="ans">O agendo funciona pelo navegador e foi pensado primeiro para a tela do celular.</div></details>
+    <details class="card"><summary>Consigo deixar a página com a minha cara?<i>+</i></summary><div class="ans">Sim. São três formatos de capa, com foto ou vídeo, além de serviços, produtos, apresentação e galeria.</div></details>
+    <details class="card"><summary>Posso oferecer cupons aos meus clientes?<i>+</i></summary><div class="ans">Sim. Os cupons fazem parte da configuração do agendamento.</div></details>
+  </div>
+</div></section>
+
+<section class="cta"><div class="wrap"><div class="cbox">
+  <h2>Seu próximo cliente já quer agendar.</h2>
+  <p>Dê a ele um caminho simples e recupere o seu tempo. Comece agora com <span class="dyn-trial-days">3</span> dias para testar.</p>
+  <div class="acts"><button type="button" class="btn b1" onclick="openOnboardingModal()">Saiba mais</button><a class="btn b2" href="/agenda.html" onclick="testPlatformNow(event)" style="margin-left:8px;">Testar a plataforma agora ➔</a></div>
+</div></div></section>
+
+<footer class="foot"><div class="wrap">
+  <div class="ft">
+    <div><a class="logo" href="#"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></span>agendo</a><p>Agenda, vitrine e financeiro para quem atende.</p></div>
+    <div><h4>Produto</h4><ul><li><a href="#virada">Como muda</a></li><li><a href="#planos">Planos</a></li></ul></div>
+    <div><h4>Suporte</h4><ul><li><a href="mailto:contato@seudominio.com.br">Fale conosco</a></li></ul></div>
+  </div>
+  <div class="fb"><span>© 2026 agendo. Todos os direitos reservados.</span></div>
+</div></footer>
+
+<!-- ================= MODAL ONBOARDING CONHEÇA A PLATAFORMA ================= -->
+<div id="onboarding-modal" style="display:none; position:fixed; inset:0; z-index:999999; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:12px;">
+  <div style="position:relative; width:100%; max-width:480px; height:94vh; max-height:860px; background:#0a0a0a; border:1px solid rgba(255,255,255,0.12); border-radius:24px; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.8); display:flex; flex-direction:column;">
+    <button type="button" onclick="closeOnboardingModal()" aria-label="Fechar" style="position:absolute; top:12px; right:12px; z-index:100; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.1); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px;">
+      ✕
+    </button>
+    <iframe src="/onboarding.html" id="onboarding-frame" style="width:100%; height:100%; border:0; display:block;"></iframe>
+  </div>
+</div>
+
+<script>
+function openOnboardingModal(){
+  var m = document.getElementById('onboarding-modal');
+  if(m) {
+    m.style.display = 'flex';
+  }
+}
+window.openOnboardingModal = openOnboardingModal;
+
+function closeOnboardingModal(){
+  var m = document.getElementById('onboarding-modal');
+  if(m) {
+    m.style.display = 'none';
+  }
+}
+window.closeOnboardingModal = closeOnboardingModal;
+
+window.addEventListener('message', function(e){
+  if(e.data && e.data.type === 'onboarding:skip_to_auth'){
+    closeOnboardingModal();
+    setTimeout(function(){
+      openLandingLoginModal(e.data.mode || 'cadastrar');
+    }, 100);
+  }
+});
+
+
+function testPlatformNow(e){
+  if(e) e.preventDefault();
+  openLandingLoginModal('cadastrar');
+}
+window.testPlatformNow = testPlatformNow;
+</script>
+
+
+<!-- ================= PÁGINA / MODAL DE AUTENTICAÇÃO (ENTRAR, CADASTRAR E RECUPERAR SENHA) ================= -->
+<div id="landing-auth-modal" style="display:none; position:fixed; inset:0; z-index:999999; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); align-items:center; justify-content:center; padding:16px;">
+  <div style="position:relative; width:100%; max-width:440px; background:#131215; border:1px solid rgba(255,255,255,0.14); border-radius:24px; padding:28px 24px; box-shadow:0 25px 60px rgba(0,0,0,0.9); text-align:left; max-height:92vh; overflow-y:auto;">
+    
+    <!-- Botão Fechar -->
+    <button type="button" onclick="closeLandingLoginModal()" aria-label="Fechar" style="position:absolute; top:18px; right:18px; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); color:#fff; display:grid; place-items:center; cursor:pointer; font-size:14px; transition:background .2s;">
+      ✕
+    </button>
+
+    <!-- Cabeçalho da Marca -->
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+      <div style="width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#ff5f8a,#ef1f4d); display:grid; place-items:center; color:#fff; font-weight:800; font-size:15px;">a</div>
+      <div>
+        <div style="font-size:15px; font-weight:700; color:#fff;">agendo<span style="color:#ff5f8a;">.</span></div>
+        <span style="font-size:11px; color:var(--dim);">Acesso à plataforma</span>
+      </div>
+    </div>
+
+    <!-- Navegação em Abas (Entrar / Cadastrar) -->
+    <div id="auth-tab-bar" style="display:flex; background:#1c1b20; border-radius:12px; padding:4px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.08);">
+      <button type="button" id="tab-btn-login" onclick="switchLandingAuthTab('login')" style="flex:1; height:38px; border-radius:9px; border:none; background:rgba(255,255,255,0.1); color:#fff; font-size:13px; font-weight:700; cursor:pointer; transition:all .2s;">
+        Entrar
+      </button>
+      <button type="button" id="tab-btn-register" onclick="switchLandingAuthTab('cadastrar')" style="flex:1; height:38px; border-radius:9px; border:none; background:transparent; color:var(--dim); font-size:13px; font-weight:600; cursor:pointer; transition:all .2s;">
+        Cadastrar
+      </button>
+    </div>
+
+    <!-- ================= TELA 1: ENTRAR ================= -->
+    <div id="auth-pane-login" style="display:block;">
+      <h3 style="font-size:19px; font-weight:700; color:#fff; margin:0 0 4px;">Bem-vindo de volta</h3>
+      <p style="font-size:12.5px; color:var(--dim); margin:0 0 18px; line-height:1.5;">
+        Acesse sua conta para gerenciar seu espaço, horários e vitrine.
+      </p>
+
+      <form onsubmit="handleLoginSubmit(event)" style="display:flex; flex-direction:column; gap:13px;">
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:5px;">Seu E-mail</label>
+          <input type="email" id="login-email" required placeholder="seuemail@exemplo.com" style="width:100%; height:46px; background:#1a191f; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+            <label style="font-size:12px; font-weight:600; color:#d8d8d8;">Sua Senha</label>
+            <button type="button" onclick="switchLandingAuthTab('forgot')" style="background:none; border:none; color:#ff5f8a; font-size:11.5px; font-weight:600; cursor:pointer; padding:0;">
+              Esqueci a senha
+            </button>
+          </div>
+          <div style="position:relative;">
+            <input type="password" id="login-pass" required placeholder="Digite sua senha" style="width:100%; height:46px; background:#1a191f; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 40px 0 14px; font-size:14px; color:#fff; outline:none;">
+            <button type="button" onclick="togglePassVisibility('login-pass')" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--dim); cursor:pointer; font-size:13px;">
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <div id="login-feedback" style="display:none; font-size:12px; padding:8px 12px; border-radius:8px;"></div>
+
+        <button type="submit" class="btn b1" style="height:48px; font-size:14.5px; font-weight:700; margin-top:4px;">
+          Entrar na Plataforma ➔
+        </button>
+
+        <div style="text-align:center; margin-top:8px;">
+          <span style="font-size:12px; color:var(--dim);">Não tem uma conta? </span>
+          <button type="button" onclick="switchLandingAuthTab('cadastrar')" style="background:none; border:none; color:#fff; font-size:12px; font-weight:700; cursor:pointer; text-decoration:underline;">
+            Cadastre-se com <span class="dyn-trial-days">3</span> dias grátis
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ================= TELA 2: CADASTRAR (7 DIAS GRÁTIS) ================= -->
+    <div id="auth-pane-register" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;">
+        <h3 style="font-size:19px; font-weight:700; color:#fff; margin:0;">Criar Minha Conta</h3>
+        <span style="font-size:10.5px; font-weight:800; background:rgba(52,194,129,0.18); color:#34c281; padding:2px 8px; border-radius:999px;">7 DIAS GRÁTIS</span>
+      </div>
+      <p style="font-size:12.5px; color:var(--dim); margin:0 0 16px; line-height:1.5;">
+        Crie seu login e experimente a vitrine online e agendamento sem cobrança inicial.
+      </p>
+
+      <form onsubmit="handleRegisterSubmit(event)" style="display:flex; flex-direction:column; gap:11px;">
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:4px;">Nome do Profissional ou Espaço</label>
+          <input type="text" id="reg-user-name" required placeholder="Ex: Marina Ravi / Studio Bella" style="width:100%; height:44px; background:#1a191f; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:4px;">WhatsApp com DDD</label>
+          <input type="tel" id="reg-user-phone" required placeholder="(11) 99999-9999" maxlength="16" style="width:100%; height:44px; background:#1a191f; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:4px;">E-mail para Login</label>
+          <input type="email" id="reg-user-email" required placeholder="seuemail@exemplo.com" style="width:100%; height:44px; background:#1a191f; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:4px;">Criar Senha</label>
+          <input type="password" id="reg-user-pass" required minlength="6" placeholder="Mínimo 6 caracteres" style="width:100%; height:44px; background:#1a191f; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:4px;">Confirmar Senha</label>
+          <input type="password" id="reg-user-pass-confirm" required minlength="6" placeholder="Repita a mesma senha" style="width:100%; height:44px; background:#1a191f; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div id="reg-feedback" style="display:none; font-size:12px; padding:8px 12px; border-radius:8px;"></div>
+
+        <button type="submit" class="btn b1" style="height:48px; font-size:14.5px; font-weight:700; margin-top:4px;">
+          Cadastrar e Iniciar 7 Dias Grátis ➔
+        </button>
+
+        <div style="text-align:center; margin-top:6px;">
+          <span style="font-size:12px; color:var(--dim);">Já possui cadastro? </span>
+          <button type="button" onclick="switchLandingAuthTab('login')" style="background:none; border:none; color:#fff; font-size:12px; font-weight:700; cursor:pointer; text-decoration:underline;">
+            Fazer Login
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ================= TELA 3: ESQUECI A SENHA ================= -->
+    <div id="auth-pane-forgot" style="display:none;">
+      <h3 style="font-size:19px; font-weight:700; color:#fff; margin:0 0 4px;">Recuperar Senha</h3>
+      <p style="font-size:12.5px; color:var(--dim); margin:0 0 18px; line-height:1.5;">
+        Informe o e-mail cadastrado e enviaremos um link para você redefinir sua senha com segurança.
+      </p>
+
+      <form onsubmit="handleForgotSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#d8d8d8; margin-bottom:5px;">E-mail cadastrado</label>
+          <input type="email" id="forgot-email" required placeholder="seuemail@exemplo.com" style="width:100%; height:46px; background:#1a191f; border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:0 14px; font-size:14px; color:#fff; outline:none;">
+        </div>
+
+        <div id="forgot-feedback" style="display:none; font-size:12px; padding:10px 12px; border-radius:10px; line-height:1.4;"></div>
+
+        <button type="submit" class="btn b1" id="forgot-submit-btn" style="height:48px; font-size:14px; font-weight:700;">
+          Enviar Link de Recuperação ➔
+        </button>
+
+        <div style="text-align:center; margin-top:10px;">
+          <button type="button" onclick="switchLandingAuthTab('login')" style="background:none; border:none; color:#ff5f8a; font-size:12.5px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:4px;">
+            ← Voltar para a tela de Entrar
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function openLandingLoginModal(tab){
+  var m = document.getElementById('landing-auth-modal');
+  if(!m) return;
+  m.style.display = 'flex';
+  switchLandingAuthTab(tab || 'login');
+}
+window.openLandingLoginModal = openLandingLoginModal;
+window.openLandingAuthModal = openLandingLoginModal; // Compatibilidade com links antigos
+
+function closeLandingLoginModal(){
+  var m = document.getElementById('landing-auth-modal');
+  if(m) m.style.display = 'none';
+  if(window.location.hash.includes('login') || window.location.hash.includes('cadastrar') || window.location.hash.includes('recuperar')){
+    history.replaceState(null, '', window.location.pathname);
+  }
+}
+window.closeLandingLoginModal = closeLandingLoginModal;
+window.closeLandingAuthModal = closeLandingLoginModal;
+
+function switchLandingAuthTab(tab){
+  var paneLogin = document.getElementById('auth-pane-login');
+  var paneReg = document.getElementById('auth-pane-register');
+  var paneForgot = document.getElementById('auth-pane-forgot');
+  var btnLogin = document.getElementById('tab-btn-login');
+  var btnReg = document.getElementById('tab-btn-register');
+  var tabBar = document.getElementById('auth-tab-bar');
+
+  if(tab === 'login'){
+    paneLogin.style.display = 'block';
+    paneReg.style.display = 'none';
+    paneForgot.style.display = 'none';
+    tabBar.style.display = 'flex';
+    btnLogin.style.background = 'rgba(255,255,255,0.1)';
+    btnLogin.style.color = '#fff';
+    btnReg.style.background = 'transparent';
+    btnReg.style.color = 'var(--dim)';
+    window.location.hash = '#login';
+  } else if(tab === 'cadastrar' || tab === 'register'){
+    paneLogin.style.display = 'none';
+    paneReg.style.display = 'block';
+    paneForgot.style.display = 'none';
+    tabBar.style.display = 'flex';
+    btnReg.style.background = 'rgba(255,255,255,0.1)';
+    btnReg.style.color = '#fff';
+    btnLogin.style.background = 'transparent';
+    btnLogin.style.color = 'var(--dim)';
+    window.location.hash = '#cadastrar';
+  } else if(tab === 'forgot'){
+    paneLogin.style.display = 'none';
+    paneReg.style.display = 'none';
+    paneForgot.style.display = 'block';
+    tabBar.style.display = 'none';
+    window.location.hash = '#recuperar';
+  }
+}
+window.switchLandingAuthTab = switchLandingAuthTab;
+
+function togglePassVisibility(id){
+  var el = document.getElementById(id);
+  if(el){
+    el.type = el.type === 'password' ? 'text' : 'password';
+  }
+}
+window.togglePassVisibility = togglePassVisibility;
+
+// Máscara de telefone WhatsApp
+document.addEventListener('DOMContentLoaded', function(){
+  var phoneInput = document.getElementById('reg-user-phone');
+  if(phoneInput){
+    phoneInput.addEventListener('input', function(e){
+      var v = e.target.value.replace(/\D/g, '');
+      if(v.length > 11) v = v.slice(0, 11);
+      if(v.length > 6){
+        e.target.value = '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7);
+      } else if(v.length > 2){
+        e.target.value = '(' + v.slice(0, 2) + ') ' + v.slice(2);
+      } else {
+        e.target.value = v;
+      }
+    });
+  }
+
+  // Verificar hash na URL para abrir direto
+  var h = window.location.hash.toLowerCase();
+  if(h.includes('login')) openLandingLoginModal('login');
+  if(h.includes('cadastrar') || h.includes('cadastro')) openLandingLoginModal('cadastrar');
+  if(h.includes('recuperar') || h.includes('esqueci')) openLandingLoginModal('forgot');
+});
+
+// Ação de Entrar
+function handleLoginSubmit(e){
+  e.preventDefault();
+  var email = document.getElementById('login-email').value.trim();
+  var pass = document.getElementById('login-pass').value.trim();
+  var fb = document.getElementById('login-feedback');
+
+  fb.style.display = 'block';
+  fb.style.background = 'rgba(52,194,129,0.12)';
+  fb.style.border = '1px solid rgba(52,194,129,0.3)';
+  fb.style.color = '#34c281';
+  fb.textContent = 'Autenticando... Redirecionando para a sua agenda ✓';
+
+  try {
+    localStorage.setItem('agendo_demo_account', JSON.stringify({
+      email: email,
+      lastLogin: new Date().toISOString()
+    }));
+  } catch(err){}
+
+  setTimeout(function(){
+    var isAdmin = email.toLowerCase() === "tonyoliveira800@gmail.com";
+    var userSession = {
+      id: isAdmin ? "admin_tony_oliveira" : ("usr_" + Date.now()),
+      email: email,
+      fullName: isAdmin ? "Tony Oliveira" : email.split("@")[0],
+      isAdmin: isAdmin,
+      mustChangePassword: isAdmin && (localStorage.getItem("agendo_admin_stored_credentials") ? !JSON.parse(localStorage.getItem("agendo_admin_stored_credentials")).passwordChanged : true),
+      planId: isAdmin ? "plan-studio" : (localStorage.getItem("agendo_active_plan") || "plan-basic"),
+      planStatus: "active"
+    };
+    try {
+      localStorage.setItem("agendo_live_session", JSON.stringify(userSession));
+    } catch(e){}
+
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: "payment:login", email: email, user: userSession }, "*");
+      window.parent.postMessage({ type: "agendo:go", path: isAdmin ? "/adm" : "/painel-agenda" }, "*");
+    } else {
+      window.location.href = isAdmin ? "/adm" : "/painel-agenda";
+    }
+  }, 700);
+}
+window.handleLoginSubmit = handleLoginSubmit;
+
+// Ação de Cadastrar (7 Dias Grátis)
+function handleRegisterSubmit(e){
+  e.preventDefault();
+  var name = document.getElementById('reg-user-name').value.trim();
+  var phone = document.getElementById('reg-user-phone').value.trim();
+  var email = document.getElementById('reg-user-email').value.trim();
+  var pass = document.getElementById('reg-user-pass').value.trim();
+  var passConfirm = document.getElementById('reg-user-pass-confirm').value.trim();
+  var fb = document.getElementById('reg-feedback');
+
+  if(pass !== passConfirm){
+    fb.style.display = 'block';
+    fb.style.background = 'rgba(255,92,108,0.12)';
+    fb.style.border = '1px solid rgba(255,92,108,0.3)';
+    fb.style.color = '#ff5c6c';
+    fb.textContent = 'As senhas não coincidem. Verifique e tente novamente.';
+    return;
+  }
+
+  fb.style.display = 'block';
+  fb.style.background = 'rgba(52,194,129,0.12)';
+  fb.style.border = '1px solid rgba(52,194,129,0.3)';
+  fb.style.color = '#34c281';
+  fb.textContent = 'Conta criada com sucesso! <span class="dyn-trial-days">3</span> dias grátis ativados ✓';
+
+  try {
+    localStorage.setItem('agendo_demo_account', JSON.stringify({
+      email: email,
+      name: name,
+      phone: phone,
+      createdAt: new Date().toISOString()
+    }));
+
+    localStorage.setItem('agendo_user_billing_profile', JSON.stringify({
+      origin: 'organic_landing',
+      trialPaid: false,
+      trialDurationDays: 7,
+      trialStartedAt: new Date().toISOString(),
+      regularPrice: 29.90,
+      status: 'active_trial',
+      clientName: name,
+      clientEmail: email
+    }));
+  } catch(err){}
+
+  setTimeout(function(){
+    var userSession = {
+      id: "usr_" + Date.now(),
+      email: email,
+      fullName: name,
+      phone: phone,
+      isAdmin: email.toLowerCase() === "tonyoliveira800@gmail.com",
+      mustChangePassword: false,
+      planId: localStorage.getItem("agendo_active_plan") || "plan-basic",
+      planStatus: "trialing"
+    };
+    try {
+      localStorage.setItem("agendo_live_session", JSON.stringify(userSession));
+    } catch(e){}
+
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: "payment:login", email: email, user: userSession }, "*");
+      window.parent.postMessage({ type: "agendo:go", path: "/painel-agenda" }, "*");
+    } else {
+      window.location.href = "/painel-agenda";
+    }
+  }, 900);
+}
+window.handleRegisterSubmit = handleRegisterSubmit;
+
+// Ação de Esqueci a Senha
+function handleForgotSubmit(e){
+  e.preventDefault();
+  var email = document.getElementById('forgot-email').value.trim();
+  var fb = document.getElementById('forgot-feedback');
+  var btn = document.getElementById('forgot-submit-btn');
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando instruções...';
+
+  setTimeout(function(){
+    fb.style.display = 'block';
+    fb.style.background = 'rgba(52,194,129,0.12)';
+    fb.style.border = '1px solid rgba(52,194,129,0.3)';
+    fb.style.color = '#34c281';
+    fb.innerHTML = '<b>E-mail enviado!</b> Enviamos o link de recuperação para <u>' + email + '</u>. Verifique sua caixa de entrada e spam.';
+    btn.textContent = 'Instruções Enviadas ✓';
+  }, 800);
+}
+window.handleForgotSubmit = handleForgotSubmit;
+</script>
+<script src="/agendo-real.js"></script>
+<script>
+// Atualiza a grade de planos da landing page de acordo com a configuracao do Super Admin
+(function(){
+  function syncLandingPlans(){
+    try {
+      var raw = localStorage.getItem("agendo_plan_matrix");
+      if(!raw) return;
+      var matrix = JSON.parse(raw);
+      var grid = document.querySelector(".g3.plans");
+      if(!grid) return;
+      
+      var basic = matrix["plan-basic"] || { active: true, price: 19.90, trialDays: 3, name: "Plano Inicial" };
+      var pro = matrix["plan-pro"] || { active: false, price: 49.90, name: "Plano Pro" };
+      var studio = matrix["plan-studio"] || { active: false, price: 89.90, name: "Plano Studio" };
+
+      var html = "";
+      var activeCount = 0;
+
+      if(basic.active !== false){
+        activeCount++;
+        var priceStr = "R$ " + (basic.price || 19.90).toFixed(2).replace(".", ",");
+        var trialDays = basic.trialDays !== undefined ? basic.trialDays : 3;
+        html += '<div class="card plan hot" style="max-width:440px; margin:0 auto; width:100%; border-color:#ff5f8a;">' +
+          '<span class="tag2" style="background:#ff5f8a; color:#fff;">Oferta de Captação</span>' +
+          '<h3>' + (basic.name || "Plano Inicial") + '</h3>' +
+          '<div class="pr">' + priceStr + '<small>/mês</small></div>' +
+          '<div class="fr">Teste completo com <b>' + trialDays + ' dias grátis de acesso</b></div>' +
+          '<div style="font-size:11px; font-weight:700; color:#34c281; margin:14px 0 8px; text-transform:uppercase; letter-spacing:0.04em;">Recursos Liberados:</div>' +
+          '<ul style="margin-bottom:16px;">' +
+            '<li>✓ Vitrine pública com link próprio (agendo.link)</li>' +
+            '<li>✓ Agendamento online autônomo 24h</li>' +
+            '<li>✓ Agenda no celular e confirmação automática</li>' +
+            '<li>✓ Lembretes e notificações via WhatsApp</li>' +
+            '<li>✓ <b>Zero taxas extras</b> sobre agendamentos</li>' +
+          '</ul>' +
+          '<button type="button" class="btn b1" onclick="openLandingLoginModal('cadastrar')" style="width:100%; cursor:pointer;">Começar ' + trialDays + ' dias grátis ➔</button>' +
+        '</div>';
+      }
+
+      if(pro.active === true){
+        activeCount++;
+        var priceProStr = "R$ " + (pro.price || 49.90).toFixed(2).replace(".", ",");
+        html += '<div class="card plan">' +
+          '<span class="tag2">Mais Escolhido</span>' +
+          '<h3>' + (pro.name || "Plano Pro") + '</h3>' +
+          '<div class="pr">' + priceProStr + '<small>/mês</small></div>' +
+          '<div class="fr">Para estúdios e clínicas em crescimento</div>' +
+          '<div style="font-size:11px; font-weight:700; color:#34c281; margin:14px 0 8px; text-transform:uppercase; letter-spacing:0.04em;">Recursos Inclusos:</div>' +
+          '<ul style="margin-bottom:16px;">' +
+            '<li>✓ Tudo do Plano Inicial</li>' +
+            '<li>✓ Capa Cinema com foto e vídeo</li>' +
+            '<li>✓ CRM de clientes & retenção 30/60/90 dias</li>' +
+            '<li>✓ Split de pagamentos 3% via Pix</li>' +
+          '</ul>' +
+          '<button type="button" class="btn b2" onclick="openLandingLoginModal('cadastrar')" style="width:100%; cursor:pointer;">Testar Plano Pro ➔</button>' +
+        '</div>';
+      }
+
+      if(studio.active === true){
+        activeCount++;
+        var priceStudioStr = "R$ " + (studio.price || 89.90).toFixed(2).replace(".", ",");
+        html += '<div class="card plan">' +
+          '<h3>' + (studio.name || "Plano Studio") + '</h3>' +
+          '<div class="pr">' + priceStudioStr + '<small>/mês</small></div>' +
+          '<div class="fr">Acesso total para máxima fidelização e escala</div>' +
+          '<div style="font-size:11px; font-weight:700; color:#ffb020; margin:14px 0 8px; text-transform:uppercase; letter-spacing:0.04em;">Acesso Total Ilimitado:</div>' +
+          '<ul style="margin-bottom:16px;">' +
+            '<li>✓ Tudo do Plano Pro</li>' +
+            '<li>✓ Múltiplos profissionais e cadeiras</li>' +
+            '<li>✓ Banners promocionais na vitrine</li>' +
+            '<li>✓ Relatórios avançados de afiliados</li>' +
+          '</ul>' +
+          '<button type="button" class="btn b2" onclick="openLandingLoginModal('cadastrar')" style="width:100%; cursor:pointer;">Testar Plano Studio ➔</button>' +
+        '</div>';
+      }
+
+      if(activeCount === 1){
+        grid.style.display = "flex";
+        grid.style.justifyContent = "center";
+      } else {
+        grid.style.display = "grid";
+      }
+      grid.innerHTML = html;
+    } catch(e){}
+  }
+
+  window.addEventListener("DOMContentLoaded", syncLandingPlans);
+  window.addEventListener("storage", syncLandingPlans);
+  syncLandingPlans();
+})();
+</script>
+
+<script>
+// Sincronização dinâmica de período de teste grátis (3 dias ou 7 dias) configurado pelo ADM
+(function(){
+  function getTrialDays(){
+    try {
+      var d = localStorage.getItem("agendo_global_trial_days");
+      if(d) return parseInt(d, 10);
+      var m = localStorage.getItem("agendo_plan_matrix");
+      if(m){
+        var parsed = JSON.parse(m);
+        if(parsed["plan-basic"] && parsed["plan-basic"].trialDays !== undefined) return parseInt(parsed["plan-basic"].trialDays, 10);
+      }
+    } catch(e){}
+    return 3;
+  }
+
+  function syncLandingTrialTexts(){
+    var days = getTrialDays();
+
+    // Atualiza todos os spans dinamicos
+    document.querySelectorAll(".dyn-trial-days").forEach(function(el){
+      el.textContent = days;
+    });
+    
+    // Atualiza cabeçalho de planos
+    var pHead = document.querySelector("#planos .head p");
+    if(pHead){
+      pHead.innerHTML = "Todos os novos usuários têm " + days + " dias para testar gratuitamente. Plataforma para profissionais e estúdios com 100% de autonomia e <b>zero taxas sobre agendamentos</b>:";
+    }
+
+    // Atualiza CTA final
+    var ctaDesc = document.querySelector(".cbox p");
+    if(ctaDesc){
+      ctaDesc.textContent = "Dê a ele um caminho simples e recupere o seu tempo. Comece agora com " + days + " dias para testar.";
+    }
+
+    // Atualiza título da aba de cadastro no modal
+    var regTitle = document.getElementById("auth-tab-btn-reg");
+    if(regTitle){
+      regTitle.textContent = "Cadastre-se com " + days + " dias grátis";
+    }
+
+    // Atualiza botões
+    document.querySelectorAll(".btn-trial-action").forEach(function(b){
+      b.textContent = "Começar " + days + " dias grátis ➔";
+    });
+
+    // Atualiza FAQ de período de teste
+    var faqQuestion = document.querySelector("#planos details summary");
+    if(faqQuestion && faqQuestion.innerHTML.includes("dias")){
+      faqQuestion.innerHTML = "O que acontece depois dos " + days + " dias?<i>+</i>";
+    }
+  }
+  window.syncLandingTrialTexts = syncLandingTrialTexts;
+  window.addEventListener("DOMContentLoaded", syncLandingTrialTexts);
+  window.addEventListener("storage", syncLandingTrialTexts);
+  syncLandingTrialTexts();
+})();
+</script>
+
+</body></html>
