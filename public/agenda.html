@@ -7564,7 +7564,13 @@ function toggleCrmRowDetails(clientId){
 
   function openClientAppConfigModal(){
     const overlay = document.getElementById('clientapp-config-overlay') || document.getElementById('loyalty-config-overlay');
-    if(overlay) overlay.classList.remove('hidden');
+    if(overlay) {
+      overlay.classList.remove('hidden');
+      if (window.loadClientAppBannerIntoLojistaForm) window.loadClientAppBannerIntoLojistaForm();
+      if (window.loadCouponsIntoLojista) window.loadCouponsIntoLojista();
+      if (window.initEsteticaControls) window.initEsteticaControls();
+      if (window.loadCatalogConfigIntoLojistaForm) window.loadCatalogConfigIntoLojistaForm();
+    }
   }
   window.openClientAppConfigModal = openClientAppConfigModal;
 
@@ -12407,6 +12413,7 @@ function toggleCrmRowDetails(clientId){
       loadClientAppBannerIntoLojistaForm();
       loadCouponsIntoLojista();
       initEsteticaControls();
+      if(window.loadCatalogConfigIntoLojistaForm) loadCatalogConfigIntoLojistaForm();
       const chkAnamnese = document.getElementById('cac-toggle-anamnese');
       if(chkAnamnese){
         chkAnamnese.checked = localStorage.getItem('agendo_module_anamnese_active') !== 'false';

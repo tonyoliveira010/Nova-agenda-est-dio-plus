@@ -1886,8 +1886,13 @@
       <section class="clean-card" id="cfg-anamnese-card" style="cursor:pointer;" onclick="handleAnamneseCardClick()">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div style="display:flex; align-items:center; gap:12px;">
-            <div style="width:40px; height:40px; border-radius:12px; background:var(--field); display:grid; place-items:center; font-size:18px;" id="cfg-anamnese-icon">
-              📋
+            <div style="width:42px; height:42px; border-radius:14px; background:rgba(255,45,135,0.08); border:1px solid rgba(255,45,135,0.18); display:flex; align-items:center; justify-content:center; flex-shrink:0;" id="cfg-anamnese-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent, #ff2d87)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                <path d="M9 12h6"></path>
+                <path d="M9 16h6"></path>
+              </svg>
             </div>
             <div>
               <div style="display:flex; align-items:center; gap:6px;">
@@ -1897,7 +1902,7 @@
               <span style="font-size:12px; color:var(--muted);" id="cfg-anamnese-subtitle">Tipo de pele, sensibilidade e orientações Home Care</span>
             </div>
           </div>
-          <span style="font-size:13px; color:#ff2d87; font-weight:700;" id="cfg-anamnese-arrow">Abrir ➔</span>
+          <span style="font-size:13px; color:var(--accent, #ff2d87); font-weight:700;" id="cfg-anamnese-arrow">Abrir ➔</span>
         </div>
       </section>
 
@@ -1940,8 +1945,11 @@
       <section class="clean-card" style="cursor:pointer;" onclick="openPublicStudioPage()">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div style="display:flex; align-items:center; gap:12px;">
-            <div style="width:40px; height:40px; border-radius:12px; background:var(--field); display:grid; place-items:center; font-size:18px;">
-              🏪
+            <div style="width:42px; height:42px; border-radius:14px; background:var(--field, #f4f4f7); border:1px solid var(--hairline-soft, rgba(0,0,0,0.06)); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink, #111113)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
             </div>
             <div>
               <b style="font-size:15px; color:var(--ink); display:block;">Página Pública do Estabelecimento</b>
@@ -1952,231 +1960,15 @@
         </div>
       </section>
 
-      <!-- 4.1 Personalização de Estética & Paleta de Cores (Configurável pelo Lojista) -->
-      <section class="clean-card" style="margin-bottom:14px; overflow:hidden;">
-        <div onclick="toggleEsteticaSection()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="width:36px; height:36px; border-radius:10px; background:var(--field); display:grid; place-items:center; font-size:16px;">
-              🎨
-            </div>
-            <div>
-              <b style="font-size:14.5px; color:var(--ink); display:block;">Estética & Paleta de Cores do App</b>
-              <span style="font-size:11.5px; color:var(--muted);">Cores em código hex, fundo claro/escuro e destaque</span>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:10px; font-weight:700; background:rgba(255,45,135,0.12); color:var(--accent); padding:3px 8px; border-radius:999px;">Lojista VIP</span>
-            <span id="estetica-chevron" style="font-size:14px; color:var(--muted); font-weight:700; transition:transform 0.2s ease;">⌄</span>
-          </div>
-        </div>
-
-        <div id="estetica-form-container" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--hairline-soft);">
-          <p style="font-size:12px; color:var(--muted); margin-bottom:12px;">
-            Defina as cores em código hexadecimal para combinar com a identidade visual do seu estúdio.
-          </p>
-
-          <!-- Paletas Rápidas -->
-          <label style="font-size:11.5px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">Paletas Prontas</label>
-          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin-bottom:12px;">
-            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#ffffff', '#f4f4f6', '#ff2d87', '#ff5f8a')">
-              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ff2d87;"></span>
-              <span>🌸 Rosa Chic</span>
-            </button>
-            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#ffffff', '#f4f4f5', '#141414', '#27272a')">
-              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#141414;"></span>
-              <span>🖤 Minimal</span>
-            </button>
-            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#ffffff', '#fcfaf6', '#c59b27', '#e2b93b')">
-              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#c59b27;"></span>
-              <span>👑 Gold Spa</span>
-            </button>
-            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#ffffff', '#f0fdf4', '#059669', '#10b981')">
-              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#059669;"></span>
-              <span>🌿 Esmeralda</span>
-            </button>
-            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#ffffff', '#faf5ff', '#8b5cf6', '#a855f7')">
-              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#8b5cf6;"></span>
-              <span>💜 Lavanda</span>
-            </button>
-            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#09090c', '#181820', '#ff2d87', '#ef1f4d')">
-              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#09090c; border:1px solid #444;"></span>
-              <span>🌙 Dark Studio</span>
-            </button>
-          </div>
-
-          <!-- Fundo Base: Branco ou Preto -->
-          <label style="font-size:11.5px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">Fundo Base do App (Canvas)</label>
-          <div style="display:flex; gap:6px; margin-bottom:12px;">
-            <button type="button" class="button-outline" style="flex:1; height:34px; font-size:11px; font-weight:700;" onclick="setClientBgPreset('white')">
-              ☀️ Fundo Branco (#ffffff)
-            </button>
-            <button type="button" class="button-outline" style="flex:1; height:34px; font-size:11px; font-weight:700;" onclick="setClientBgPreset('black')">
-              🌙 Fundo Preto (#09090c)
-            </button>
-          </div>
-
-          <!-- Campos de Cores Hexadecimais com Picker -->
-          <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
-            <div>
-              <span style="font-size:11px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Código do Fundo Geral (Hex)</span>
-              <div style="display:flex; align-items:center; gap:8px;">
-                <input type="color" id="client-theme-picker-bg" value="#ffffff" oninput="syncClientThemePicker('bg')" style="width:36px; height:36px; padding:0; border:1px solid var(--hairline); border-radius:8px; cursor:pointer; background:none;">
-                <input type="text" id="client-theme-code-bg" class="text-input-field" value="#ffffff" placeholder="#ffffff" oninput="syncClientThemeInput('bg')" style="margin:0; font-family:monospace; font-weight:700; text-transform:uppercase;">
-              </div>
-            </div>
-
-            <div>
-              <span style="font-size:11px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Código do Fundo dos Componentes & Cards (Hex)</span>
-              <div style="display:flex; align-items:center; gap:8px;">
-                <input type="color" id="client-theme-picker-card" value="#f4f4f6" oninput="syncClientThemePicker('card')" style="width:36px; height:36px; padding:0; border:1px solid var(--hairline); border-radius:8px; cursor:pointer; background:none;">
-                <input type="text" id="client-theme-code-card" class="text-input-field" value="#f4f4f6" placeholder="#f4f4f6" oninput="syncClientThemeInput('card')" style="margin:0; font-family:monospace; font-weight:700; text-transform:uppercase;">
-              </div>
-            </div>
-
-            <div>
-              <span style="font-size:11px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Código de Destaque / Botões / Rosa (Hex)</span>
-              <div style="display:flex; align-items:center; gap:8px;">
-                <input type="color" id="client-theme-picker-accent" value="#ff2d87" oninput="syncClientThemePicker('accent')" style="width:36px; height:36px; padding:0; border:1px solid var(--hairline); border-radius:8px; cursor:pointer; background:none;">
-                <input type="text" id="client-theme-code-accent" class="text-input-field" value="#ff2d87" placeholder="#ff2d87" oninput="syncClientThemeInput('accent')" style="margin:0; font-family:monospace; font-weight:700; text-transform:uppercase;">
-              </div>
-            </div>
-          </div>
-
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="button-outline" style="flex:1; height:36px; font-size:11.5px;" onclick="resetClientThemeConfig()">
-              Restaurar Padrão
-            </button>
-            <button type="button" class="button-primary" style="flex:1.2; height:36px; font-size:11.5px; font-weight:700;" onclick="saveClientThemeConfig()">
-              Aplicar Paleta ✓
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- 4.2 Configuração da Vitrine & Catálogo da Home (Configurável pelo Lojista) -->
-      <section class="clean-card" style="margin-bottom:14px; overflow:hidden;">
-        <div onclick="toggleCatalogConfigSection()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="width:36px; height:36px; border-radius:10px; background:var(--field); display:grid; place-items:center; font-size:16px;">
-              📑
-            </div>
-            <div>
-              <b style="font-size:14.5px; color:var(--ink); display:block;">Vitrine & Catálogo da Página Inicial</b>
-              <span style="font-size:11.5px; color:var(--muted);">Abas, formato (lista ou carrossel) e cards visíveis</span>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:10px; font-weight:700; background:rgba(255,45,135,0.12); color:var(--accent); padding:3px 8px; border-radius:999px;">Lojista VIP</span>
-            <span id="catalog-config-chevron" style="font-size:14px; color:var(--muted); font-weight:700; transition:transform 0.2s ease;">⌄</span>
-          </div>
-        </div>
-
-        <div id="catalog-config-form-container" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--hairline-soft);">
-          <p style="font-size:12px; color:var(--muted); margin-bottom:14px; line-height:1.4;">
-            Personalize como os procedimentos e produtos aparecem na tela inicial: escolha exibir ou ocultar as abas, configure seus nomes, selecione o formato (lista ou carrossel) e marque quais cards ficam à mostra.
-          </p>
-
-          <!-- 1. Exibir ou Ocultar Abas -->
-          <div style="display:flex; justify-content:space-between; align-items:center; background:var(--field); border:1px solid var(--hairline-soft); border-radius:12px; padding:12px 14px; margin-bottom:14px;">
-            <div>
-              <b style="font-size:13px; color:var(--ink); display:block;">Exibir Seletor de Abas na Home</b>
-              <span style="font-size:11px; color:var(--muted); display:block; margin-top:2px;">
-                Se desativado, o catálogo exibe os procedimentos diretamente sem alternador de abas.
-              </span>
-            </div>
-            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
-              <input type="checkbox" id="client-catcfg-show-tabs" checked style="accent-color:var(--accent, #ff2d87); width:18px; height:18px;" onchange="previewCatalogConfigLive()">
-              <span style="font-size:12px; font-weight:700; color:var(--ink);">Ativo</span>
-            </label>
-          </div>
-
-          <!-- 2. Formato de Exibição: Carrossel Scroll Horizontal vs Lista Vertical -->
-          <label style="font-size:12px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">Formato de Exibição dos Cards</label>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;">
-            <button type="button" id="client-catcfg-btn-horizontal" class="button-outline" style="height:40px; font-size:11.5px; font-weight:700; justify-content:center; gap:6px; background:linear-gradient(135deg, var(--accent, #ff2d87), #ef1f4d); color:#fff; border:none; box-shadow:0 3px 10px rgba(239,31,77,0.25);" onclick="setClientCatalogLayout('horizontal')">
-              ↔️ Scroll Horizontal
-            </button>
-            <button type="button" id="client-catcfg-btn-vertical" class="button-outline" style="height:40px; font-size:11.5px; font-weight:700; justify-content:center; gap:6px; background:transparent; color:var(--muted);" onclick="setClientCatalogLayout('vertical')">
-              ↕️ Lista Vertical
-            </button>
-          </div>
-
-          <!-- 3. Nomes das Abas -->
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;">
-            <div>
-              <span style="font-size:11px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Nome da Aba 1 (Procedimentos)</span>
-              <input type="text" id="client-catcfg-tab-quick-name" class="text-input-field" value="⚡ Agendamento Rápido" placeholder="Ex: ⚡ Agendamento Rápido" oninput="previewCatalogConfigLive()" style="margin:0; font-size:12px;">
-            </div>
-            <div>
-              <span style="font-size:11px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Nome da Aba 2 (Produtos)</span>
-              <input type="text" id="client-catcfg-tab-prods-name" class="text-input-field" value="🛍️ Produtos & Home Care" placeholder="Ex: 🛍️ Produtos & Home Care" oninput="previewCatalogConfigLive()" style="margin:0; font-size:12px;">
-            </div>
-          </div>
-
-          <!-- 4. Vincular Cards de Procedimentos à Mostra -->
-          <span style="font-size:12px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">Vincular Procedimentos à Mostra na Home</span>
-          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px; background:var(--field); padding:12px; border-radius:12px; border:1px solid var(--hairline-soft);">
-            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
-              <span>Peeling de Diamante (R$ 150,00)</span>
-              <input type="checkbox" id="client-catcfg-card-peeling" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
-            </label>
-            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
-              <span>Limpeza de Pele Profunda (R$ 160,00)</span>
-              <input type="checkbox" id="client-catcfg-card-limpeza" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
-            </label>
-            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
-              <span>Massagem Relaxante (R$ 180,00)</span>
-              <input type="checkbox" id="client-catcfg-card-massagem" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
-            </label>
-            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
-              <span>Drenagem Linfática (R$ 160,00)</span>
-              <input type="checkbox" id="client-catcfg-card-drenagem" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
-            </label>
-            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
-              <span>Design de Sobrancelhas (R$ 90,00)</span>
-              <input type="checkbox" id="client-catcfg-card-sobrancelha" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
-            </label>
-          </div>
-
-          <!-- 5. Vincular Produtos à Mostra -->
-          <span style="font-size:12px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">Vincular Produtos à Mostra na Home</span>
-          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px; background:var(--field); padding:12px; border-radius:12px; border:1px solid var(--hairline-soft);">
-            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
-              <span>Sérum Vitamina C 15% (R$ 139,00)</span>
-              <input type="checkbox" id="client-catcfg-card-serum" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
-            </label>
-            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
-              <span>Filtro Solar FPS 50 (R$ 98,00)</span>
-              <input type="checkbox" id="client-catcfg-card-solar" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
-            </label>
-            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
-              <span>Óleo Relaxante Lavanda (R$ 85,00)</span>
-              <input type="checkbox" id="client-catcfg-card-oleo" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
-            </label>
-            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
-              <span>Máscara Argila Rosa (R$ 75,00)</span>
-              <input type="checkbox" id="client-catcfg-card-argila" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
-            </label>
-          </div>
-
-          <!-- Ações -->
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="button-outline" style="flex:1; height:36px; font-size:11.5px;" onclick="resetClientCatalogConfig()">
-              Restaurar Padrão
-            </button>
-            <button type="button" class="button-primary" style="flex:1.4; height:36px; font-size:11.5px; font-weight:700;" onclick="saveClientCatalogConfig()">
-              Salvar Vitrine no App ✓
-            </button>
-          </div>
-        </div>
-      </section>
-
       <!-- 5. Troca de Senha e E-mail (Minimizado por Padrão) -->
       <section class="clean-card" style="margin-bottom:14px; overflow:hidden;">
         <div onclick="toggleSecuritySection()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="width:36px; height:36px; border-radius:10px; background:var(--field); display:grid; place-items:center; font-size:16px;">
-              🔒
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:42px; height:42px; border-radius:14px; background:var(--field, #f4f4f7); border:1px solid var(--hairline-soft, rgba(0,0,0,0.06)); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--ink, #111113)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
             </div>
             <div>
               <b style="font-size:14.5px; color:var(--ink); display:block;">Segurança e Conta do Cliente</b>
@@ -2185,7 +1977,7 @@
           </div>
           <div style="display:flex; align-items:center; gap:8px;">
             <span style="font-size:10px; font-weight:700; background:var(--field); color:var(--muted); padding:3px 8px; border-radius:999px;">Minimizado</span>
-            <span id="sec-chevron" style="font-size:14px; color:var(--muted); font-weight:700; transition:transform 0.2s ease;">⌄</span>
+            <span id="sec-chevron" style="display:flex; align-items:center; justify-content:center; width:20px; height:20px; color:var(--muted); transition:transform 0.2s ease;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
           </div>
         </div>
 
@@ -4126,8 +3918,6 @@
     renderBanner();
     renderReferral();
     renderHomeCatalog();
-    initClientCatalogInputs();
-    initClientEsteticaInputs();
     loadClientCoupons();
     renderServicesList();
     renderBookingCalendar();
@@ -4137,17 +3927,20 @@
   renderBanner();
   renderReferral();
   renderHomeCatalog();
-  initClientCatalogInputs();
-  initClientEsteticaInputs();
   loadClientCoupons();
 
   // Sincronização em tempo real entre painel do lojista e app do cliente
   window.addEventListener('storage', (e) => {
+    if (e.key === 'agendo_custom_theme') {
+      try {
+        const theme = JSON.parse(e.newValue || '{}');
+        if (window.applyLojistaTheme) window.applyLojistaTheme(theme);
+      } catch(err){}
+    }
     if (e.key === 'agendo_clientapp_catalog_config') {
       try {
         catalogConfig = { ...catalogConfig, ...JSON.parse(e.newValue || '{}') };
         renderHomeCatalog();
-        initClientCatalogInputs();
       } catch(err){}
     }
     if (e.key === 'agendo_clientapp_referral_config') {
@@ -4159,10 +3952,12 @@
   });
 
   window.addEventListener('message', (e) => {
+    if (e.data && e.data.type === 'agendo:theme_updated') {
+      if (window.applyLojistaTheme) window.applyLojistaTheme(e.data.theme);
+    }
     if (e.data && e.data.type === 'agendo:catalog_config_updated') {
       catalogConfig = { ...catalogConfig, ...e.data.config };
       renderHomeCatalog();
-      initClientCatalogInputs();
     }
   });
 </script>
