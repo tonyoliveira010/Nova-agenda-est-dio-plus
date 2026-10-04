@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { getCurrentUser, UserAccount } from './lib/auth-service';
-import { hydrateForUser, startBackgroundSync } from './lib/state-sync';
+import { hydrateForUser, startBackgroundSync, clearLocalAppData } from './lib/state-sync';
 import { MustChangePasswordModal } from './components/MustChangePasswordModal';
 import { PlanosPage } from './components/PlanosPage';
 
-type AppRoute = 'landingpage' | 'painel-agenda' | 'adm' | 'planos' | 'funil' | 'app-cliente';
+export type AppRoute = 'landingpage' | 'painel-agenda' | 'adm' | 'planos' | 'funil' | 'app-cliente';
 
 function getRouteFromLocation(): AppRoute {
   const path = window.location.pathname.toLowerCase().replace(/\/$/, '');
@@ -40,7 +40,6 @@ function getRouteFromLocation(): AppRoute {
   if (path === '/funil' || hash.includes('funil')) {
     return 'funil';
   }
-  // Default to landingpage
   return 'landingpage';
 }
 
@@ -66,7 +65,7 @@ export default function App() {
   // Navigate helper
   const navigateTo = useCallback((newRoute: AppRoute) => {
     setRoute(newRoute);
-    const targetPath = newRoute === 'landingpage' ? '/landingpage' : `/${newRoute}`;
+    const targetPath = newRoute === 'landingpage' ? '/' : `/${newRoute}`;
     if (window.location.pathname !== targetPath) {
       window.history.pushState(null, '', targetPath);
     }
@@ -96,11 +95,18 @@ export default function App() {
     loadUser();
   }, [loadUser]);
 
+  const handleLogout = () => {
+    clearLocalAppData();
+    localStorage.removeItem('agendo_live_session');
+    setCurrentUser(null);
+    navigateTo('landingpage');
+  };
+
   // Listen to postMessage from embedded native HTML pages
   useEffect(() => {
     const onMessage = async (e: MessageEvent) => {
-      if (e.origin !== window.location.origin) return;
       const data = e.data || {};
+      if (!data || typeof data !== 'object') return;
 
       // 1. Navigation requests
       if (data.type === 'agendo:go' && typeof data.path === 'string') {
@@ -113,8 +119,10 @@ export default function App() {
           navigateTo('app-cliente');
         } else if (p.includes('painel-agenda') || p.includes('agenda')) {
           navigateTo('painel-agenda');
-        } else if (p.includes('landing') || p.includes('inicio')) {
+        } else if (p.includes('landing') || p.includes('inicio') || p === '/' || p === '') {
           navigateTo('landingpage');
+        } else if (p.includes('funil')) {
+          navigateTo('funil');
         }
       }
 
@@ -124,6 +132,7 @@ export default function App() {
         else if (r.includes('app-cliente') || r.includes('cliente') || r.includes('client')) navigateTo('app-cliente');
         else if (r.includes('agenda')) navigateTo('painel-agenda');
         else if (r.includes('planos')) navigateTo('planos');
+        else if (r.includes('funil')) navigateTo('funil');
         else if (r.includes('inicio') || r.includes('landing')) navigateTo('landingpage');
       }
 
@@ -137,8 +146,11 @@ export default function App() {
         }
       }
 
+      if (data.type === 'payment:logout') {
+        handleLogout();
+      }
+
       if (data.type === 'onboarding:skip_to_auth') {
-        // Redireciona para o cadastro da landing page
         navigateTo('landingpage');
       }
     };
@@ -155,7 +167,7 @@ export default function App() {
   }, [route, currentUser]);
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-black text-white relative font-sans">
+    <div className="h-screen w-screen overflow-hidden bg-black text-white relative font-sans flex flex-col">
       {/* MANDATORY PASSWORD CHANGE MODAL (EXCLUSIVO PARA O ADMIN NA PRIMEIRA ENTRADA) */}
       {showAdminPasswordModal && currentUser?.isAdmin && (
         <MustChangePasswordModal
@@ -168,75 +180,78 @@ export default function App() {
         />
       )}
 
-      {/* 1. PÁGINA DE PLANOS [/planos] */}
-      {route === 'planos' && (
-        <div className="h-full w-full overflow-y-auto">
-          <PlanosPage />
-        </div>
-      )}
+      {/* MAIN VIEWPORT */}
+      <main className="flex-1 w-full h-full relative overflow-hidden bg-black">
+        {/* 1. PÁGINA DE PLANOS [/planos] */}
+        {route === 'planos' && (
+          <div className="h-full w-full overflow-y-auto bg-neutral-950">
+            <PlanosPage />
+          </div>
+        )}
 
-      {/* 2. LANDING PAGE [/landingpage] */}
-      {route === 'landingpage' && (
-        <div className="h-full w-full">
-          <iframe
-            src="/landing.html"
-            title="Landing Page agendo"
-            className="block h-full w-full border-0 bg-neutral-950"
-          />
-        </div>
-      )}
+        {/* 2. LANDING PAGE [/landingpage, /] */}
+        {route === 'landingpage' && (
+          <div className="h-full w-full bg-neutral-950">
+            <iframe
+              src="/landing.html"
+              title="Landing Page agendo"
+              className="block h-full w-full border-0 bg-neutral-950"
+            />
+          </div>
+        )}
 
-      {/* 3. PAINEL DA AGENDA DO USUÁRIO [/painel-agenda, /cliente, /agenda] */}
-      {route === 'painel-agenda' && (
-        <div className="h-full w-full">
-          <iframe
-            src={
-              window.location.pathname.includes('cliente') ||
-              window.location.pathname.includes('client') ||
-              window.location.hash.includes('clientapp') ||
-              window.location.hash.includes('cliente') ||
-              window.location.hash.includes('client')
-                ? '/agenda.html#clientapp'
-                : `/agenda.html${window.location.hash || ''}`
-            }
-            title="Painel Agenda & App do Usuário"
-            className="block h-full w-full border-0 bg-neutral-950"
-          />
-        </div>
-      )}
+        {/* 3. PAINEL DA AGENDA DO USUÁRIO [/painel-agenda, /cliente, /agenda] */}
+        {route === 'painel-agenda' && (
+          <div className="h-full w-full bg-neutral-950">
+            <iframe
+              src={
+                window.location.pathname.includes('cliente') ||
+                window.location.pathname.includes('client') ||
+                window.location.hash.includes('clientapp') ||
+                window.location.hash.includes('cliente') ||
+                window.location.hash.includes('client')
+                  ? '/agenda.html#clientapp'
+                  : `/agenda.html${window.location.hash || ''}`
+              }
+              title="Painel Agenda & App do Usuário"
+              className="block h-full w-full border-0 bg-neutral-950"
+            />
+          </div>
+        )}
 
-      {/* 4. SUPER ADMIN [/adm] */}
-      {route === 'adm' && (
-        <div className="h-full w-full">
-          <iframe
-            src="/adm.html"
-            title="Super Admin SaaS"
-            className="block h-full w-full border-0 bg-neutral-950"
-          />
-        </div>
-      )}
+        {/* 4. SUPER ADMIN [/adm] */}
+        {route === 'adm' && (
+          <div className="h-full w-full bg-neutral-950">
+            <iframe
+              src="/adm.html"
+              title="Super Admin SaaS"
+              className="block h-full w-full border-0 bg-neutral-950"
+            />
+          </div>
+        )}
 
-      {/* 5. FUNIL DE VENDAS & QUIZ [/funil] */}
-      {route === 'funil' && (
-        <div className="h-full w-full">
-          <iframe
-            src="/funil.html"
-            title="Funil de Conversão e Quiz agendo"
-            className="block h-full w-full border-0 bg-neutral-950"
-          />
-        </div>
-      )}
+        {/* 5. FUNIL DE VENDAS & QUIZ [/funil] */}
+        {route === 'funil' && (
+          <div className="h-full w-full bg-neutral-950">
+            <iframe
+              src="/funil.html"
+              title="Funil de Conversão e Quiz agendo"
+              className="block h-full w-full border-0 bg-neutral-950"
+            />
+          </div>
+        )}
 
-      {/* 6. APP DO CLIENTE [/app-cliente] */}
-      {route === 'app-cliente' && (
-        <div className="h-full w-full">
-          <iframe
-            src="/app-cliente.html"
-            title="App do Cliente — Portal VIP"
-            className="block h-full w-full border-0 bg-neutral-950"
-          />
-        </div>
-      )}
+        {/* 6. APP DO CLIENTE [/app-cliente] (Único em Modo Claro e background claro) */}
+        {route === 'app-cliente' && (
+          <div className="h-full w-full bg-white">
+            <iframe
+              src="/app-cliente.html"
+              title="App do Cliente — Portal VIP"
+              className="block h-full w-full border-0 bg-white"
+            />
+          </div>
+        )}
+      </main>
     </div>
   );
 }

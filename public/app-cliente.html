@@ -26,15 +26,15 @@
        - Shadow-free elevation: depth by tint ladder differences
     ========================================================= */
     :root {
-      --canvas: #09090c;
-      --canvas-soft: #121217;
-      --field: #181820;
-      --hairline-soft: rgba(255, 255, 255, 0.08);
-      --hairline: rgba(255, 255, 255, 0.15);
-      --ink: #f4f4f6;
-      --ink-soft: #e4e4e7;
-      --muted: #a1a1aa;
-      --faint: #71717a;
+      --canvas: #ffffff;
+      --canvas-soft: #f4f4f6;
+      --field: #eaebee;
+      --hairline-soft: rgba(0, 0, 0, 0.06);
+      --hairline: rgba(0, 0, 0, 0.12);
+      --ink: #111113;
+      --ink-soft: #27272a;
+      --muted: #71717a;
+      --faint: #a1a1aa;
       --accent: #ff2d87;
       --pink: #ff2d87;
       --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -56,8 +56,8 @@
     }
 
     body {
-      background: #000000;
-      color: var(--ink);
+      background: var(--canvas, #ffffff);
+      color: var(--ink, #111113);
       font-family: var(--font);
       min-height: 100vh;
       display: flex;
@@ -70,12 +70,12 @@
       width: 100%;
       max-width: 480px;
       min-height: 100vh;
-      background: #000000;
+      background: var(--canvas, #ffffff);
       position: relative;
       display: flex;
       flex-direction: column;
-      border-left: 1px solid rgba(255, 255, 255, 0.08);
-      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      border-left: 1px solid var(--hairline-soft, rgba(0, 0, 0, 0.06));
+      border-right: 1px solid var(--hairline-soft, rgba(0, 0, 0, 0.06));
       padding-bottom: 96px;
     }
 
@@ -91,11 +91,11 @@
       position: sticky;
       top: 0;
       z-index: 60;
-      background: rgba(0, 0, 0, 0.88);
+      background: var(--header-bg, rgba(255, 255, 255, 0.92));
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       padding: 14px 18px 12px;
-      border-bottom: 1px solid var(--hairline-soft);
+      border-bottom: 1px solid var(--hairline-soft, rgba(0, 0, 0, 0.06));
     }
 
     .nav-pill-bar {
@@ -316,7 +316,7 @@
 
     /* Standard Cards (Canvas white + 1px soft hairline, rounded.md 24px) */
     .clean-card {
-      background: var(--canvas);
+      background: var(--component-bg, var(--canvas-soft, #f4f4f6));
       border: 1px solid var(--hairline-soft);
       border-radius: var(--rounded-md);
       padding: 20px;
@@ -648,8 +648,8 @@
       transform: translateX(-50%);
       width: calc(100% - 32px);
       max-width: 440px;
-      background: rgba(14, 14, 18, 0.94);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: var(--nav-bg, rgba(255, 255, 255, 0.94));
+      border: 1px solid var(--hairline, rgba(0, 0, 0, 0.10));
       border-radius: var(--rounded-full);
       display: flex;
       align-items: center;
@@ -658,7 +658,7 @@
       z-index: 80;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.12);
     }
 
     .bottom-nav-item {
@@ -1174,28 +1174,27 @@
       </section>
 
       <!-- Próximo Agendamento -->
-      <!-- Próximo Agendamento (Visual Elegante e Destaque Vívido) -->
-      <div class="section-eyebrow" style="color:#ffffff; font-weight:700;">
+      <div class="section-eyebrow">
         <span>Próximos agendamentos</span>
-        <span style="font-size:11px; color:#34c281; font-weight:800; background:rgba(52,194,129,0.18); padding:2px 8px; border-radius:999px;">● Confirmado</span>
+        <span style="font-size:11px; color:#16a34a; font-weight:800; background:rgba(22,163,74,0.12); padding:2px 8px; border-radius:999px;">● Confirmado</span>
       </div>
-      <section class="clean-card" style="background:linear-gradient(135deg, rgba(255,45,135,0.12) 0%, rgba(18,18,22,0.98) 100%); border:1px solid rgba(255,45,135,0.35); box-shadow:0 8px 24px rgba(0,0,0,0.6); padding:20px;">
-        <div class="appt-header-row" style="margin-bottom:16px;">
+      <section class="clean-card" style="background:var(--component-bg, #f4f4f7); border:1.5px solid var(--hairline, rgba(0,0,0,0.10)); box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:20px;">
+        <div class="appt-header-row">
           <div>
-            <span class="badge-popular" style="background:linear-gradient(135deg, #ff5f8a, #ef1f4d); color:#ffffff; font-weight:800; margin-bottom:6px; font-size:10px;">Procedimento Marcado</span>
-            <h2 class="appt-title" id="home-next-svc-title" style="color:#ffffff; font-size:19px; font-weight:800; margin-top:4px;">Limpeza de pele profunda.</h2>
-            <p class="appt-meta" style="color:#a1a1aa; font-size:13px; margin-top:3px;">Marina Ravi · Estética Avançada & Spa</p>
+            <span class="badge-popular" style="background:linear-gradient(135deg, var(--accent, #ff2d87), #ef1f4d); color:#ffffff; font-weight:800; margin-bottom:6px; font-size:10.5px; padding:3px 10px; border-radius:999px; display:inline-block;">Procedimento Marcado</span>
+            <h2 class="appt-title" id="home-next-svc-title" style="margin-top:4px;">Limpeza de pele profunda.</h2>
+            <p class="appt-meta">Marina Ravi · Estética Avançada & Spa</p>
           </div>
-          <div class="appt-date-box" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:14px; padding:10px 14px; text-align:right;">
-            <div class="appt-date-time" id="home-next-svc-date" style="color:#ffffff; font-size:14px; font-weight:800;">Hoje às 14:00</div>
-            <div style="font-size:11.5px; color:#ff5f8a; font-weight:700; margin-top:3px;">📍 Sala 02</div>
+          <div class="appt-date-box">
+            <div class="appt-date-time" id="home-next-svc-date">Hoje às 14:00</div>
+            <div style="font-size:12px; color:var(--accent, #ff2d87); font-weight:700; margin-top:3px; display:flex; align-items:center; justify-content:flex-end; gap:3px;">📍 Sala 02</div>
           </div>
         </div>
         <div class="appt-actions">
-          <button type="button" class="button-outline" style="flex:1; border-color:rgba(255,255,255,0.25); color:#ffffff; font-weight:700; background:rgba(255,255,255,0.06);" onclick="openRescheduleModal()">
+          <button type="button" class="button-outline" style="flex:1;" onclick="openRescheduleModal()">
             Reagendar
           </button>
-          <a href="https://maps.google.com" target="_blank" rel="noopener" class="button-primary" style="flex:1; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; font-weight:700; color:#ffffff; box-shadow:0 4px 14px rgba(239,31,77,0.35); text-decoration:none;">
+          <a href="https://maps.google.com" target="_blank" rel="noopener" class="button-pill-soft" style="flex:1; text-align:center; text-decoration:none;">
             Como chegar ↗
           </a>
         </div>
@@ -1392,20 +1391,82 @@
       </section>
     </div>
 
-    <!-- ================= ABA 2: CRÉDITOS & CUPONS ================= -->
+    <!-- ================= ABA 2: PÁGINA DE CUPONS & CRÉDITOS ================= -->
     <div id="pane-credits" class="view-pane hidden">
-      <!-- Tabs superiores: Saldo & Planos vs Cupons (sem ícone de diamante na tab Saldo & Planos) -->
+      <!-- Tabs superiores: Cupons vem PRIMEIRO que Crédito -->
       <div class="catalog-tabs" style="margin: 4px 0 16px;">
-        <button type="button" id="tab-credits-balance" class="catalog-tab-btn is-active" onclick="switchCreditsTab('balance')">
-          Saldo & Planos
-        </button>
-        <button type="button" id="tab-credits-coupons" class="catalog-tab-btn" onclick="switchCreditsTab('coupons')">
+        <button type="button" id="tab-credits-coupons" class="catalog-tab-btn is-active" onclick="switchCreditsTab('coupons')">
           🎟️ Meus Cupons
+        </button>
+        <button type="button" id="tab-credits-balance" class="catalog-tab-btn" onclick="switchCreditsTab('balance')">
+          ✦ Saldo & Créditos
         </button>
       </div>
 
-      <!-- Sub-aba 1: Saldo & Planos de Assinatura -->
-      <div id="pane-sub-credits-balance">
+      <!-- Sub-aba 1: Cupons (Resgatar Cupom & Cupons Disponíveis com UI/UX dedicada - Vem Primeiro) -->
+      <div id="pane-sub-credits-coupons">
+        <section class="clean-card" style="margin-bottom:16px;">
+          <h3 style="font-size:16px; font-weight:700; color:var(--ink); margin-bottom:4px;">Resgatar Cupom de Desconto</h3>
+          <p style="font-size:12px; color:var(--muted); margin-bottom:12px;">Digite o código promocional oferecido pelo estúdio para resgatar na sua conta.</p>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="coupon-redeem-input" class="text-input-field" placeholder="Ex: BEMVINDA15" style="margin:0; text-transform:uppercase; font-weight:700; letter-spacing:0.04em;" />
+            <button type="button" class="button-primary" style="height:44px; padding:0 18px; font-size:12.5px; font-weight:700; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; box-shadow:0 3px 10px rgba(239,31,77,0.3); flex-shrink:0;" onclick="handleRedeemCouponClient()">
+              Resgatar
+            </button>
+          </div>
+        </section>
+
+        <div class="section-eyebrow">Cupons Disponíveis no Studio</div>
+        <div id="client-coupons-active-list" style="display:flex; flex-direction:column; gap:12px;">
+          <!-- Card Cupom 1: BEMVINDA15 -->
+          <div class="clean-card" style="margin-bottom:0; padding:16px; border:1px solid var(--hairline-soft);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+              <div>
+                <span style="font-size:12px; font-weight:800; color:#ff5f8a; background:rgba(255,95,138,0.12); padding:3px 9px; border-radius:6px; letter-spacing:0.04em;">BEMVINDA15</span>
+                <b style="font-size:15px; color:var(--ink); display:block; margin-top:6px;">15% OFF no Estúdio</b>
+                <span style="font-size:12px; color:var(--muted); display:block; margin-top:2px;">15% de desconto no primeiro atendimento</span>
+              </div>
+              <button type="button" class="button-outline" style="height:32px; font-size:11.5px; padding:0 14px; font-weight:700;" onclick="copyCouponCode('BEMVINDA15')">Copiar</button>
+            </div>
+            <div style="font-size:11px; color:var(--muted); border-top:1px dashed var(--hairline-soft); padding-top:8px; margin-top:6px; display:flex; align-items:center; gap:5px;">
+              <span>⏰</span> <span>Válido para clientes VIP Marina Ravi · Configurado pelo Lojista</span>
+            </div>
+          </div>
+
+          <!-- Card Cupom 2: CLIENTEVIP20 -->
+          <div class="clean-card" style="margin-bottom:0; padding:16px; border:1px solid var(--hairline-soft);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+              <div>
+                <span style="font-size:12px; font-weight:800; color:#ff5f8a; background:rgba(255,95,138,0.12); padding:3px 9px; border-radius:6px; letter-spacing:0.04em;">CLIENTEVIP20</span>
+                <b style="font-size:15px; color:var(--ink); display:block; margin-top:6px;">R$ 20,00 OFF no Estúdio</b>
+                <span style="font-size:12px; color:var(--muted); display:block; margin-top:2px;">R$ 20,00 OFF em agendamentos acima de R$ 100</span>
+              </div>
+              <button type="button" class="button-outline" style="height:32px; font-size:11.5px; padding:0 14px; font-weight:700;" onclick="copyCouponCode('CLIENTEVIP20')">Copiar</button>
+            </div>
+            <div style="font-size:11px; color:var(--muted); border-top:1px dashed var(--hairline-soft); padding-top:8px; margin-top:6px; display:flex; align-items:center; gap:5px;">
+              <span>⏰</span> <span>Válido para clientes VIP Marina Ravi · Configurado pelo Lojista</span>
+            </div>
+          </div>
+
+          <!-- Card Cupom 3: ANIVERSARIO50 -->
+          <div class="clean-card" style="margin-bottom:0; padding:16px; border:1px solid var(--hairline-soft);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+              <div>
+                <span style="font-size:12px; font-weight:800; color:#ff5f8a; background:rgba(255,95,138,0.12); padding:3px 9px; border-radius:6px; letter-spacing:0.04em;">ANIVERSARIO50</span>
+                <b style="font-size:15px; color:var(--ink); display:block; margin-top:6px;">R$ 50,00 OFF no Estúdio</b>
+                <span style="font-size:12px; color:var(--muted); display:block; margin-top:2px;">R$ 50,00 de presente no mês do seu aniversário</span>
+              </div>
+              <button type="button" class="button-outline" style="height:32px; font-size:11.5px; padding:0 14px; font-weight:700;" onclick="copyCouponCode('ANIVERSARIO50')">Copiar</button>
+            </div>
+            <div style="font-size:11px; color:var(--muted); border-top:1px dashed var(--hairline-soft); padding-top:8px; margin-top:6px; display:flex; align-items:center; gap:5px;">
+              <span>⏰</span> <span>Válido para clientes VIP Marina Ravi · Configurado pelo Lojista</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-aba 2: Saldo & Planos de Assinatura (Vem Depois) -->
+      <div id="pane-sub-credits-balance" class="hidden" style="display:none;">
         <!-- Componente de Bonificação por Agendamentos Recorrentes -->
         <section class="clean-card" style="background:var(--canvas-soft); border:none; padding:24px 20px; border-radius:var(--rounded-md); margin-bottom:18px;">
           <p style="font-size:12px; font-weight:456; color:var(--muted); margin-bottom:6px;">Bonificação por agendamentos recorrentes.</p>
@@ -1560,68 +1621,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Sub-aba 2: Cupons (Resgatar Cupom & Cupons Disponíveis com UI/UX dedicada) -->
-      <div id="pane-sub-credits-coupons" class="hidden">
-        <section class="clean-card" style="margin-bottom:16px;">
-          <h3 style="font-size:16px; font-weight:700; color:var(--ink); margin-bottom:4px;">Resgatar Cupom de Desconto</h3>
-          <p style="font-size:12px; color:var(--muted); margin-bottom:12px;">Digite o código promocional oferecido pelo estúdio para resgatar na sua conta.</p>
-          <div style="display:flex; gap:8px;">
-            <input type="text" id="coupon-redeem-input" class="text-input-field" placeholder="Ex: BEMVINDA15" style="margin:0; text-transform:uppercase; font-weight:700; letter-spacing:0.04em;" />
-            <button type="button" class="button-primary" style="height:44px; padding:0 18px; font-size:12.5px; font-weight:700; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; box-shadow:0 3px 10px rgba(239,31,77,0.3); flex-shrink:0;" onclick="handleRedeemCouponClient()">
-              Resgatar
-            </button>
-          </div>
-        </section>
-
-        <div class="section-eyebrow">Cupons Disponíveis no Studio</div>
-        <div id="client-coupons-active-list" style="display:flex; flex-direction:column; gap:12px;">
-          <!-- Card Cupom 1: BEMVINDA15 -->
-          <div class="clean-card" style="margin-bottom:0; padding:16px; border:1px solid var(--hairline-soft);">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-              <div>
-                <span style="font-size:12px; font-weight:800; color:#ff5f8a; background:rgba(255,95,138,0.12); padding:3px 9px; border-radius:6px; letter-spacing:0.04em;">BEMVINDA15</span>
-                <b style="font-size:15px; color:var(--ink); display:block; margin-top:6px;">15% OFF no Estúdio</b>
-                <span style="font-size:12px; color:var(--muted); display:block; margin-top:2px;">15% de desconto no primeiro atendimento</span>
-              </div>
-              <button type="button" class="button-outline" style="height:32px; font-size:11.5px; padding:0 14px; font-weight:700;" onclick="copyCouponCode('BEMVINDA15')">Copiar</button>
-            </div>
-            <div style="font-size:11px; color:var(--muted); border-top:1px dashed var(--hairline-soft); padding-top:8px; margin-top:6px; display:flex; align-items:center; gap:5px;">
-              <span>⏰</span> <span>Válido para clientes VIP Marina Ravi · Configurado pelo Lojista</span>
-            </div>
-          </div>
-
-          <!-- Card Cupom 2: CLIENTEVIP20 -->
-          <div class="clean-card" style="margin-bottom:0; padding:16px; border:1px solid var(--hairline-soft);">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-              <div>
-                <span style="font-size:12px; font-weight:800; color:#ff5f8a; background:rgba(255,95,138,0.12); padding:3px 9px; border-radius:6px; letter-spacing:0.04em;">CLIENTEVIP20</span>
-                <b style="font-size:15px; color:var(--ink); display:block; margin-top:6px;">R$ 20,00 OFF no Estúdio</b>
-                <span style="font-size:12px; color:var(--muted); display:block; margin-top:2px;">R$ 20,00 OFF em agendamentos acima de R$ 100</span>
-              </div>
-              <button type="button" class="button-outline" style="height:32px; font-size:11.5px; padding:0 14px; font-weight:700;" onclick="copyCouponCode('CLIENTEVIP20')">Copiar</button>
-            </div>
-            <div style="font-size:11px; color:var(--muted); border-top:1px dashed var(--hairline-soft); padding-top:8px; margin-top:6px; display:flex; align-items:center; gap:5px;">
-              <span>⏰</span> <span>Válido para clientes VIP Marina Ravi · Configurado pelo Lojista</span>
-            </div>
-          </div>
-
-          <!-- Card Cupom 3: ANIVERSARIO50 -->
-          <div class="clean-card" style="margin-bottom:0; padding:16px; border:1px solid var(--hairline-soft);">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-              <div>
-                <span style="font-size:12px; font-weight:800; color:#ff5f8a; background:rgba(255,95,138,0.12); padding:3px 9px; border-radius:6px; letter-spacing:0.04em;">ANIVERSARIO50</span>
-                <b style="font-size:15px; color:var(--ink); display:block; margin-top:6px;">R$ 50,00 OFF no Estúdio</b>
-                <span style="font-size:12px; color:var(--muted); display:block; margin-top:2px;">R$ 50,00 de presente no mês do seu aniversário</span>
-              </div>
-              <button type="button" class="button-outline" style="height:32px; font-size:11.5px; padding:0 14px; font-weight:700;" onclick="copyCouponCode('ANIVERSARIO50')">Copiar</button>
-            </div>
-            <div style="font-size:11px; color:var(--muted); border-top:1px dashed var(--hairline-soft); padding-top:8px; margin-top:6px; display:flex; align-items:center; gap:5px;">
-              <span>⏰</span> <span>Válido para clientes VIP Marina Ravi · Configurado pelo Lojista</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- ================= ABA 3: AGENDAMENTOS & PRODUTOS COMPRADOS ================= -->
@@ -1638,24 +1637,27 @@
 
       <!-- Sub-aba 1: Agendamentos -->
       <div id="pane-sub-appts-services">
-        <div class="section-eyebrow">Próximos agendamentos</div>
-        <section class="clean-card">
+        <div class="section-eyebrow">
+          <span>Próximos agendamentos</span>
+          <span style="font-size:11px; color:#16a34a; font-weight:800; background:rgba(22,163,74,0.12); padding:2px 8px; border-radius:999px;">● Confirmado</span>
+        </div>
+        <section class="clean-card" style="background:var(--component-bg, #f4f4f7); border:1.5px solid var(--hairline, rgba(0,0,0,0.10)); box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:20px;">
           <div class="appt-header-row">
             <div>
-              <span class="badge-popular" style="background:var(--ink); margin-bottom:6px;">Confirmado</span>
+              <span class="badge-popular" style="background:linear-gradient(135deg, var(--accent, #ff2d87), #ef1f4d); color:#ffffff; font-weight:800; margin-bottom:6px; font-size:10.5px; padding:3px 10px; border-radius:999px; display:inline-block;">Procedimento Marcado</span>
               <h2 class="appt-title" id="appts-next-title" style="margin-top:4px;">Limpeza de pele profunda.</h2>
-              <p class="appt-meta">Profissional Marina Ravi · 60 minutos</p>
+              <p class="appt-meta">Marina Ravi · Estética Avançada & Spa</p>
             </div>
             <div class="appt-date-box">
               <div class="appt-date-time" id="appts-next-date">Hoje às 14:00</div>
-              <div style="font-size:11.5px; color:var(--muted);">Studio Marina Ravi</div>
+              <div style="font-size:12px; color:var(--accent, #ff2d87); font-weight:700; margin-top:3px; display:flex; align-items:center; justify-content:flex-end; gap:3px;">📍 Sala 02</div>
             </div>
           </div>
           <div class="appt-actions">
             <button type="button" class="button-outline" style="flex:1;" onclick="openRescheduleModal()">
-              Reagendar horário
+              Reagendar
             </button>
-            <a href="https://maps.google.com" target="_blank" rel="noopener" class="button-pill-soft" style="flex:1;">
+            <a href="https://maps.google.com" target="_blank" rel="noopener" class="button-pill-soft" style="flex:1; text-align:center; text-decoration:none;">
               Como chegar ↗
             </a>
           </div>
@@ -1888,6 +1890,107 @@
         </div>
       </section>
 
+      <!-- 4.1 Personalização de Estética & Paleta de Cores (Configurável pelo Lojista) -->
+      <section class="clean-card" style="margin-bottom:14px; overflow:hidden;">
+        <div onclick="toggleEsteticaSection()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:36px; height:36px; border-radius:10px; background:var(--field); display:grid; place-items:center; font-size:16px;">
+              🎨
+            </div>
+            <div>
+              <b style="font-size:14.5px; color:var(--ink); display:block;">Estética & Paleta de Cores do App</b>
+              <span style="font-size:11.5px; color:var(--muted);">Cores em código hex, fundo claro/escuro e destaque</span>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:10px; font-weight:700; background:rgba(255,45,135,0.12); color:var(--accent); padding:3px 8px; border-radius:999px;">Lojista VIP</span>
+            <span id="estetica-chevron" style="font-size:14px; color:var(--muted); font-weight:700; transition:transform 0.2s ease;">⌄</span>
+          </div>
+        </div>
+
+        <div id="estetica-form-container" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--hairline-soft);">
+          <p style="font-size:12px; color:var(--muted); margin-bottom:12px;">
+            Defina as cores em código hexadecimal para combinar com a identidade visual do seu estúdio.
+          </p>
+
+          <!-- Paletas Rápidas -->
+          <label style="font-size:11.5px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">Paletas Prontas</label>
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin-bottom:12px;">
+            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#ffffff', '#f4f4f6', '#ff2d87', '#ff5f8a')">
+              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ff2d87;"></span>
+              <span>🌸 Rosa Chic</span>
+            </button>
+            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#ffffff', '#f4f4f5', '#141414', '#27272a')">
+              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#141414;"></span>
+              <span>🖤 Minimal</span>
+            </button>
+            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#ffffff', '#fcfaf6', '#c59b27', '#e2b93b')">
+              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#c59b27;"></span>
+              <span>👑 Gold Spa</span>
+            </button>
+            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#ffffff', '#f0fdf4', '#059669', '#10b981')">
+              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#059669;"></span>
+              <span>🌿 Esmeralda</span>
+            </button>
+            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#ffffff', '#faf5ff', '#8b5cf6', '#a855f7')">
+              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#8b5cf6;"></span>
+              <span>💜 Lavanda</span>
+            </button>
+            <button type="button" class="button-outline" style="height:auto; padding:6px; flex-direction:column; gap:2px; font-size:10px; font-weight:700;" onclick="applyClientThemePreset('#09090c', '#181820', '#ff2d87', '#ef1f4d')">
+              <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#09090c; border:1px solid #444;"></span>
+              <span>🌙 Dark Studio</span>
+            </button>
+          </div>
+
+          <!-- Fundo Base: Branco ou Preto -->
+          <label style="font-size:11.5px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">Fundo Base do App (Canvas)</label>
+          <div style="display:flex; gap:6px; margin-bottom:12px;">
+            <button type="button" class="button-outline" style="flex:1; height:34px; font-size:11px; font-weight:700;" onclick="setClientBgPreset('white')">
+              ☀️ Fundo Branco (#ffffff)
+            </button>
+            <button type="button" class="button-outline" style="flex:1; height:34px; font-size:11px; font-weight:700;" onclick="setClientBgPreset('black')">
+              🌙 Fundo Preto (#09090c)
+            </button>
+          </div>
+
+          <!-- Campos de Cores Hexadecimais com Picker -->
+          <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
+            <div>
+              <span style="font-size:11px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Código do Fundo Geral (Hex)</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input type="color" id="client-theme-picker-bg" value="#ffffff" oninput="syncClientThemePicker('bg')" style="width:36px; height:36px; padding:0; border:1px solid var(--hairline); border-radius:8px; cursor:pointer; background:none;">
+                <input type="text" id="client-theme-code-bg" class="text-input-field" value="#ffffff" placeholder="#ffffff" oninput="syncClientThemeInput('bg')" style="margin:0; font-family:monospace; font-weight:700; text-transform:uppercase;">
+              </div>
+            </div>
+
+            <div>
+              <span style="font-size:11px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Código do Fundo dos Componentes & Cards (Hex)</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input type="color" id="client-theme-picker-card" value="#f4f4f6" oninput="syncClientThemePicker('card')" style="width:36px; height:36px; padding:0; border:1px solid var(--hairline); border-radius:8px; cursor:pointer; background:none;">
+                <input type="text" id="client-theme-code-card" class="text-input-field" value="#f4f4f6" placeholder="#f4f4f6" oninput="syncClientThemeInput('card')" style="margin:0; font-family:monospace; font-weight:700; text-transform:uppercase;">
+              </div>
+            </div>
+
+            <div>
+              <span style="font-size:11px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Código de Destaque / Botões / Rosa (Hex)</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input type="color" id="client-theme-picker-accent" value="#ff2d87" oninput="syncClientThemePicker('accent')" style="width:36px; height:36px; padding:0; border:1px solid var(--hairline); border-radius:8px; cursor:pointer; background:none;">
+                <input type="text" id="client-theme-code-accent" class="text-input-field" value="#ff2d87" placeholder="#ff2d87" oninput="syncClientThemeInput('accent')" style="margin:0; font-family:monospace; font-weight:700; text-transform:uppercase;">
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="button-outline" style="flex:1; height:36px; font-size:11.5px;" onclick="resetClientThemeConfig()">
+              Restaurar Padrão
+            </button>
+            <button type="button" class="button-primary" style="flex:1.2; height:36px; font-size:11.5px; font-weight:700;" onclick="saveClientThemeConfig()">
+              Aplicar Paleta ✓
+            </button>
+          </div>
+        </div>
+      </section>
+
       <!-- 5. Troca de Senha e E-mail (Minimizado por Padrão) -->
       <section class="clean-card" style="margin-bottom:14px; overflow:hidden;">
         <div onclick="toggleSecuritySection()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; user-select:none;">
@@ -1963,8 +2066,8 @@
       Início
     </button>
     <button type="button" class="bottom-nav-item" data-tab="credits" onclick="switchTab('credits')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.8 9A2 2 0 0 0 13 8h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1-1.8-1"/><path d="M12 6v2m0 8v2"/></svg>
-      <span class="nav-label">Créditos</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
+      <span class="nav-label">Cupons</span>
     </button>
     <button type="button" class="bottom-nav-fab" onclick="openBookingModal()" title="Novo agendamento">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
@@ -2780,6 +2883,156 @@
   }
   window.toggleSecuritySection = toggleSecuritySection;
 
+  // 3.1 Estética & Paleta de Cores do Lojista
+  function toggleEsteticaSection() {
+    const cont = document.getElementById('estetica-form-container');
+    const chev = document.getElementById('estetica-chevron');
+    if (!cont) return;
+    const isHidden = cont.style.display === 'none' || cont.style.display === '';
+    cont.style.display = isHidden ? 'block' : 'none';
+    if (chev) {
+      chev.style.transform = isHidden ? 'rotate(180deg)' : 'none';
+    }
+    if (isHidden) {
+      initClientEsteticaInputs();
+    }
+  }
+  window.toggleEsteticaSection = toggleEsteticaSection;
+
+  function initClientEsteticaInputs() {
+    const theme = window.getLojistaTheme ? window.getLojistaTheme() : {
+      bgMode: 'light',
+      bgColor: '#ffffff',
+      cardColor: '#f4f4f6',
+      accentColor: '#ff2d87',
+      gradA: '#ff5f8a',
+      gradB: '#ef1f4d'
+    };
+    const inBg = document.getElementById('client-theme-code-bg');
+    const inBgPick = document.getElementById('client-theme-picker-bg');
+    const inCard = document.getElementById('client-theme-code-card');
+    const inCardPick = document.getElementById('client-theme-picker-card');
+    const inAccent = document.getElementById('client-theme-code-accent');
+    const inAccentPick = document.getElementById('client-theme-picker-accent');
+
+    if (inBg) inBg.value = theme.bgColor || '#ffffff';
+    if (inBgPick) inBgPick.value = theme.bgColor || '#ffffff';
+    if (inCard) inCard.value = theme.cardColor || '#f4f4f6';
+    if (inCardPick) inCardPick.value = theme.cardColor || '#f4f4f6';
+    if (inAccent) inAccent.value = theme.accentColor || '#ff2d87';
+    if (inAccentPick) inAccentPick.value = theme.accentColor || '#ff2d87';
+  }
+  window.initClientEsteticaInputs = initClientEsteticaInputs;
+
+  function syncClientThemePicker(type) {
+    if (type === 'bg') {
+      const v = document.getElementById('client-theme-picker-bg')?.value || '#ffffff';
+      const c = document.getElementById('client-theme-code-bg');
+      if (c) c.value = v;
+    } else if (type === 'card') {
+      const v = document.getElementById('client-theme-picker-card')?.value || '#f4f4f6';
+      const c = document.getElementById('client-theme-code-card');
+      if (c) c.value = v;
+    } else if (type === 'accent') {
+      const v = document.getElementById('client-theme-picker-accent')?.value || '#ff2d87';
+      const c = document.getElementById('client-theme-code-accent');
+      if (c) c.value = v;
+    }
+  }
+  window.syncClientThemePicker = syncClientThemePicker;
+
+  function syncClientThemeInput(type) {
+    const formatHex = (v) => {
+      if (!v) return '#000000';
+      if (!v.startsWith('#')) v = '#' + v;
+      return v;
+    };
+    if (type === 'bg') {
+      const c = document.getElementById('client-theme-code-bg');
+      const p = document.getElementById('client-theme-picker-bg');
+      if (c && p && c.value.length === 7) p.value = formatHex(c.value);
+    } else if (type === 'card') {
+      const c = document.getElementById('client-theme-code-card');
+      const p = document.getElementById('client-theme-picker-card');
+      if (c && p && c.value.length === 7) p.value = formatHex(c.value);
+    } else if (type === 'accent') {
+      const c = document.getElementById('client-theme-code-accent');
+      const p = document.getElementById('client-theme-picker-accent');
+      if (c && p && c.value.length === 7) p.value = formatHex(c.value);
+    }
+  }
+  window.syncClientThemeInput = syncClientThemeInput;
+
+  function applyClientThemePreset(bg, card, accent, grad) {
+    const inBg = document.getElementById('client-theme-code-bg');
+    const inBgPick = document.getElementById('client-theme-picker-bg');
+    const inCard = document.getElementById('client-theme-code-card');
+    const inCardPick = document.getElementById('client-theme-picker-card');
+    const inAccent = document.getElementById('client-theme-code-accent');
+    const inAccentPick = document.getElementById('client-theme-picker-accent');
+
+    if (inBg) inBg.value = bg;
+    if (inBgPick) inBgPick.value = bg;
+    if (inCard) inCard.value = card;
+    if (inCardPick) inCardPick.value = card;
+    if (inAccent) inAccent.value = accent;
+    if (inAccentPick) inAccentPick.value = accent;
+
+    saveClientThemeConfig();
+  }
+  window.applyClientThemePreset = applyClientThemePreset;
+
+  function setClientBgPreset(mode) {
+    const curAccent = document.getElementById('client-theme-code-accent')?.value || '#ff2d87';
+    if (mode === 'white') {
+      applyClientThemePreset('#ffffff', '#f4f4f6', curAccent, '#ff5f8a');
+    } else {
+      applyClientThemePreset('#09090c', '#181820', curAccent, '#ef1f4d');
+    }
+  }
+  window.setClientBgPreset = setClientBgPreset;
+
+  function saveClientThemeConfig() {
+    const bg = document.getElementById('client-theme-code-bg')?.value?.trim() || '#ffffff';
+    const card = document.getElementById('client-theme-code-card')?.value?.trim() || '#f4f4f6';
+    const accent = document.getElementById('client-theme-code-accent')?.value?.trim() || '#ff2d87';
+    const isDark = window.isColorDark ? window.isColorDark(bg) : false;
+
+    const theme = {
+      bgMode: isDark ? 'dark' : 'light',
+      bgColor: bg,
+      cardColor: card,
+      accentColor: accent,
+      gradA: accent,
+      gradB: accent
+    };
+
+    localStorage.setItem('agendo_custom_theme', JSON.stringify(theme));
+    if (window.applyLojistaTheme) {
+      window.applyLojistaTheme(theme);
+    }
+    showToast('Paleta visual aplicada com sucesso! ✓');
+  }
+  window.saveClientThemeConfig = saveClientThemeConfig;
+
+  function resetClientThemeConfig() {
+    const defaultTheme = {
+      bgMode: 'light',
+      bgColor: '#ffffff',
+      cardColor: '#f4f4f6',
+      accentColor: '#ff2d87',
+      gradA: '#ff5f8a',
+      gradB: '#ef1f4d'
+    };
+    localStorage.setItem('agendo_custom_theme', JSON.stringify(defaultTheme));
+    if (window.applyLojistaTheme) {
+      window.applyLojistaTheme(defaultTheme);
+    }
+    initClientEsteticaInputs();
+    showToast('Tema padrão branco restaurado com sucesso! ✓');
+  }
+  window.resetClientThemeConfig = resetClientThemeConfig;
+
   // 4. Alternador de Abas de Créditos (Saldo vs Cupons)
   function switchCreditsTab(tab) {
     const btnBal = document.getElementById('tab-credits-balance');
@@ -2955,6 +3208,9 @@
     document.querySelectorAll('.view-pane').forEach(p => p.classList.add('hidden'));
     const target = document.getElementById('pane-' + tabKey);
     if (target) target.classList.remove('hidden');
+    if (tabKey === 'credits') {
+      switchCreditsTab('coupons');
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -3478,6 +3734,6 @@
   renderReferral();
   loadClientCoupons();
 </script>
-
+<script src="/agendo-real.js"></script>
 </body>
 </html>

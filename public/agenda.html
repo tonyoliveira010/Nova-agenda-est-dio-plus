@@ -11891,13 +11891,13 @@ function toggleCrmRowDetails(clientId){
   window.copyClientAppLink = copyClientAppLink;
 
   function switchClientAppConfigTab(tabKey){
-    const tabs = ['fidelidade', 'banners', 'modulos', 'manual'];
+    const tabs = ['fidelidade', 'estetica', 'banners', 'cupons', 'modulos', 'manual'];
     tabs.forEach(t => {
       const btn = document.getElementById('cactab-btn-' + t);
       const pane = document.getElementById('cactab-pane-' + t);
       if(btn){
         if(t === tabKey){
-          btn.style.background = 'linear-gradient(135deg, #ff5f8a, #ef1f4d)';
+          btn.style.background = 'linear-gradient(135deg, var(--grad-a, #ff5f8a), var(--grad-b, #ef1f4d))';
           btn.style.color = '#fff';
         } else {
           btn.style.background = 'transparent';
@@ -11906,8 +11906,214 @@ function toggleCrmRowDetails(clientId){
       }
       if(pane) pane.classList.toggle('hidden', t !== tabKey);
     });
+    if (tabKey === 'estetica') {
+      initEsteticaControls();
+    }
   }
   window.switchClientAppConfigTab = switchClientAppConfigTab;
+
+  function initEsteticaControls() {
+    var theme = window.getLojistaTheme ? window.getLojistaTheme() : {
+      bgMode: 'light',
+      bgColor: '#ffffff',
+      cardColor: '#f4f4f6',
+      accentColor: '#ff2d87',
+      gradA: '#ff5f8a',
+      gradB: '#ef1f4d'
+    };
+
+    var inBg = document.getElementById('theme-code-bg');
+    var inBgPick = document.getElementById('theme-picker-bg');
+    var inCard = document.getElementById('theme-code-card');
+    var inCardPick = document.getElementById('theme-picker-card');
+    var inAccent = document.getElementById('theme-code-accent');
+    var inAccentPick = document.getElementById('theme-picker-accent');
+    var inGrad = document.getElementById('theme-code-grad');
+    var inGradPick = document.getElementById('theme-picker-grad');
+
+    if(inBg) inBg.value = theme.bgColor || '#ffffff';
+    if(inBgPick) inBgPick.value = theme.bgColor || '#ffffff';
+    if(inCard) inCard.value = theme.cardColor || '#f4f4f6';
+    if(inCardPick) inCardPick.value = theme.cardColor || '#f4f4f6';
+    if(inAccent) inAccent.value = theme.accentColor || '#ff2d87';
+    if(inAccentPick) inAccentPick.value = theme.accentColor || '#ff2d87';
+    if(inGrad) inGrad.value = theme.gradA || '#ff5f8a';
+    if(inGradPick) inGradPick.value = theme.gradA || '#ff5f8a';
+
+    updateEsteticaLivePreview();
+  }
+  window.initEsteticaControls = initEsteticaControls;
+
+  function syncThemeFromPicker(type) {
+    if (type === 'bg') {
+      var val = document.getElementById('theme-picker-bg')?.value || '#ffffff';
+      var inCode = document.getElementById('theme-code-bg');
+      if (inCode) inCode.value = val;
+    } else if (type === 'card') {
+      var val = document.getElementById('theme-picker-card')?.value || '#f4f4f6';
+      var inCode = document.getElementById('theme-code-card');
+      if (inCode) inCode.value = val;
+    } else if (type === 'accent') {
+      var val = document.getElementById('theme-picker-accent')?.value || '#ff2d87';
+      var inCode = document.getElementById('theme-code-accent');
+      if (inCode) inCode.value = val;
+    } else if (type === 'grad') {
+      var val = document.getElementById('theme-picker-grad')?.value || '#ff5f8a';
+      var inCode = document.getElementById('theme-code-grad');
+      if (inCode) inCode.value = val;
+    }
+    updateEsteticaLivePreview();
+  }
+  window.syncThemeFromPicker = syncThemeFromPicker;
+
+  function syncThemeFromInput(type) {
+    var formatHex = function(v) {
+      if(!v) return '#000000';
+      if(!v.startsWith('#')) v = '#' + v;
+      return v;
+    };
+
+    if (type === 'bg') {
+      var inCode = document.getElementById('theme-code-bg');
+      var picker = document.getElementById('theme-picker-bg');
+      if (inCode && picker && inCode.value.length === 7) picker.value = formatHex(inCode.value);
+    } else if (type === 'card') {
+      var inCode = document.getElementById('theme-code-card');
+      var picker = document.getElementById('theme-picker-card');
+      if (inCode && picker && inCode.value.length === 7) picker.value = formatHex(inCode.value);
+    } else if (type === 'accent') {
+      var inCode = document.getElementById('theme-code-accent');
+      var picker = document.getElementById('theme-picker-accent');
+      if (inCode && picker && inCode.value.length === 7) picker.value = formatHex(inCode.value);
+    } else if (type === 'grad') {
+      var inCode = document.getElementById('theme-code-grad');
+      var picker = document.getElementById('theme-picker-grad');
+      if (inCode && picker && inCode.value.length === 7) picker.value = formatHex(inCode.value);
+    }
+    updateEsteticaLivePreview();
+  }
+  window.syncThemeFromInput = syncThemeFromInput;
+
+  function updateEsteticaLivePreview() {
+    var bg = document.getElementById('theme-code-bg')?.value?.trim() || '#ffffff';
+    var card = document.getElementById('theme-code-card')?.value?.trim() || '#f4f4f6';
+    var accent = document.getElementById('theme-code-accent')?.value?.trim() || '#ff2d87';
+    var grad = document.getElementById('theme-code-grad')?.value?.trim() || '#ff5f8a';
+
+    var prevBox = document.getElementById('estetica-preview-container');
+    var prevCard = document.getElementById('estetica-preview-card');
+    var prevBtn = document.getElementById('estetica-preview-btn');
+    var prevBadge = document.getElementById('estetica-preview-badge');
+    var prevTitle = document.getElementById('estetica-preview-title');
+    var prevDesc = document.getElementById('estetica-preview-desc');
+
+    var isDark = window.isColorDark ? window.isColorDark(bg) : false;
+    var ink = isDark ? '#fafafa' : '#111113';
+    var muted = isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.55)';
+
+    if(prevBox) {
+      prevBox.style.backgroundColor = bg;
+      prevBox.style.color = ink;
+    }
+    if(prevCard) {
+      prevCard.style.backgroundColor = card;
+      prevCard.style.borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+    }
+    if(prevTitle) prevTitle.style.color = ink;
+    if(prevDesc) prevDesc.style.color = muted;
+    if(prevBadge) {
+      prevBadge.style.backgroundColor = accent + '22';
+      prevBadge.style.color = accent;
+      prevBadge.style.borderColor = accent + '44';
+    }
+    if(prevBtn) {
+      prevBtn.style.background = 'linear-gradient(135deg, ' + grad + ', ' + accent + ')';
+      prevBtn.style.color = '#ffffff';
+    }
+  }
+  window.updateEsteticaLivePreview = updateEsteticaLivePreview;
+
+  function applyPresetPalette(bg, card, accent, grad) {
+    var inBg = document.getElementById('theme-code-bg');
+    var inBgPick = document.getElementById('theme-picker-bg');
+    var inCard = document.getElementById('theme-code-card');
+    var inCardPick = document.getElementById('theme-picker-card');
+    var inAccent = document.getElementById('theme-code-accent');
+    var inAccentPick = document.getElementById('theme-picker-accent');
+    var inGrad = document.getElementById('theme-code-grad');
+    var inGradPick = document.getElementById('theme-picker-grad');
+
+    if(inBg) inBg.value = bg;
+    if(inBgPick) inBgPick.value = bg;
+    if(inCard) inCard.value = card;
+    if(inCardPick) inCardPick.value = card;
+    if(inAccent) inAccent.value = accent;
+    if(inAccentPick) inAccentPick.value = accent;
+    if(inGrad) inGrad.value = grad;
+    if(inGradPick) inGradPick.value = grad;
+
+    updateEsteticaLivePreview();
+  }
+  window.applyPresetPalette = applyPresetPalette;
+
+  function setBgModePreset(mode) {
+    if (mode === 'white') {
+      applyPresetPalette('#ffffff', '#f4f4f6', document.getElementById('theme-code-accent')?.value || '#ff2d87', document.getElementById('theme-code-grad')?.value || '#ff5f8a');
+    } else if (mode === 'black') {
+      applyPresetPalette('#09090c', '#181820', document.getElementById('theme-code-accent')?.value || '#ff2d87', document.getElementById('theme-code-grad')?.value || '#ef1f4d');
+    }
+  }
+  window.setBgModePreset = setBgModePreset;
+
+  function saveEsteticaConfig() {
+    var bg = document.getElementById('theme-code-bg')?.value?.trim() || '#ffffff';
+    var card = document.getElementById('theme-code-card')?.value?.trim() || '#f4f4f6';
+    var accent = document.getElementById('theme-code-accent')?.value?.trim() || '#ff2d87';
+    var grad = document.getElementById('theme-code-grad')?.value?.trim() || '#ff5f8a';
+
+    var isDark = window.isColorDark ? window.isColorDark(bg) : false;
+    var theme = {
+      bgMode: isDark ? 'dark' : 'light',
+      bgColor: bg,
+      cardColor: card,
+      accentColor: accent,
+      gradA: grad,
+      gradB: accent
+    };
+
+    localStorage.setItem('agendo_custom_theme', JSON.stringify(theme));
+    if (window.applyLojistaTheme) {
+      window.applyLojistaTheme(theme);
+    }
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'agendo:theme_updated', theme: theme }, '*');
+    }
+    window.dispatchEvent(new Event('storage'));
+    toast('Estética e paleta de cores salvas com sucesso! ✓');
+  }
+  window.saveEsteticaConfig = saveEsteticaConfig;
+
+  function resetEsteticaConfig() {
+    var defaultTheme = {
+      bgMode: 'light',
+      bgColor: '#ffffff',
+      cardColor: '#f4f4f6',
+      accentColor: '#ff2d87',
+      gradA: '#ff5f8a',
+      gradB: '#ef1f4d'
+    };
+    applyPresetPalette(defaultTheme.bgColor, defaultTheme.cardColor, defaultTheme.accentColor, defaultTheme.gradA);
+    localStorage.setItem('agendo_custom_theme', JSON.stringify(defaultTheme));
+    if (window.applyLojistaTheme) {
+      window.applyLojistaTheme(defaultTheme);
+    }
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'agendo:theme_updated', theme: defaultTheme }, '*');
+    }
+    window.dispatchEvent(new Event('storage'));
+    toast('Estética restaurada para o Modo Claro padrão ✓');
+  }
+  window.resetEsteticaConfig = resetEsteticaConfig;
 
   function updateLiveBannerPreview(){
     const tag = document.getElementById('cab-input-tag')?.value?.trim() || '';
@@ -12083,6 +12289,7 @@ function toggleCrmRowDetails(clientId){
       overlay.classList.remove('hidden');
       loadClientAppBannerIntoLojistaForm();
       loadCouponsIntoLojista();
+      initEsteticaControls();
       const chkAnamnese = document.getElementById('cac-toggle-anamnese');
       if(chkAnamnese){
         chkAnamnese.checked = localStorage.getItem('agendo_module_anamnese_active') !== 'false';
@@ -12363,6 +12570,9 @@ function toggleCrmRowDetails(clientId){
       <button type="button" id="cactab-btn-fidelidade" class="btn is-active" style="flex:1; min-width:max-content; height:32px; font-size:11px; font-weight:700; border-radius:9px; border:none; justify-content:center; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); color:#fff; padding:0 8px;" onclick="switchClientAppConfigTab('fidelidade')">
         💎 Fidelidade
       </button>
+      <button type="button" id="cactab-btn-estetica" class="btn btn-outline" style="flex:1; min-width:max-content; height:32px; font-size:11px; font-weight:700; border-radius:9px; border:none; justify-content:center; color:var(--muted); background:transparent; padding:0 8px;" onclick="switchClientAppConfigTab('estetica')">
+        🎨 Estética & Cores
+      </button>
       <button type="button" id="cactab-btn-banners" class="btn btn-outline" style="flex:1; min-width:max-content; height:32px; font-size:11px; font-weight:700; border-radius:9px; border:none; justify-content:center; color:var(--muted); background:transparent; padding:0 8px;" onclick="switchClientAppConfigTab('banners')">
         🖼️ Banners
       </button>
@@ -12422,6 +12632,185 @@ function toggleCrmRowDetails(clientId){
           <span style="font-size:11.5px; color:var(--ink); line-height:1.4;">
             As clientes visualizam o saldo acumulado de bônus na tela inicial do app e podem aplicar como abatimento na hora do agendamento!
           </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABA: ESTÉTICA DO APP & PALETA DE CORES DO LOJISTA -->
+    <div id="cactab-pane-estetica" class="hidden">
+      <div style="background:var(--field); border:1px solid var(--hairline-soft); border-radius:16px; padding:16px; margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div>
+            <b style="font-size:13.5px; color:var(--ink);">Estética & Identidade Visual do App</b>
+            <span style="font-size:11px; color:var(--muted); display:block; margin-top:2px;">
+              Personalize as cores do App do Cliente conforme a identidade da sua marca e logotipo.
+            </span>
+          </div>
+          <span style="font-size:9.5px; font-weight:800; background:rgba(255,45,135,0.15); color:var(--accent); padding:2px 8px; border-radius:999px;">
+            Personalizável
+          </span>
+        </div>
+
+        <!-- 1. Paletas Recomendadas do Estúdio -->
+        <span class="field-label" style="margin-top:8px;">Paletas Prontas Recomendadas</span>
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:16px;">
+          <button type="button" onclick="applyPresetPalette('#ffffff', '#f5f5f7', '#ff2d87', '#ff5f8a')" style="background:var(--canvas-soft); border:1px solid var(--hairline-soft); border-radius:12px; padding:8px 6px; text-align:center; cursor:pointer;">
+            <div style="display:flex; justify-content:center; gap:4px; margin-bottom:4px;">
+              <span style="width:12px; height:12px; border-radius:50%; background:#ffffff; border:1px solid #ddd;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#f5f5f7; border:1px solid #ddd;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#ff2d87;"></span>
+            </div>
+            <span style="font-size:10.5px; font-weight:700; color:var(--ink); display:block;">🌸 Rosa Chic</span>
+            <span style="font-size:9.5px; color:var(--muted);">Fundo Claro</span>
+          </button>
+
+          <button type="button" onclick="applyPresetPalette('#ffffff', '#f4f4f5', '#141414', '#27272a')" style="background:var(--canvas-soft); border:1px solid var(--hairline-soft); border-radius:12px; padding:8px 6px; text-align:center; cursor:pointer;">
+            <div style="display:flex; justify-content:center; gap:4px; margin-bottom:4px;">
+              <span style="width:12px; height:12px; border-radius:50%; background:#ffffff; border:1px solid #ddd;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#f4f4f5; border:1px solid #ddd;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#141414;"></span>
+            </div>
+            <span style="font-size:10.5px; font-weight:700; color:var(--ink); display:block;">🖤 Minimal</span>
+            <span style="font-size:9.5px; color:var(--muted);">Monocromo</span>
+          </button>
+
+          <button type="button" onclick="applyPresetPalette('#ffffff', '#fcfaf6', '#c59b27', '#e2b93b')" style="background:var(--canvas-soft); border:1px solid var(--hairline-soft); border-radius:12px; padding:8px 6px; text-align:center; cursor:pointer;">
+            <div style="display:flex; justify-content:center; gap:4px; margin-bottom:4px;">
+              <span style="width:12px; height:12px; border-radius:50%; background:#ffffff; border:1px solid #ddd;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#fcfaf6; border:1px solid #ddd;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#c59b27;"></span>
+            </div>
+            <span style="font-size:10.5px; font-weight:700; color:var(--ink); display:block;">👑 Gold Spa</span>
+            <span style="font-size:9.5px; color:var(--muted);">Champagne</span>
+          </button>
+
+          <button type="button" onclick="applyPresetPalette('#ffffff', '#f0fdf4', '#059669', '#10b981')" style="background:var(--canvas-soft); border:1px solid var(--hairline-soft); border-radius:12px; padding:8px 6px; text-align:center; cursor:pointer;">
+            <div style="display:flex; justify-content:center; gap:4px; margin-bottom:4px;">
+              <span style="width:12px; height:12px; border-radius:50%; background:#ffffff; border:1px solid #ddd;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#f0fdf4; border:1px solid #ddd;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#059669;"></span>
+            </div>
+            <span style="font-size:10.5px; font-weight:700; color:var(--ink); display:block;">🌿 Bem-Estar</span>
+            <span style="font-size:9.5px; color:var(--muted);">Esmeralda</span>
+          </button>
+
+          <button type="button" onclick="applyPresetPalette('#ffffff', '#faf5ff', '#8b5cf6', '#a855f7')" style="background:var(--canvas-soft); border:1px solid var(--hairline-soft); border-radius:12px; padding:8px 6px; text-align:center; cursor:pointer;">
+            <div style="display:flex; justify-content:center; gap:4px; margin-bottom:4px;">
+              <span style="width:12px; height:12px; border-radius:50%; background:#ffffff; border:1px solid #ddd;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#faf5ff; border:1px solid #ddd;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#8b5cf6;"></span>
+            </div>
+            <span style="font-size:10.5px; font-weight:700; color:var(--ink); display:block;">💜 Lavanda</span>
+            <span style="font-size:9.5px; color:var(--muted);">Aesthetic</span>
+          </button>
+
+          <button type="button" onclick="applyPresetPalette('#09090c', '#181820', '#ff2d87', '#ef1f4d')" style="background:var(--canvas-soft); border:1px solid var(--hairline-soft); border-radius:12px; padding:8px 6px; text-align:center; cursor:pointer;">
+            <div style="display:flex; justify-content:center; gap:4px; margin-bottom:4px;">
+              <span style="width:12px; height:12px; border-radius:50%; background:#09090c; border:1px solid #333;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#181820; border:1px solid #333;"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#ff2d87;"></span>
+            </div>
+            <span style="font-size:10.5px; font-weight:700; color:var(--ink); display:block;">🌙 Dark Studio</span>
+            <span style="font-size:9.5px; color:var(--muted);">Fundo Preto</span>
+          </button>
+        </div>
+
+        <!-- 2. Escolha Rápida do Fundo Base (Branco / Preto) -->
+        <span class="field-label">Fundo Base da Tela (Canvas)</span>
+        <div style="display:flex; gap:8px; margin-bottom:12px;">
+          <button type="button" class="btn btn-outline" style="flex:1; height:36px; font-size:11.5px; font-weight:700; border-radius:10px; justify-content:center; gap:6px;" onclick="setBgModePreset('white')">
+            ☀️ Fundo Branco (#ffffff)
+          </button>
+          <button type="button" class="btn btn-outline" style="flex:1; height:36px; font-size:11.5px; font-weight:700; border-radius:10px; justify-content:center; gap:6px;" onclick="setBgModePreset('black')">
+            🌙 Fundo Preto (#09090c)
+          </button>
+        </div>
+
+        <!-- 3. Configuração dos Códigos de Cores Hexadecimais -->
+        <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
+          <!-- Cor do Background Principal -->
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span class="field-label" style="margin:0;">Código da Cor de Fundo Geral (Hex)</span>
+              <span style="font-size:10.5px; color:var(--muted);">Fundo da aplicação</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="color" id="theme-picker-bg" value="#ffffff" oninput="syncThemeFromPicker('bg')" style="width:40px; height:40px; padding:0; border:1px solid var(--hairline); border-radius:10px; cursor:pointer; background:none;">
+              <input type="text" class="field-input" id="theme-code-bg" value="#ffffff" placeholder="#ffffff ou #09090c" oninput="syncThemeFromInput('bg')" style="margin:0; font-family:monospace; font-weight:700; text-transform:uppercase;">
+            </div>
+          </div>
+
+          <!-- Cor dos Componentes / Cards -->
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span class="field-label" style="margin:0;">Cor de Fundo dos Componentes & Cards (Hex)</span>
+              <span style="font-size:10.5px; color:var(--muted);">Blocos, cards e listas</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="color" id="theme-picker-card" value="#f4f4f6" oninput="syncThemeFromPicker('card')" style="width:40px; height:40px; padding:0; border:1px solid var(--hairline); border-radius:10px; cursor:pointer; background:none;">
+              <input type="text" class="field-input" id="theme-code-card" value="#f4f4f6" placeholder="#f4f4f6 ou #181820" oninput="syncThemeFromInput('card')" style="margin:0; font-family:monospace; font-weight:700; text-transform:uppercase;">
+            </div>
+          </div>
+
+          <!-- Cor de Destaque / Botões / Chamada de Atenção (Ex: Rosa) -->
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span class="field-label" style="margin:0;">Cor de Destaque / Ações / Atenção (Hex)</span>
+              <span style="font-size:10.5px; color:var(--muted);">Ex: Rosa, Dourado, Lilás</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="color" id="theme-picker-accent" value="#ff2d87" oninput="syncThemeFromPicker('accent')" style="width:40px; height:40px; padding:0; border:1px solid var(--hairline); border-radius:10px; cursor:pointer; background:none;">
+              <input type="text" class="field-input" id="theme-code-accent" value="#ff2d87" placeholder="#ff2d87" oninput="syncThemeFromInput('accent')" style="margin:0; font-family:monospace; font-weight:700; text-transform:uppercase;">
+            </div>
+          </div>
+
+          <!-- Cor Secundária / Gradiente -->
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span class="field-label" style="margin:0;">Cor Secundária do Gradiente (Hex)</span>
+              <span style="font-size:10.5px; color:var(--muted);">Tom de suporte para botões</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="color" id="theme-picker-grad" value="#ff5f8a" oninput="syncThemeFromPicker('grad')" style="width:40px; height:40px; padding:0; border:1px solid var(--hairline); border-radius:10px; cursor:pointer; background:none;">
+              <input type="text" class="field-input" id="theme-code-grad" value="#ff5f8a" placeholder="#ff5f8a" oninput="syncThemeFromInput('grad')" style="margin:0; font-family:monospace; font-weight:700; text-transform:uppercase;">
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Miniatura de Demonstração em Tempo Real (Live Preview) -->
+        <span class="field-label">Pré-Visualização em Tempo Real</span>
+        <div id="estetica-preview-container" style="background:#ffffff; border:1px solid var(--hairline); border-radius:16px; padding:16px; margin-bottom:16px; transition:all .2s ease;">
+          <div style="font-size:10px; text-transform:uppercase; font-weight:800; letter-spacing:.05em; color:var(--muted); margin-bottom:8px;">
+            Simulação do App do Cliente
+          </div>
+          <!-- Card simulado -->
+          <div id="estetica-preview-card" style="background:#f4f4f6; border:1px solid rgba(0,0,0,0.08); border-radius:14px; padding:14px; margin-bottom:10px; transition:all .2s ease;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+              <b id="estetica-preview-title" style="font-size:13px; color:#111113;">Design de Sobrancelhas & Spa Facial</b>
+              <span id="estetica-preview-badge" style="font-size:9.5px; font-weight:800; background:rgba(255,45,135,0.15); color:#ff2d87; padding:2px 8px; border-radius:999px; border:1px solid rgba(255,45,135,0.3);">
+                ★ VIP
+              </span>
+            </div>
+            <p id="estetica-preview-desc" style="font-size:11px; color:#666; margin:0 0 10px 0; line-height:1.4;">
+              Experiência personalizada com cosméticos de alta performance.
+            </p>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:13px; font-weight:800; color:var(--ink);">R$ 85,00</span>
+              <button type="button" id="estetica-preview-btn" style="background:linear-gradient(135deg, #ff5f8a, #ff2d87); color:#fff; border:none; border-radius:999px; padding:6px 14px; font-size:11px; font-weight:800; box-shadow:0 3px 10px rgba(255,45,135,0.3); cursor:default;">
+                Agendar Horário ➔
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Ações -->
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-outline" style="flex:1; height:38px; font-size:11.5px; justify-content:center;" onclick="resetEsteticaConfig()">
+            Restaurar Padrão Claro
+          </button>
+          <button type="button" class="btn btn-dark" style="flex:1.4; height:38px; font-size:11.5px; font-weight:800; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; justify-content:center; box-shadow:0 3px 12px rgba(239,31,77,0.3);" onclick="saveEsteticaConfig()">
+            Salvar Paleta & Aplicar ✓
+          </button>
         </div>
       </div>
     </div>

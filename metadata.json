@@ -2,5 +2,7 @@
   "name": "Magic Hub Live - Plataforma Agendo SaaS",
   "description": "Plataforma completa de agendamentos, CRM, funis, checkout Pix e gestão para estúdios e profissionais autônomos.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
