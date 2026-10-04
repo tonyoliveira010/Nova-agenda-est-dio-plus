@@ -384,6 +384,63 @@
 
     .services-strip::-webkit-scrollbar { display: none; }
 
+    /* Layout em Lista Vertical Selecionável pelo Lojista */
+    .services-strip.is-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-x: visible;
+      margin: 0;
+      padding: 0;
+    }
+
+    .services-strip.is-vertical .svc-card-visual {
+      flex: none;
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px 14px;
+      gap: 14px;
+    }
+
+    .services-strip.is-vertical .svc-card-image {
+      width: 86px;
+      height: 86px;
+      flex-shrink: 0;
+      border-radius: 14px;
+    }
+
+    .services-strip.is-vertical .svc-card-image::after {
+      display: none;
+    }
+
+    .services-strip.is-vertical .svc-card-badge {
+      top: 6px;
+      left: 6px;
+      font-size: 8.5px;
+      padding: 2px 7px;
+    }
+
+    .services-strip.is-vertical .svc-card-body {
+      padding: 0;
+      flex: 1;
+    }
+
+    .services-strip.is-vertical .svc-card-desc {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .services-strip.is-vertical .svc-card-bottom {
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     .service-photo-card {
       flex: 0 0 210px;
       background: var(--canvas-soft);
@@ -1201,7 +1258,7 @@
       </section>
 
       <!-- Abas: Agendamento Rápido vs Produtos -->
-      <div class="catalog-tabs">
+      <div class="catalog-tabs" id="home-catalog-tabs-bar">
         <button type="button" id="cat-tab-quick" class="catalog-tab-btn is-active" onclick="switchHomeCatalogTab('quick')">
           ⚡ Agendamento Rápido
         </button>
@@ -1212,13 +1269,13 @@
 
       <!-- ABA 1: CARDS DE AGENDAMENTO RÁPIDO (ESTILO SISTEMA LOJISTA) -->
       <div id="pane-cat-quick">
-        <div class="section-eyebrow" style="margin-top:4px;">
-          <span>Procedimentos Mais Pedidos</span>
+        <div class="section-eyebrow" id="eyebrow-cat-quick" style="margin-top:4px;">
+          <span id="title-cat-quick-eyebrow">Procedimentos Mais Pedidos</span>
           <a href="javascript:void(0)" onclick="openPublicStudioPage()" style="font-size:12px; color:#ff2d87; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:4px; cursor:pointer;">Ver catálogo completo ↗</a>
         </div>
-        <div class="services-strip">
+        <div class="services-strip" id="strip-services">
           <!-- Card 1: Peeling de Diamante -->
-          <div class="svc-card-visual" onclick="quickBook('Peeling de Diamante', 150)">
+          <div class="svc-card-visual" data-card-id="peeling" onclick="quickBook('Peeling de Diamante', 150)">
             <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1512290900672-1f486121ea28?auto=format&fit=crop&w=600&q=80');">
               <span class="svc-card-badge">50 MIN</span>
             </div>
@@ -1234,7 +1291,7 @@
           </div>
 
           <!-- Card 2: Limpeza de Pele Profunda -->
-          <div class="svc-card-visual" onclick="quickBook('Limpeza de Pele Profunda', 160)">
+          <div class="svc-card-visual" data-card-id="limpeza" onclick="quickBook('Limpeza de Pele Profunda', 160)">
             <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80');">
               <span class="svc-card-badge">60 MIN</span>
             </div>
@@ -1250,7 +1307,7 @@
           </div>
 
           <!-- Card 3: Massagem Relaxante -->
-          <div class="svc-card-visual" onclick="quickBook('Massagem Relaxante', 180)">
+          <div class="svc-card-visual" data-card-id="massagem" onclick="quickBook('Massagem Relaxante', 180)">
             <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80');">
               <span class="svc-card-badge">50 MIN</span>
             </div>
@@ -1266,7 +1323,7 @@
           </div>
 
           <!-- Card 4: Drenagem Linfática -->
-          <div class="svc-card-visual" onclick="quickBook('Drenagem Linfática', 160)">
+          <div class="svc-card-visual" data-card-id="drenagem" onclick="quickBook('Drenagem Linfática', 160)">
             <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=600&q=80');">
               <span class="svc-card-badge">60 MIN</span>
             </div>
@@ -1282,7 +1339,7 @@
           </div>
 
           <!-- Card 5: Design de Sobrancelhas -->
-          <div class="svc-card-visual" onclick="quickBook('Design de Sobrancelhas', 90)">
+          <div class="svc-card-visual" data-card-id="sobrancelha" onclick="quickBook('Design de Sobrancelhas', 90)">
             <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=600&q=80');">
               <span class="svc-card-badge">30 MIN</span>
             </div>
@@ -1301,13 +1358,13 @@
 
       <!-- ABA 2: PRODUTOS & HOME CARE (ESTILO SISTEMA LOJISTA) -->
       <div id="pane-cat-prods" class="hidden">
-        <div class="section-eyebrow" style="margin-top:4px;">
-          <span>Produtos para Manutenção em Casa</span>
+        <div class="section-eyebrow" id="eyebrow-cat-prods" style="margin-top:4px;">
+          <span id="title-cat-prods-eyebrow">Produtos para Manutenção em Casa</span>
           <a href="javascript:void(0)" onclick="openPublicStudioPage()" style="font-size:12px; color:#ff2d87; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:4px; cursor:pointer;">Ver catálogo completo ↗</a>
         </div>
-        <div class="services-strip">
+        <div class="services-strip" id="strip-products">
           <!-- Produto 1: Sérum Vitamina C 15% -->
-          <div class="svc-card-visual" onclick="openProductPurchaseModal('Sérum Vitamina C 15% (30ml)', 139)">
+          <div class="svc-card-visual" data-card-id="serum" onclick="openProductPurchaseModal('Sérum Vitamina C 15% (30ml)', 139)">
             <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1608248597359-59749fb8c5d1?auto=format&fit=crop&w=600&q=80');">
               <span class="svc-card-badge">✦ MAIS VENDIDO</span>
             </div>
@@ -1323,7 +1380,7 @@
           </div>
 
           <!-- Produto 2: Filtro Solar Toque Seco FPS 50 -->
-          <div class="svc-card-visual" onclick="openProductPurchaseModal('Filtro Solar Toque Seco FPS 50', 98)">
+          <div class="svc-card-visual" data-card-id="solar" onclick="openProductPurchaseModal('Filtro Solar Toque Seco FPS 50', 98)">
             <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=80');">
               <span class="svc-card-badge">HOME CARE</span>
             </div>
@@ -1339,7 +1396,7 @@
           </div>
 
           <!-- Produto 3: Óleo Relaxante Lavanda & Bergamota -->
-          <div class="svc-card-visual" onclick="openProductPurchaseModal('Óleo Relaxante Lavanda & Bergamota', 85)">
+          <div class="svc-card-visual" data-card-id="oleo" onclick="openProductPurchaseModal('Óleo Relaxante Lavanda & Bergamota', 85)">
             <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=600&q=80');">
               <span class="svc-card-badge">AROMATERAPIA</span>
             </div>
@@ -1355,7 +1412,7 @@
           </div>
 
           <!-- Produto 4: Máscara Argila Rosa Revitalizante -->
-          <div class="svc-card-visual" onclick="openProductPurchaseModal('Máscara Argila Rosa Revitalizante', 75)">
+          <div class="svc-card-visual" data-card-id="argila" onclick="openProductPurchaseModal('Máscara Argila Rosa Revitalizante', 75)">
             <div class="svc-card-image" style="background-image:url('https://images.unsplash.com/photo-1567928815116-43b918bfd37b?auto=format&fit=crop&w=600&q=80');">
               <span class="svc-card-badge">RITUAL SEMANAL</span>
             </div>
@@ -1372,20 +1429,25 @@
         </div>
       </div>
 
-      <!-- Indique e Ganhe (Vívido e sem o botão interno de configurar) -->
-      <section class="clean-card" style="margin-top:18px; background:linear-gradient(135deg, rgba(255,215,0,0.12) 0%, rgba(18,18,22,0.98) 100%); border:1px solid rgba(255,215,0,0.35); box-shadow:0 8px 24px rgba(0,0,0,0.6); padding:20px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
+      <!-- Indique e Ganhe (Card Clean, Fundo Sólido Elegante e Alto Contraste no Modo Claro) -->
+      <section class="clean-card" id="home-referral-card" style="margin-top:18px; background:var(--component-bg, #ffffff); border:1.5px solid var(--hairline, rgba(0,0,0,0.09)); box-shadow:0 4px 20px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03); padding:20px; border-radius:var(--rounded-md, 24px); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, #f59e0b, var(--accent, #ff2d87));"></div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
           <div>
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-              <span class="badge-popular" id="referral-badge-val" style="background:linear-gradient(135deg, #ffd700, #f59e0b); color:#1a1200; font-weight:800; font-size:11px; padding:3px 10px;">Ganhe R$ 20 em créditos</span>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span class="badge-popular" id="referral-badge-val" style="background:rgba(245, 158, 11, 0.12); color:#b45309; font-weight:800; font-size:11px; padding:3px 11px; border-radius:999px; border:1px solid rgba(245, 158, 11, 0.25); display:inline-flex; align-items:center; gap:4px;">
+                <span>🎁</span> <span>Ganhe R$ 20 em créditos</span>
+              </span>
+              <span style="font-size:11px; color:#16a34a; font-weight:800; background:rgba(22,163,74,0.1); padding:2px 8px; border-radius:999px;">● Programa VIP</span>
             </div>
-            <h3 style="font-size:18px; font-weight:800; color:#ffffff; margin-top:6px;" id="referral-title-text">Indique e ganhe.</h3>
-            <p style="font-size:13px; color:#d4d4d8; line-height:1.45; margin-top:4px;" id="referral-desc-text">
+            <h3 style="font-size:18px; font-weight:800; color:var(--ink, #111113); margin:0 0 6px 0; letter-spacing:-0.01em;" id="referral-title-text">Indique e ganhe.</h3>
+            <p style="font-size:13px; color:var(--muted, #64748b); line-height:1.5; margin:0;" id="referral-desc-text">
               Sua amiga ganha 15% de boas-vindas no primeiro procedimento e você recebe R$ 20 em créditos.
             </p>
           </div>
         </div>
-        <button type="button" class="button-primary" style="width:100%; height:42px; font-size:13px; font-weight:700; background:linear-gradient(135deg, #ffd700, #f59e0b); color:#1a1200; border:none; box-shadow:0 4px 14px rgba(245,158,11,0.35); cursor:pointer;" onclick="copyReferralLink()">
+        <button type="button" class="button-primary" style="width:100%; height:44px; font-size:13px; font-weight:700; background:linear-gradient(135deg, var(--accent, #ff2d87), #ef1f4d); color:#ffffff; border:none; border-radius:var(--rounded-full, 9999px); box-shadow:0 4px 14px rgba(239,31,77,0.25); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="copyReferralLink()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
           Copiar link de indicação
         </button>
       </section>
@@ -1991,6 +2053,124 @@
         </div>
       </section>
 
+      <!-- 4.2 Configuração da Vitrine & Catálogo da Home (Configurável pelo Lojista) -->
+      <section class="clean-card" style="margin-bottom:14px; overflow:hidden;">
+        <div onclick="toggleCatalogConfigSection()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:36px; height:36px; border-radius:10px; background:var(--field); display:grid; place-items:center; font-size:16px;">
+              📑
+            </div>
+            <div>
+              <b style="font-size:14.5px; color:var(--ink); display:block;">Vitrine & Catálogo da Página Inicial</b>
+              <span style="font-size:11.5px; color:var(--muted);">Abas, formato (lista ou carrossel) e cards visíveis</span>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:10px; font-weight:700; background:rgba(255,45,135,0.12); color:var(--accent); padding:3px 8px; border-radius:999px;">Lojista VIP</span>
+            <span id="catalog-config-chevron" style="font-size:14px; color:var(--muted); font-weight:700; transition:transform 0.2s ease;">⌄</span>
+          </div>
+        </div>
+
+        <div id="catalog-config-form-container" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--hairline-soft);">
+          <p style="font-size:12px; color:var(--muted); margin-bottom:14px; line-height:1.4;">
+            Personalize como os procedimentos e produtos aparecem na tela inicial: escolha exibir ou ocultar as abas, configure seus nomes, selecione o formato (lista ou carrossel) e marque quais cards ficam à mostra.
+          </p>
+
+          <!-- 1. Exibir ou Ocultar Abas -->
+          <div style="display:flex; justify-content:space-between; align-items:center; background:var(--field); border:1px solid var(--hairline-soft); border-radius:12px; padding:12px 14px; margin-bottom:14px;">
+            <div>
+              <b style="font-size:13px; color:var(--ink); display:block;">Exibir Seletor de Abas na Home</b>
+              <span style="font-size:11px; color:var(--muted); display:block; margin-top:2px;">
+                Se desativado, o catálogo exibe os procedimentos diretamente sem alternador de abas.
+              </span>
+            </div>
+            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+              <input type="checkbox" id="client-catcfg-show-tabs" checked style="accent-color:var(--accent, #ff2d87); width:18px; height:18px;" onchange="previewCatalogConfigLive()">
+              <span style="font-size:12px; font-weight:700; color:var(--ink);">Ativo</span>
+            </label>
+          </div>
+
+          <!-- 2. Formato de Exibição: Carrossel Scroll Horizontal vs Lista Vertical -->
+          <label style="font-size:12px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">Formato de Exibição dos Cards</label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;">
+            <button type="button" id="client-catcfg-btn-horizontal" class="button-outline" style="height:40px; font-size:11.5px; font-weight:700; justify-content:center; gap:6px; background:linear-gradient(135deg, var(--accent, #ff2d87), #ef1f4d); color:#fff; border:none; box-shadow:0 3px 10px rgba(239,31,77,0.25);" onclick="setClientCatalogLayout('horizontal')">
+              ↔️ Scroll Horizontal
+            </button>
+            <button type="button" id="client-catcfg-btn-vertical" class="button-outline" style="height:40px; font-size:11.5px; font-weight:700; justify-content:center; gap:6px; background:transparent; color:var(--muted);" onclick="setClientCatalogLayout('vertical')">
+              ↕️ Lista Vertical
+            </button>
+          </div>
+
+          <!-- 3. Nomes das Abas -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;">
+            <div>
+              <span style="font-size:11px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Nome da Aba 1 (Procedimentos)</span>
+              <input type="text" id="client-catcfg-tab-quick-name" class="text-input-field" value="⚡ Agendamento Rápido" placeholder="Ex: ⚡ Agendamento Rápido" oninput="previewCatalogConfigLive()" style="margin:0; font-size:12px;">
+            </div>
+            <div>
+              <span style="font-size:11px; font-weight:600; color:var(--muted); display:block; margin-bottom:4px;">Nome da Aba 2 (Produtos)</span>
+              <input type="text" id="client-catcfg-tab-prods-name" class="text-input-field" value="🛍️ Produtos & Home Care" placeholder="Ex: 🛍️ Produtos & Home Care" oninput="previewCatalogConfigLive()" style="margin:0; font-size:12px;">
+            </div>
+          </div>
+
+          <!-- 4. Vincular Cards de Procedimentos à Mostra -->
+          <span style="font-size:12px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">Vincular Procedimentos à Mostra na Home</span>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px; background:var(--field); padding:12px; border-radius:12px; border:1px solid var(--hairline-soft);">
+            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+              <span>Peeling de Diamante (R$ 150,00)</span>
+              <input type="checkbox" id="client-catcfg-card-peeling" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
+            </label>
+            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+              <span>Limpeza de Pele Profunda (R$ 160,00)</span>
+              <input type="checkbox" id="client-catcfg-card-limpeza" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
+            </label>
+            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+              <span>Massagem Relaxante (R$ 180,00)</span>
+              <input type="checkbox" id="client-catcfg-card-massagem" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
+            </label>
+            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+              <span>Drenagem Linfática (R$ 160,00)</span>
+              <input type="checkbox" id="client-catcfg-card-drenagem" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
+            </label>
+            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+              <span>Design de Sobrancelhas (R$ 90,00)</span>
+              <input type="checkbox" id="client-catcfg-card-sobrancelha" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
+            </label>
+          </div>
+
+          <!-- 5. Vincular Produtos à Mostra -->
+          <span style="font-size:12px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">Vincular Produtos à Mostra na Home</span>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px; background:var(--field); padding:12px; border-radius:12px; border:1px solid var(--hairline-soft);">
+            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+              <span>Sérum Vitamina C 15% (R$ 139,00)</span>
+              <input type="checkbox" id="client-catcfg-card-serum" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
+            </label>
+            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+              <span>Filtro Solar FPS 50 (R$ 98,00)</span>
+              <input type="checkbox" id="client-catcfg-card-solar" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
+            </label>
+            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+              <span>Óleo Relaxante Lavanda (R$ 85,00)</span>
+              <input type="checkbox" id="client-catcfg-card-oleo" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
+            </label>
+            <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+              <span>Máscara Argila Rosa (R$ 75,00)</span>
+              <input type="checkbox" id="client-catcfg-card-argila" checked style="accent-color:var(--accent, #ff2d87); width:17px; height:17px;" onchange="previewCatalogConfigLive()">
+            </label>
+          </div>
+
+          <!-- Ações -->
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="button-outline" style="flex:1; height:36px; font-size:11.5px;" onclick="resetClientCatalogConfig()">
+              Restaurar Padrão
+            </button>
+            <button type="button" class="button-primary" style="flex:1.4; height:36px; font-size:11.5px; font-weight:700;" onclick="saveClientCatalogConfig()">
+              Salvar Vitrine no App ✓
+            </button>
+          </div>
+        </div>
+      </section>
+
       <!-- 5. Troca de Senha e E-mail (Minimizado por Padrão) -->
       <section class="clean-card" style="margin-bottom:14px; overflow:hidden;">
         <div onclick="toggleSecuritySection()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; user-select:none;">
@@ -2493,6 +2673,97 @@
     if (savedRef) referralConfig = { ...referralConfig, ...JSON.parse(savedRef) };
   } catch(e){}
 
+  // Configuração do Lojista: Abas e Catálogo da Home
+  let catalogConfig = {
+    showTabs: true,
+    tabQuickName: '⚡ Agendamento Rápido',
+    tabProdsName: '🛍️ Produtos & Home Care',
+    layout: 'horizontal', // 'horizontal' | 'vertical'
+    visibleServices: ['peeling', 'limpeza', 'massagem', 'drenagem', 'sobrancelha'],
+    visibleProducts: ['serum', 'solar', 'oleo', 'argila']
+  };
+
+  try {
+    const savedCat = localStorage.getItem('agendo_clientapp_catalog_config');
+    if (savedCat) catalogConfig = { ...catalogConfig, ...JSON.parse(savedCat) };
+  } catch(e){}
+
+  function renderHomeCatalog() {
+    const tabsContainer = document.getElementById('home-catalog-tabs-bar');
+    const tabQuickBtn = document.getElementById('cat-tab-quick');
+    const tabProdsBtn = document.getElementById('cat-tab-prods');
+    const paneQuick = document.getElementById('pane-cat-quick');
+    const paneProds = document.getElementById('pane-cat-prods');
+    const titleQuick = document.getElementById('title-cat-quick-eyebrow');
+    const titleProds = document.getElementById('title-cat-prods-eyebrow');
+
+    if (tabQuickBtn && catalogConfig.tabQuickName) {
+      tabQuickBtn.textContent = catalogConfig.tabQuickName;
+    }
+    if (tabProdsBtn && catalogConfig.tabProdsName) {
+      tabProdsBtn.textContent = catalogConfig.tabProdsName;
+    }
+
+    if (titleQuick && catalogConfig.tabQuickName) {
+      titleQuick.textContent = catalogConfig.showTabs === false ? catalogConfig.tabQuickName : 'Procedimentos Mais Pedidos';
+    }
+    if (titleProds && catalogConfig.tabProdsName) {
+      titleProds.textContent = catalogConfig.showTabs === false ? catalogConfig.tabProdsName : 'Produtos para Manutenção em Casa';
+    }
+
+    if (tabsContainer) {
+      if (catalogConfig.showTabs === false) {
+        tabsContainer.style.display = 'none';
+        if (paneQuick) paneQuick.classList.remove('hidden');
+        if (paneProds) paneProds.classList.remove('hidden');
+      } else {
+        tabsContainer.style.display = 'flex';
+        const isQuickActive = !tabQuickBtn || tabQuickBtn.classList.contains('is-active');
+        if (paneQuick) paneQuick.classList.toggle('hidden', !isQuickActive);
+        if (paneProds) paneProds.classList.toggle('hidden', isQuickActive);
+      }
+    }
+
+    const isVertical = catalogConfig.layout === 'vertical' || catalogConfig.layout === 'lista';
+    const stripServices = document.getElementById('strip-services');
+    const stripProducts = document.getElementById('strip-products');
+
+    if (stripServices) {
+      stripServices.classList.toggle('is-vertical', isVertical);
+    }
+    if (stripProducts) {
+      stripProducts.classList.toggle('is-vertical', isVertical);
+    }
+
+    let visibleSvcCount = 0;
+    const svcCards = document.querySelectorAll('#strip-services [data-card-id]');
+    svcCards.forEach(card => {
+      const id = card.getAttribute('data-card-id');
+      const isVisible = !catalogConfig.visibleServices || catalogConfig.visibleServices.includes(id);
+      card.style.display = isVisible ? '' : 'none';
+      if (isVisible) visibleSvcCount++;
+    });
+
+    let visibleProdCount = 0;
+    const prodCards = document.querySelectorAll('#strip-products [data-card-id]');
+    prodCards.forEach(card => {
+      const id = card.getAttribute('data-card-id');
+      const isVisible = !catalogConfig.visibleProducts || catalogConfig.visibleProducts.includes(id);
+      card.style.display = isVisible ? '' : 'none';
+      if (isVisible) visibleProdCount++;
+    });
+
+    // Se as abas estiverem ocultas pelo lojista, oculta seções vazias
+    if (catalogConfig.showTabs === false) {
+      if (paneQuick) paneQuick.style.display = visibleSvcCount === 0 ? 'none' : 'block';
+      if (paneProds) paneProds.style.display = visibleProdCount === 0 ? 'none' : 'block';
+    } else {
+      if (paneQuick) paneQuick.style.display = '';
+      if (paneProds) paneProds.style.display = '';
+    }
+  }
+  window.renderHomeCatalog = renderHomeCatalog;
+
   function savePersonas() {
     try {
       localStorage.setItem('agendo_data_clientAppUsers', JSON.stringify(personas));
@@ -2596,11 +2867,13 @@
 
   function renderReferral() {
     const badgeEl = document.getElementById('referral-badge-val');
-    if (badgeEl) badgeEl.textContent = `Ganhe ${referralConfig.reward}`;
+    if (badgeEl) {
+      badgeEl.innerHTML = `<span>🎁</span> <span>Ganhe ${referralConfig.reward || 'R$ 20'} em créditos</span>`;
+    }
     const titleEl = document.getElementById('referral-title-text');
-    if (titleEl) titleEl.textContent = referralConfig.title;
+    if (titleEl) titleEl.textContent = referralConfig.title || 'Indique e ganhe.';
     const descEl = document.getElementById('referral-desc-text');
-    if (descEl) descEl.textContent = referralConfig.desc;
+    if (descEl) descEl.textContent = referralConfig.desc || 'Sua amiga ganha 15% de boas-vindas no primeiro procedimento e você recebe R$ 20 em créditos.';
   }
 
   // Multitenant: Verifica se a ficha de anamnese está ativa no estúdio do lojista
@@ -3032,6 +3305,134 @@
     showToast('Tema padrão branco restaurado com sucesso! ✓');
   }
   window.resetClientThemeConfig = resetClientThemeConfig;
+
+  // 3.2 Vitrine & Catálogo da Home (Configurável pelo Lojista)
+  function toggleCatalogConfigSection() {
+    const cont = document.getElementById('catalog-config-form-container');
+    const chev = document.getElementById('catalog-config-chevron');
+    if (!cont) return;
+    const isHidden = cont.style.display === 'none' || cont.style.display === '';
+    cont.style.display = isHidden ? 'block' : 'none';
+    if (chev) {
+      chev.style.transform = isHidden ? 'rotate(180deg)' : 'none';
+    }
+    if (isHidden) {
+      initClientCatalogInputs();
+    }
+  }
+  window.toggleCatalogConfigSection = toggleCatalogConfigSection;
+
+  function initClientCatalogInputs() {
+    const chkTabs = document.getElementById('client-catcfg-show-tabs');
+    if (chkTabs) chkTabs.checked = catalogConfig.showTabs !== false;
+
+    const inTab1 = document.getElementById('client-catcfg-tab-quick-name');
+    if (inTab1) inTab1.value = catalogConfig.tabQuickName || '⚡ Agendamento Rápido';
+
+    const inTab2 = document.getElementById('client-catcfg-tab-prods-name');
+    if (inTab2) inTab2.value = catalogConfig.tabProdsName || '🛍️ Produtos & Home Care';
+
+    setClientCatalogLayout(catalogConfig.layout || 'horizontal', false);
+
+    const svcs = catalogConfig.visibleServices || ['peeling', 'limpeza', 'massagem', 'drenagem', 'sobrancelha'];
+    ['peeling', 'limpeza', 'massagem', 'drenagem', 'sobrancelha'].forEach(id => {
+      const el = document.getElementById('client-catcfg-card-' + id);
+      if (el) el.checked = svcs.includes(id);
+    });
+
+    const prods = catalogConfig.visibleProducts || ['serum', 'solar', 'oleo', 'argila'];
+    ['serum', 'solar', 'oleo', 'argila'].forEach(id => {
+      const el = document.getElementById('client-catcfg-card-' + id);
+      if (el) el.checked = prods.includes(id);
+    });
+  }
+  window.initClientCatalogInputs = initClientCatalogInputs;
+
+  function setClientCatalogLayout(layout, triggerPreview = true) {
+    catalogConfig.layout = layout;
+    const btnHoriz = document.getElementById('client-catcfg-btn-horizontal');
+    const btnVert = document.getElementById('client-catcfg-btn-vertical');
+
+    if (btnHoriz && btnVert) {
+      if (layout === 'horizontal') {
+        btnHoriz.style.background = 'linear-gradient(135deg, var(--accent, #ff2d87), #ef1f4d)';
+        btnHoriz.style.color = '#fff';
+        btnHoriz.style.border = 'none';
+        btnHoriz.style.boxShadow = '0 3px 10px rgba(239,31,77,0.25)';
+        btnVert.style.background = 'transparent';
+        btnVert.style.color = 'var(--muted)';
+        btnVert.style.border = '1px solid var(--hairline-soft)';
+        btnVert.style.boxShadow = 'none';
+      } else {
+        btnVert.style.background = 'linear-gradient(135deg, var(--accent, #ff2d87), #ef1f4d)';
+        btnVert.style.color = '#fff';
+        btnVert.style.border = 'none';
+        btnVert.style.boxShadow = '0 3px 10px rgba(239,31,77,0.25)';
+        btnHoriz.style.background = 'transparent';
+        btnHoriz.style.color = 'var(--muted)';
+        btnHoriz.style.border = '1px solid var(--hairline-soft)';
+        btnHoriz.style.boxShadow = 'none';
+      }
+    }
+    if (triggerPreview) {
+      previewCatalogConfigLive();
+    }
+  }
+  window.setClientCatalogLayout = setClientCatalogLayout;
+
+  function previewCatalogConfigLive() {
+    const chkTabs = document.getElementById('client-catcfg-show-tabs');
+    const inTab1 = document.getElementById('client-catcfg-tab-quick-name');
+    const inTab2 = document.getElementById('client-catcfg-tab-prods-name');
+
+    const visibleServices = [];
+    ['peeling', 'limpeza', 'massagem', 'drenagem', 'sobrancelha'].forEach(id => {
+      const el = document.getElementById('client-catcfg-card-' + id);
+      if (el && el.checked) visibleServices.push(id);
+    });
+
+    const visibleProducts = [];
+    ['serum', 'solar', 'oleo', 'argila'].forEach(id => {
+      const el = document.getElementById('client-catcfg-card-' + id);
+      if (el && el.checked) visibleProducts.push(id);
+    });
+
+    catalogConfig.showTabs = chkTabs ? chkTabs.checked : true;
+    catalogConfig.tabQuickName = inTab1?.value?.trim() || '⚡ Agendamento Rápido';
+    catalogConfig.tabProdsName = inTab2?.value?.trim() || '🛍️ Produtos & Home Care';
+    catalogConfig.visibleServices = visibleServices;
+    catalogConfig.visibleProducts = visibleProducts;
+
+    renderHomeCatalog();
+  }
+  window.previewCatalogConfigLive = previewCatalogConfigLive;
+
+  function saveClientCatalogConfig() {
+    previewCatalogConfigLive();
+    localStorage.setItem('agendo_clientapp_catalog_config', JSON.stringify(catalogConfig));
+    window.dispatchEvent(new Event('storage'));
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'agendo:catalog_config_updated', config: catalogConfig }, '*');
+    }
+    showToast('Vitrine da Página Inicial atualizada com sucesso! ✓');
+  }
+  window.saveClientCatalogConfig = saveClientCatalogConfig;
+
+  function resetClientCatalogConfig() {
+    catalogConfig = {
+      showTabs: true,
+      tabQuickName: '⚡ Agendamento Rápido',
+      tabProdsName: '🛍️ Produtos & Home Care',
+      layout: 'horizontal',
+      visibleServices: ['peeling', 'limpeza', 'massagem', 'drenagem', 'sobrancelha'],
+      visibleProducts: ['serum', 'solar', 'oleo', 'argila']
+    };
+    localStorage.setItem('agendo_clientapp_catalog_config', JSON.stringify(catalogConfig));
+    initClientCatalogInputs();
+    renderHomeCatalog();
+    showToast('Vitrine restaurada para o padrão inicial! ✓');
+  }
+  window.resetClientCatalogConfig = resetClientCatalogConfig;
 
   // 4. Alternador de Abas de Créditos (Saldo vs Cupons)
   function switchCreditsTab(tab) {
@@ -3724,6 +4125,9 @@
     renderPersona();
     renderBanner();
     renderReferral();
+    renderHomeCatalog();
+    initClientCatalogInputs();
+    initClientEsteticaInputs();
     loadClientCoupons();
     renderServicesList();
     renderBookingCalendar();
@@ -3732,7 +4136,35 @@
   renderPersona();
   renderBanner();
   renderReferral();
+  renderHomeCatalog();
+  initClientCatalogInputs();
+  initClientEsteticaInputs();
   loadClientCoupons();
+
+  // Sincronização em tempo real entre painel do lojista e app do cliente
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'agendo_clientapp_catalog_config') {
+      try {
+        catalogConfig = { ...catalogConfig, ...JSON.parse(e.newValue || '{}') };
+        renderHomeCatalog();
+        initClientCatalogInputs();
+      } catch(err){}
+    }
+    if (e.key === 'agendo_clientapp_referral_config') {
+      try {
+        referralConfig = { ...referralConfig, ...JSON.parse(e.newValue || '{}') };
+        renderReferral();
+      } catch(err){}
+    }
+  });
+
+  window.addEventListener('message', (e) => {
+    if (e.data && e.data.type === 'agendo:catalog_config_updated') {
+      catalogConfig = { ...catalogConfig, ...e.data.config };
+      renderHomeCatalog();
+      initClientCatalogInputs();
+    }
+  });
 </script>
 <script src="/agendo-real.js"></script>
 </body>

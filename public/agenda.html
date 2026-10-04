@@ -11891,7 +11891,7 @@ function toggleCrmRowDetails(clientId){
   window.copyClientAppLink = copyClientAppLink;
 
   function switchClientAppConfigTab(tabKey){
-    const tabs = ['fidelidade', 'estetica', 'banners', 'cupons', 'modulos', 'manual'];
+    const tabs = ['fidelidade', 'estetica', 'banners', 'catalogo', 'cupons', 'modulos', 'manual'];
     tabs.forEach(t => {
       const btn = document.getElementById('cactab-btn-' + t);
       const pane = document.getElementById('cactab-pane-' + t);
@@ -11909,8 +11909,125 @@ function toggleCrmRowDetails(clientId){
     if (tabKey === 'estetica') {
       initEsteticaControls();
     }
+    if (tabKey === 'catalogo') {
+      loadCatalogConfigIntoLojistaForm();
+    }
   }
   window.switchClientAppConfigTab = switchClientAppConfigTab;
+
+  // ========================================================
+  // CONFIGURAÇÃO DO CATÁLOGO & ABAS DA HOME DO CLIENTE
+  // ========================================================
+  let lojistaCatalogConfig = {
+    showTabs: true,
+    tabQuickName: '⚡ Agendamento Rápido',
+    tabProdsName: '🛍️ Produtos & Home Care',
+    layout: 'horizontal',
+    visibleServices: ['peeling', 'limpeza', 'massagem', 'drenagem', 'sobrancelha'],
+    visibleProducts: ['serum', 'solar', 'oleo', 'argila']
+  };
+
+  function loadCatalogConfigIntoLojistaForm() {
+    try {
+      const saved = localStorage.getItem('agendo_clientapp_catalog_config');
+      if (saved) lojistaCatalogConfig = { ...lojistaCatalogConfig, ...JSON.parse(saved) };
+    } catch(e){}
+
+    const chkTabs = document.getElementById('catcfg-show-tabs');
+    if (chkTabs) chkTabs.checked = lojistaCatalogConfig.showTabs !== false;
+
+    const inTab1 = document.getElementById('catcfg-tab-quick-name');
+    if (inTab1) inTab1.value = lojistaCatalogConfig.tabQuickName || '⚡ Agendamento Rápido';
+
+    const inTab2 = document.getElementById('catcfg-tab-prods-name');
+    if (inTab2) inTab2.value = lojistaCatalogConfig.tabProdsName || '🛍️ Produtos & Home Care';
+
+    setCatalogLayoutOption(lojistaCatalogConfig.layout || 'horizontal', false);
+
+    const svcs = lojistaCatalogConfig.visibleServices || ['peeling', 'limpeza', 'massagem', 'drenagem', 'sobrancelha'];
+    ['peeling', 'limpeza', 'massagem', 'drenagem', 'sobrancelha'].forEach(id => {
+      const el = document.getElementById('catcfg-card-' + id);
+      if (el) el.checked = svcs.includes(id);
+    });
+
+    const prods = lojistaCatalogConfig.visibleProducts || ['serum', 'solar', 'oleo', 'argila'];
+    ['serum', 'solar', 'oleo', 'argila'].forEach(id => {
+      const el = document.getElementById('catcfg-card-' + id);
+      if (el) el.checked = prods.includes(id);
+    });
+  }
+  window.loadCatalogConfigIntoLojistaForm = loadCatalogConfigIntoLojistaForm;
+
+  function setCatalogLayoutOption(layout, save) {
+    lojistaCatalogConfig.layout = layout;
+    const btnHoriz = document.getElementById('catcfg-layout-horizontal-btn');
+    const btnVert = document.getElementById('catcfg-layout-vertical-btn');
+
+    if (btnHoriz && btnVert) {
+      if (layout === 'horizontal') {
+        btnHoriz.style.background = 'linear-gradient(135deg, #ff5f8a, #ef1f4d)';
+        btnHoriz.style.color = '#fff';
+        btnVert.style.background = 'transparent';
+        btnVert.style.color = 'var(--muted)';
+      } else {
+        btnVert.style.background = 'linear-gradient(135deg, #ff5f8a, #ef1f4d)';
+        btnVert.style.color = '#fff';
+        btnHoriz.style.background = 'transparent';
+        btnHoriz.style.color = 'var(--muted)';
+      }
+    }
+  }
+  window.setCatalogLayoutOption = setCatalogLayoutOption;
+
+  function saveCatalogConfigFromLojista() {
+    const chkTabs = document.getElementById('catcfg-show-tabs');
+    const inTab1 = document.getElementById('catcfg-tab-quick-name');
+    const inTab2 = document.getElementById('catcfg-tab-prods-name');
+
+    const visibleServices = [];
+    ['peeling', 'limpeza', 'massagem', 'drenagem', 'sobrancelha'].forEach(id => {
+      const el = document.getElementById('catcfg-card-' + id);
+      if (el && el.checked) visibleServices.push(id);
+    });
+
+    const visibleProducts = [];
+    ['serum', 'solar', 'oleo', 'argila'].forEach(id => {
+      const el = document.getElementById('catcfg-card-' + id);
+      if (el && el.checked) visibleProducts.push(id);
+    });
+
+    lojistaCatalogConfig = {
+      showTabs: chkTabs ? chkTabs.checked : true,
+      tabQuickName: inTab1?.value?.trim() || '⚡ Agendamento Rápido',
+      tabProdsName: inTab2?.value?.trim() || '🛍️ Produtos & Home Care',
+      layout: lojistaCatalogConfig.layout || 'horizontal',
+      visibleServices,
+      visibleProducts
+    };
+
+    localStorage.setItem('agendo_clientapp_catalog_config', JSON.stringify(lojistaCatalogConfig));
+    window.dispatchEvent(new Event('storage'));
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'agendo:catalog_config_updated', config: lojistaCatalogConfig }, '*');
+    }
+    toast('Catálogo da Home atualizado no App com sucesso! ✓');
+  }
+  window.saveCatalogConfigFromLojista = saveCatalogConfigFromLojista;
+
+  function resetCatalogConfigToDefault() {
+    lojistaCatalogConfig = {
+      showTabs: true,
+      tabQuickName: '⚡ Agendamento Rápido',
+      tabProdsName: '🛍️ Produtos & Home Care',
+      layout: 'horizontal',
+      visibleServices: ['peeling', 'limpeza', 'massagem', 'drenagem', 'sobrancelha'],
+      visibleProducts: ['serum', 'solar', 'oleo', 'argila']
+    };
+    localStorage.setItem('agendo_clientapp_catalog_config', JSON.stringify(lojistaCatalogConfig));
+    loadCatalogConfigIntoLojistaForm();
+    toast('Configurações do catálogo restauradas para o padrão!');
+  }
+  window.resetCatalogConfigToDefault = resetCatalogConfigToDefault;
 
   function initEsteticaControls() {
     var theme = window.getLojistaTheme ? window.getLojistaTheme() : {
@@ -12576,6 +12693,9 @@ function toggleCrmRowDetails(clientId){
       <button type="button" id="cactab-btn-banners" class="btn btn-outline" style="flex:1; min-width:max-content; height:32px; font-size:11px; font-weight:700; border-radius:9px; border:none; justify-content:center; color:var(--muted); background:transparent; padding:0 8px;" onclick="switchClientAppConfigTab('banners')">
         🖼️ Banners
       </button>
+      <button type="button" id="cactab-btn-catalogo" class="btn btn-outline" style="flex:1; min-width:max-content; height:32px; font-size:11px; font-weight:700; border-radius:9px; border:none; justify-content:center; color:var(--muted); background:transparent; padding:0 8px;" onclick="switchClientAppConfigTab('catalogo')">
+        📑 Abas & Catálogo
+      </button>
       <button type="button" id="cactab-btn-cupons" class="btn btn-outline" style="flex:1; min-width:max-content; height:32px; font-size:11px; font-weight:700; border-radius:9px; border:none; justify-content:center; color:var(--muted); background:transparent; padding:0 8px;" onclick="switchClientAppConfigTab('cupons')">
         🎟️ Cupons
       </button>
@@ -12878,6 +12998,116 @@ function toggleCrmRowDetails(clientId){
       <button type="button" class="btn btn-dark" style="width:100%; height:40px; font-size:12.5px; font-weight:700; justify-content:center; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; box-shadow:0 4px 14px rgba(239,31,77,0.35); margin-bottom:12px;" onclick="saveClientAppBannerFromLojista()">
         Salvar e Publicar Banner no App do Cliente ✓
       </button>
+    </div>
+
+    <!-- ABA: ABAS & CATÁLOGO DA HOME (CONFIGURAÇÃO DE TABS, FORMATO LISTA/SCROLL E CARDS VINCULADOS) -->
+    <div id="cactab-pane-catalogo" class="hidden">
+      <div style="background:var(--field); border:1px solid var(--hairline-soft); border-radius:16px; padding:16px; margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div>
+            <b style="font-size:13.5px; color:var(--ink);">Abas & Catálogo da Página Inicial do Cliente</b>
+            <span style="font-size:11px; color:var(--muted); display:block; margin-top:2px;">
+              Personalize se as abas ficam à mostra, seus nomes, formato (lista ou carrossel) e quais cards aparecem.
+            </span>
+          </div>
+          <span style="font-size:9.5px; font-weight:800; background:rgba(255,45,135,0.15); color:var(--accent); padding:2px 8px; border-radius:999px;">
+            Personalizável
+          </span>
+        </div>
+
+        <!-- 1. Exibir ou Ocultar as Abas -->
+        <div style="display:flex; justify-content:space-between; align-items:center; background:var(--canvas-soft); border:1px solid var(--hairline-soft); border-radius:12px; padding:12px 14px; margin-bottom:14px;">
+          <div>
+            <b style="font-size:12.5px; color:var(--ink); display:block;">Exibir Seletor de Abas na Página Inicial</b>
+            <span style="font-size:11px; color:var(--muted);">
+              Se desativado, o catálogo exibe os procedimentos diretamente sem alternador de abas.
+            </span>
+          </div>
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="catcfg-show-tabs" checked style="accent-color:#ff5f8a; width:18px; height:18px;">
+            <span style="font-size:12px; font-weight:700; color:var(--ink);">Exibir abas</span>
+          </label>
+        </div>
+
+        <!-- 2. Nomes das Abas -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
+          <div>
+            <span class="field-label" style="margin-bottom:4px;">Nome da Aba 1 (Procedimentos)</span>
+            <input type="text" class="field-input" id="catcfg-tab-quick-name" value="⚡ Agendamento Rápido" placeholder="Ex: ⚡ Agendamento Rápido" style="margin:0; font-size:12px;">
+          </div>
+          <div>
+            <span class="field-label" style="margin-bottom:4px;">Nome da Aba 2 (Produtos)</span>
+            <input type="text" class="field-input" id="catcfg-tab-prods-name" value="🛍️ Produtos & Home Care" placeholder="Ex: 🛍️ Produtos & Home Care" style="margin:0; font-size:12px;">
+          </div>
+        </div>
+
+        <!-- 3. Formato dos Cards: Lista ou Carrossel Horizontal -->
+        <span class="field-label" style="margin-bottom:6px;">Formato de Exibição do Catálogo</span>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;">
+          <button type="button" id="catcfg-layout-horizontal-btn" class="btn is-active" style="height:42px; font-size:11.5px; font-weight:700; justify-content:center; gap:6px; border-radius:12px; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); color:#fff;" onclick="setCatalogLayoutOption('horizontal')">
+            ↔️ Card Scroll Horizontal (Carrossel)
+          </button>
+          <button type="button" id="catcfg-layout-vertical-btn" class="btn btn-outline" style="height:42px; font-size:11.5px; font-weight:700; justify-content:center; gap:6px; border-radius:12px; color:var(--muted); background:transparent;" onclick="setCatalogLayoutOption('vertical')">
+            ↕️ Lista Vertical (Cards Empilhados)
+          </button>
+        </div>
+
+        <!-- 4. Vincular Cards à Mostra: Procedimentos -->
+        <span class="field-label" style="margin-bottom:6px;">Vincular Procedimentos à Mostra na Home</span>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px; background:var(--canvas-soft); padding:12px; border-radius:14px; border:1px solid var(--hairline-soft);">
+          <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+            <span>Peeling de Diamante (R$ 150,00 · 50 min)</span>
+            <input type="checkbox" id="catcfg-card-peeling" checked style="accent-color:#ff5f8a; width:17px; height:17px;">
+          </label>
+          <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+            <span>Limpeza de Pele Profunda (R$ 160,00 · 60 min)</span>
+            <input type="checkbox" id="catcfg-card-limpeza" checked style="accent-color:#ff5f8a; width:17px; height:17px;">
+          </label>
+          <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+            <span>Massagem Relaxante (R$ 180,00 · 50 min)</span>
+            <input type="checkbox" id="catcfg-card-massagem" checked style="accent-color:#ff5f8a; width:17px; height:17px;">
+          </label>
+          <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+            <span>Drenagem Linfática (R$ 160,00 · 60 min)</span>
+            <input type="checkbox" id="catcfg-card-drenagem" checked style="accent-color:#ff5f8a; width:17px; height:17px;">
+          </label>
+          <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+            <span>Design de Sobrancelhas (R$ 90,00 · 30 min)</span>
+            <input type="checkbox" id="catcfg-card-sobrancelha" checked style="accent-color:#ff5f8a; width:17px; height:17px;">
+          </label>
+        </div>
+
+        <!-- 5. Vincular Cards à Mostra: Produtos -->
+        <span class="field-label" style="margin-bottom:6px;">Vincular Produtos & Home Care à Mostra na Home</span>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px; background:var(--canvas-soft); padding:12px; border-radius:14px; border:1px solid var(--hairline-soft);">
+          <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+            <span>Sérum Vitamina C 15% (R$ 139,00)</span>
+            <input type="checkbox" id="catcfg-card-serum" checked style="accent-color:#ff5f8a; width:17px; height:17px;">
+          </label>
+          <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+            <span>Filtro Solar Toque Seco FPS 50 (R$ 98,00)</span>
+            <input type="checkbox" id="catcfg-card-solar" checked style="accent-color:#ff5f8a; width:17px; height:17px;">
+          </label>
+          <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+            <span>Óleo Relaxante Lavanda & Bergamota (R$ 85,00)</span>
+            <input type="checkbox" id="catcfg-card-oleo" checked style="accent-color:#ff5f8a; width:17px; height:17px;">
+          </label>
+          <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink); cursor:pointer;">
+            <span>Máscara Argila Rosa Revitalizante (R$ 75,00)</span>
+            <input type="checkbox" id="catcfg-card-argila" checked style="accent-color:#ff5f8a; width:17px; height:17px;">
+          </label>
+        </div>
+
+        <!-- 6. Ações -->
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-outline" style="flex:1; height:38px; font-size:11.5px; justify-content:center;" onclick="resetCatalogConfigToDefault()">
+            Restaurar Padrão
+          </button>
+          <button type="button" class="btn btn-dark" style="flex:1.4; height:38px; font-size:11.5px; font-weight:800; background:linear-gradient(135deg, #ff5f8a, #ef1f4d); border:none; justify-content:center; box-shadow:0 3px 12px rgba(239,31,77,0.3);" onclick="saveCatalogConfigFromLojista()">
+            Salvar & Atualizar Catálogo no App ✓
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- ABA 3: CUPONS DE DESCONTO PARA OS CLIENTES -->
