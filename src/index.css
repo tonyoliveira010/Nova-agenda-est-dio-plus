@@ -1,1 +1,139 @@
 @import "tailwindcss";
+
+@layer base {
+  * {
+    border-color: var(--border, rgba(255, 255, 255, 0.15));
+  }
+  body {
+    background-color: #050505;
+    color: #fafafa;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #070a12;
+  --foreground: #f8fafc;
+  --card: #0d121f;
+  --card-foreground: #f8fafc;
+  --popover: #0d121f;
+  --popover-foreground: #f8fafc;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #161e31;
+  --secondary-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #3b82f6;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #3b82f6;
+}
+
+.studio-theme {
+  --background: #070a12;
+  --foreground: #f8fafc;
+  --secondary: #121929;
+  --secondary-foreground: #f8fafc;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --border: #222d45;
+  --input: #222d45;
+  --studio-surface: #121929;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.smooth-hover {
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.smooth-hover:active {
+  transform: scale(0.98);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideFromBottom {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-in {
+  animation-duration: 200ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fadeIn;
+}
+
+.slide-in-from-bottom-2, .slide-in-from-bottom-4 {
+  animation-name: slideFromBottom;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-20px) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(105vh) rotate(720deg) scale(0.6);
+    opacity: 0;
+  }
+}
+
+.animate-confetti-fall {
+  animation: confettiFall linear;
+}
+
+/* Mobbin Minimalist Mapbox Popup */
+.mobbin-map-popup .mapboxgl-popup-content {
+  background: #ffffff !important;
+  color: #141414 !important;
+  border-radius: 20px !important;
+  padding: 16px !important;
+  border: 1px solid #e0e0e0 !important;
+  box-shadow: none !important;
+}
+
+.mobbin-map-popup .mapboxgl-popup-tip {
+  border-top-color: #ffffff !important;
+}
+
+.mobbin-map-popup .mapboxgl-popup-close-button {
+  color: #707070 !important;
+  font-size: 16px !important;
+  padding: 6px 8px !important;
+}
+
+.mobbin-map-popup .mapboxgl-popup-close-button:hover {
+  color: #141414 !important;
+  background: transparent !important;
+}
+
